@@ -1,0 +1,10 @@
+.block {
+	max-width: 246px;
+	display: flex;
+	margin: auto 15px auto 21px;
+	justify-content: space-between;
+	box-sizing: border-box;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+}

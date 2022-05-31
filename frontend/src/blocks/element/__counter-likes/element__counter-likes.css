@@ -1,0 +1,12 @@
+.element__counter-likes {
+  font-family: "Inter", Arial, "Times New Roman", sans-serif;
+  font-style: black;
+	font-weight: 400;
+  color: #000;
+  line-height: 16px;
+  font-size: 13px;
+	position: absolute;
+	margin: 0;
+	bottom: 22px;
+	right: 26.5px;
+}
