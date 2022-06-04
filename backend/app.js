@@ -18,8 +18,8 @@ const NotFoundDataError = require('./errors/NotFoundDataError');
 
 const app = express();
 const accessCors = [
-  'https://mesto-project-36.nomoredomains.xyz',
-  'http://mesto-project-36.nomoredomains.xyz',
+  'https://renat.domains.nomoredomains.sbs',
+  'http://renat.domains.nomoredomains.sbs',
   'http://localhost:3001',
 ];
 
