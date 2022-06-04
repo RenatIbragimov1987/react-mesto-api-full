@@ -1,11 +1,15 @@
 /* eslint-disable no-console */
+const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const { errors, celebrate, Joi } = require('celebrate');
 const express = require('express');
 const mongoose = require('mongoose');
 const isAuth = require('./middlewares/auth');
 
+require('dotenv').config();
+
 const { PORT = 3000 } = process.env;
+
 const { login, createUser } = require('./controllers/users');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { users } = require('./routes/users');
@@ -13,6 +17,21 @@ const { cards } = require('./routes/cards');
 const NotFoundDataError = require('./errors/NotFoundDataError');
 
 const app = express();
+const accessCors = [
+  'https://mesto-project-36.nomoredomains.xyz',
+  'http://mesto-project-36.nomoredomains.xyz',
+  'http://localhost:3001',
+];
+
+const options = {
+  origin: accessCors,
+  method: ['GET,HEAD,PUT,PATCH,POST,DELETE'],
+  preflightContinue: false,
+  optionsSuccessStatus: 200,
+  credentials: true,
+};
+
+app.use(cors(options));
 
 mongoose.connect('mongodb://localhost:27017/mestodb', {
   useNewUrlParser: true,
@@ -41,6 +60,14 @@ app.post('/signup', celebrate({
     avatar: Joi.string().regex(/(http|https):\/\/(www)?\.?([A-Za-z0-9.-]+)\.([A-z]{2,})((?:\/[+~%/.\w-_]*)?\??(?:[-=&;%@.\w_]*)#?(?:[\w]*))?/),
   }),
 }), createUser);
+
+app.get('/signout', (req, res) => {
+  res.status(200).clearCookie('jwt', {
+    httpOnly: true,
+    sameSite: 'none',
+    secure: true,
+  }).send({ message: 'Выход' });
+});
 
 app.use(isAuth);
 
