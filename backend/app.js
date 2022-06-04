@@ -40,6 +40,10 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
 
 app.use(cookieParser());
 
+app.get('/', (req, res) => { // не нужен
+  res.send(req.body);
+});
+
 app.use(express.json());
 
 app.use(requestLogger); // подключаем логгер запросов
@@ -74,14 +78,12 @@ app.use(isAuth);
 app.use('/', users);
 app.use('/', cards);
 
+app.use(errorLogger); // подключаем логгер ошибок
+app.use(errors());
 app.use((req, res, next) => {
   next(new NotFoundDataError('Запрошен несуществующий маршрут'));
   next();
 });
-
-app.use(errorLogger); // подключаем логгер ошибок
-
-app.use(errors());
 
 app.use((err, req, res, next) => {
   const { statusCode = 500, message } = err;
