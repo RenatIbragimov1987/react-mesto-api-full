@@ -35,16 +35,16 @@ class Auth {
     }).then(this._checkResponse);
   };
 
-	signout = () => {
-    return fetch(`${this._backendUrl}/signout`, {
-        method: "GET",
-        headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-        },
-        credentials: 'include',
-    }).then(this._checkResponse);
-};
+// 	signout = () => {
+//     return fetch(`${this._backendUrl}/signout`, {
+//         method: "GET",
+//         headers: {
+//             Accept: "application/json",
+//             "Content-Type": "application/json",
+//         },
+//         credentials: 'include',
+//     }).then(this._checkResponse);
+// };
 
 getContent = () => {
     return fetch(`${this._backendUrl}/users/me`, {

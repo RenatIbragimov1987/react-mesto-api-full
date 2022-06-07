@@ -57,7 +57,7 @@ const createUser = async (req, res, next) => {
     email,
     password,
   } = req.body;
-  if (!email || !password) {
+  if (!password || !email) {
     next(new BadRequestError('Переданы некорректные данные логина или пароля'));
     return;
   }
@@ -88,12 +88,12 @@ const createUser = async (req, res, next) => {
 
 const login = async (req, res, next) => {
   try {
-    const { email, password } = req.body;
-    if (!email || !password) {
+    const { password, email } = req.body;
+    if (!password || !email) {
       next(new BadRequestError('Переданы некорректные данные логина или пароля'));
       return;
     }
-    const admin = await User.findUserByCredentials(email, password);
+    const admin = await User.findUserByCredentials(password, email);
     const token = await getToken(admin._id);
     res.cookie('jwt', token, {
       maxAge: 3600000 * 24 * 7,
