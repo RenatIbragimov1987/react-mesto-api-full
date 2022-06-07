@@ -28,18 +28,18 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [email, setEmail] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
-  // const [isInfoToolTip, setIsInfoToolTip] = useState(false);
+  const [isInfoToolTip, setIsInfoToolTip] = useState({
+		open: false,
+		status: false	
+	});
 	const [data, setData] = useState({
 		email: ""
 });
-	const [infoToolTip, setInfoToolTip] = useState({
-		open: false,
-		status: false
-});
-const [message, setMessage] = useState({
-	pathIcon: loader,
-	text: ''
-});
+
+// const [message, setMessage] = useState({
+// 	pathIcon: loader,
+// 	text: ''
+// });
   const history = useHistory();
 
   //загрузка данных пользователя с сервера
@@ -244,11 +244,11 @@ const [message, setMessage] = useState({
         // setIsSuccess(false);
         // setIsInfoToolTip(true);
         // console.log(`Ошибка авторизации: ${err}`);
-				setInfoToolTip({
+				setIsInfoToolTip({
 					open: true,
 					status: false
 			});
-			setMessage({pathIcon: failAuth, text: 'Что-то пошло не так! Попробуйте ещё раз.'});
+			console.log(`Что-то пошло не так! Попробуйте ещё раз.`);
       })
 			.finally(() => {
         setIsRequestLoading(false);
