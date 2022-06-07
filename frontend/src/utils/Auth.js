@@ -57,17 +57,17 @@ class Auth {
 //     }).then(this._checkResponse);
 // };
 
-//   userToken = (token) => {
-//     return fetch(`${this._backendUrl}/users/me`, {
-//       method: "GET",
-//       headers: {
-//         Accept: "application/json",
-//         "Content-Type": "application/json",
-//         Authorization: `Bearer ${token}`,
-//       },
-// 			credentials: 'include',
-//     }).then(this._checkResponse);
-//   };
+  userToken = (token) => {
+    return fetch(`${this._backendUrl}/users/me`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+			// credentials: 'include',
+    }).then(this._checkResponse);
+  };
 }
 
 const auth = new Auth({
