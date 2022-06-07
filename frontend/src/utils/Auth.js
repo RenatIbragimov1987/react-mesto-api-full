@@ -11,7 +11,7 @@ class Auth {
     return Promise.reject(`Error: ${res.status}`);
   };
 
-  userRegistration = (email, password) => {
+  userRegistration = (password, email) => {
     return fetch(`${this._backendUrl}/signup`, {
       method: "POST",
       headers: {
@@ -19,11 +19,11 @@ class Auth {
         "Content-Type": "application/json",
       },
 			credentials: 'include',
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify({ password, email }),
     }).then(this._checkResponse);
   };
 
-  userAuthorization = (email, password) => {
+  userAuthorization = (password, email) => {
     return fetch(`${this._backendUrl}/signin`, {
       method: "POST",
       headers: {
@@ -31,7 +31,7 @@ class Auth {
         "Content-Type": "application/json",
       },
 			credentials: 'include',
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify({ password, email }),
     }).then(this._checkResponse);
   };
 

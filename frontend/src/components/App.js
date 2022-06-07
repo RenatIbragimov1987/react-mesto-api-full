@@ -28,18 +28,7 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [email, setEmail] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
-  const [isInfoToolTip, setIsInfoToolTip] = useState({
-		open: false,
-		status: false	
-	});
-	const [data, setData] = useState({
-		email: ""
-});
-
-// const [message, setMessage] = useState({
-// 	pathIcon: loader,
-// 	text: ''
-// });
+  const [isInfoToolTip, setIsInfoToolTip] = useState(false);
   const history = useHistory();
 
   //загрузка данных пользователя с сервера
@@ -195,25 +184,14 @@ function App() {
     setIsInfoToolTip(false);
   }
 
-	const checkRes = (data) => {
-		if (data) {
-				//setToken(res.jwt);
-				setData({
-						email: data.email
-				});
-				// setLoggedIn(true);
-				// history.replace({pathname: "/"});
-		}
-};
-
   //регистрация
-  function registration(email, password) {
+  function registration(password, email) {
 		setIsRequestLoading(true)
     auth
-      .userRegistration(email, password)
+      .userRegistration(password, email)
       .then(() => {
         setIsSuccess(true);
-        authorization(email, password);
+        authorization(password, email);
         setIsInfoToolTip(true);
       })
       .catch((err) => {
@@ -227,28 +205,22 @@ function App() {
   }
 
   //авторизация
-  function authorization(email, password) {
+  function authorization(password, email) {
 		setIsRequestLoading(true)
     auth
-      .userAuthorization(email, password)
+      .userAuthorization(password, email)
       .then((data) => {
-        // if (data.token) {
-					checkRes(data)
+        if (data.token) {
           setLoggedIn(true);
-          // localStorage.setItem("jwt", data.token);
-          // setEmail(email);
+          localStorage.setItem("jwt", data.token);
+          setEmail(email);
           history.push("/");
-        // }
+        }
       })
       .catch((err) => {
-        // setIsSuccess(false);
-        // setIsInfoToolTip(true);
-        // console.log(`Ошибка авторизации: ${err}`);
-				setIsInfoToolTip({
-					open: true,
-					status: false
-			});
-			console.log(`Что-то пошло не так! Попробуйте ещё раз.`);
+        setIsSuccess(false);
+        setIsInfoToolTip(true);
+        console.log(`Ошибка авторизации: ${err}`);
       })
 			.finally(() => {
         setIsRequestLoading(false);
