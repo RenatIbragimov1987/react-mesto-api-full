@@ -1,3 +1,4 @@
+import BASE_URL from './utils';
 class Auth {
   constructor({ address }) {
     this._backendUrl = address;
@@ -17,6 +18,7 @@ class Auth {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
+			credentials: 'include',
       body: JSON.stringify({ password, email }),
     }).then(this._checkResponse);
   };
@@ -28,6 +30,7 @@ class Auth {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
+			credentials: 'include',
       body: JSON.stringify({ password, email }),
     }).then(this._checkResponse);
   };
@@ -40,12 +43,13 @@ class Auth {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
+			credentials: 'include',
     }).then(this._checkResponse);
   };
 }
 
 const auth = new Auth({
-  address: "https://auth.nomoreparties.co",
+  address: BASE_URL
 });
 
 export default auth;
