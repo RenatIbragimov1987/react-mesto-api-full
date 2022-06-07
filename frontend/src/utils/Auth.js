@@ -30,7 +30,7 @@ class Auth {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-			credentials: 'include',
+			// credentials: 'include',
       body: JSON.stringify({ password, email }),
     }).then(this._checkResponse);
   };
@@ -46,28 +46,28 @@ class Auth {
 //     }).then(this._checkResponse);
 // };
 
-getContent = () => {
-    return fetch(`${this._backendUrl}/users/me`, {
-        method: "GET",
-        headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-        },
-        credentials: 'include',
-    }).then(this._checkResponse);
-};
+// getContent = () => {
+//     return fetch(`${this._backendUrl}/users/me`, {
+//         method: "GET",
+//         headers: {
+//             Accept: "application/json",
+//             "Content-Type": "application/json",
+//         },
+//         credentials: 'include',
+//     }).then(this._checkResponse);
+// };
 
-  userToken = (token) => {
-    return fetch(`${this._backendUrl}/users/me`, {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-			credentials: 'include',
-    }).then(this._checkResponse);
-  };
+//   userToken = (token) => {
+//     return fetch(`${this._backendUrl}/users/me`, {
+//       method: "GET",
+//       headers: {
+//         Accept: "application/json",
+//         "Content-Type": "application/json",
+//         Authorization: `Bearer ${token}`,
+//       },
+// 			credentials: 'include',
+//     }).then(this._checkResponse);
+//   };
 }
 
 const auth = new Auth({
