@@ -184,14 +184,25 @@ function App() {
     setIsInfoToolTip(false);
   }
 
+	const checkRes = (data) => {
+		if (data) {
+				//setToken(res.jwt);
+				setData({
+						email: data.email
+				});
+				// setLoggedIn(true);
+				// history.replace({pathname: "/"});
+		}
+};
+
   //регистрация
-  function registration(password, email) {
+  function registration(email, password) {
 		setIsRequestLoading(true)
     auth
-      .userRegistration(password, email)
+      .userRegistration(email, password)
       .then(() => {
         setIsSuccess(true);
-        authorization(password, email);
+        authorization(email, password);
         setIsInfoToolTip(true);
       })
       .catch((err) => {
@@ -205,22 +216,28 @@ function App() {
   }
 
   //авторизация
-  function authorization(password, email) {
+  function authorization(email, password) {
 		setIsRequestLoading(true)
     auth
-      .userAuthorization(password, email)
+      .userAuthorization(email, password)
       .then((data) => {
-        if (data.token) {
+        // if (data.token) {
+					checkRes(data)
           setLoggedIn(true);
-          localStorage.setItem("jwt", data.token);
-          setEmail(email);
+          // localStorage.setItem("jwt", data.token);
+          // setEmail(email);
           history.push("/");
-        }
+        // }
       })
       .catch((err) => {
-        setIsSuccess(false);
-        setIsInfoToolTip(true);
-        console.log(`Ошибка авторизации: ${err}`);
+        // setIsSuccess(false);
+        // setIsInfoToolTip(true);
+        // console.log(`Ошибка авторизации: ${err}`);
+				setInfoToolTip({
+					open: true,
+					status: false
+			});
+			setMessage({text: 'Что-то пошло не так! Попробуйте ещё раз.'});
       })
 			.finally(() => {
         setIsRequestLoading(false);

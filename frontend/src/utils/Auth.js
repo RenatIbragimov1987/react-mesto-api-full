@@ -11,7 +11,7 @@ class Auth {
     return Promise.reject(`Error: ${res.status}`);
   };
 
-  userRegistration = (password, email) => {
+  userRegistration = (email, password) => {
     return fetch(`${this._backendUrl}/signup`, {
       method: "POST",
       headers: {
@@ -19,11 +19,11 @@ class Auth {
         "Content-Type": "application/json",
       },
 			credentials: 'include',
-      body: JSON.stringify({ password, email }),
+      body: JSON.stringify({ email, password }),
     }).then(this._checkResponse);
   };
 
-  userAuthorization = (password, email) => {
+  userAuthorization = (email, password) => {
     return fetch(`${this._backendUrl}/signin`, {
       method: "POST",
       headers: {
@@ -31,21 +31,44 @@ class Auth {
         "Content-Type": "application/json",
       },
 			credentials: 'include',
-      body: JSON.stringify({ password, email }),
+      body: JSON.stringify({ email, password }),
     }).then(this._checkResponse);
   };
 
-  userToken = (token) => {
+	signout = () => {
+    return fetch(`${this._backendUrl}/signout`, {
+        method: "GET",
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+        },
+        credentials: 'include',
+    }).then(checkResponse);
+};
+
+getContent = () => {
     return fetch(`${this._backendUrl}/users/me`, {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-			credentials: 'include',
-    }).then(this._checkResponse);
-  };
+        method: "GET",
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+        },
+        credentials: 'include',
+    })
+        .then(checkResponse);
+};
+
+//   userToken = (token) => {
+//     return fetch(`${this._backendUrl}/users/me`, {
+//       method: "GET",
+//       headers: {
+//         Accept: "application/json",
+//         "Content-Type": "application/json",
+//         Authorization: `Bearer ${token}`,
+//       },
+// 			credentials: 'include',
+//     }).then(this._checkResponse);
+//   };
 }
 
 const auth = new Auth({
