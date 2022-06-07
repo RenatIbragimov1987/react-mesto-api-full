@@ -43,7 +43,7 @@ class Auth {
             "Content-Type": "application/json",
         },
         credentials: 'include',
-    }).then(checkResponse);
+    }).then(this._checkResponse);
 };
 
 getContent = () => {
@@ -54,8 +54,7 @@ getContent = () => {
             "Content-Type": "application/json",
         },
         credentials: 'include',
-    })
-        .then(checkResponse);
+    }).then(this._checkResponse);
 };
 
 //   userToken = (token) => {

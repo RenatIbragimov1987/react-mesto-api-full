@@ -28,7 +28,18 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [email, setEmail] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
-  const [isInfoToolTip, setIsInfoToolTip] = useState(false);
+  // const [isInfoToolTip, setIsInfoToolTip] = useState(false);
+	const [data, setData] = useState({
+		email: ""
+});
+	const [infoToolTip, setInfoToolTip] = useState({
+		open: false,
+		status: false
+});
+const [message, setMessage] = useState({
+	pathIcon: loader,
+	text: ''
+});
   const history = useHistory();
 
   //загрузка данных пользователя с сервера
@@ -237,7 +248,7 @@ function App() {
 					open: true,
 					status: false
 			});
-			setMessage({text: 'Что-то пошло не так! Попробуйте ещё раз.'});
+			setMessage({pathIcon: failAuth, text: 'Что-то пошло не так! Попробуйте ещё раз.'});
       })
 			.finally(() => {
         setIsRequestLoading(false);
