@@ -185,13 +185,13 @@ function App() {
   }
 
   //регистрация
-  function registration(password, email) {
+  function registration(email, password) {
 		setIsRequestLoading(true)
     auth
-      .userRegistration(password, email)
+      .userRegistration(email, password)
       .then(() => {
         setIsSuccess(true);
-        authorization(password, email);
+        authorization(email, password);
         setIsInfoToolTip(true);
       })
       .catch((err) => {
@@ -205,10 +205,10 @@ function App() {
   }
 
   //авторизация
-  function authorization(password, email) {
+  function authorization(email, password) {
 		setIsRequestLoading(true)
     auth
-      .userAuthorization(password, email)
+      .userAuthorization(email, password)
       .then((data) => {
         if (data.token) {
           setLoggedIn(true);
@@ -239,7 +239,7 @@ function App() {
     if (localStorage.getItem("jwt")) {
       const token = localStorage.getItem("jwt");
       auth
-        .userToken(token)
+        // .userToken(token)
         .then((res) => {
           if (res) {
             setLoggedIn(true);
