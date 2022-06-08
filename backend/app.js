@@ -40,64 +40,67 @@ const CORS_CONFIG = {
 app.use(cors(CORS_CONFIG));
 // app.use(cors(options));
 
-mongoose.connect('mongodb://localhost:27017/mestodb', {
-  useNewUrlParser: true,
-  useUnifiedTopology: false,
-});
+async function main() {
+  await mongoose.connect('mongodb://localhost:27017/mestodb', {
+    useNewUrlParser: true,
+    useUnifiedTopology: false,
+  });
 
-app.use(cookieParser());
+  app.use(cookieParser());
 
-app.get('/', (req, res) => { // не нужен
-  res.send(req.body);
-});
+  app.get('/', (req, res) => { // не нужен
+    res.send(req.body);
+  });
 
-app.use(express.json());
+  app.use(express.json());
 
-app.use(requestLogger); // подключаем логгер запросов
+  app.use(requestLogger); // подключаем логгер запросов
 
-app.post('/signin', celebrate({
-  body: Joi.object().keys({
-    email: Joi.string().required().email(),
-    password: Joi.string().required(),
-  }),
-}), login);
+  app.post('/signin', celebrate({
+    body: Joi.object().keys({
+      email: Joi.string().required().email(),
+      password: Joi.string().required(),
+    }),
+  }), login);
 
-app.post('/signup', celebrate({
-  body: Joi.object().keys({
-    email: Joi.string().required().email(),
-    password: Joi.string().required(),
-    name: Joi.string().min(2).max(30),
-    about: Joi.string().min(2).max(30),
-    avatar: Joi.string().regex(/(http|https):\/\/(www)?\.?([A-Za-z0-9.-]+)\.([A-z]{2,})((?:\/[+~%/.\w-_]*)?\??(?:[-=&;%@.\w_]*)#?(?:[\w]*))?/),
-  }),
-}), createUser);
+  app.post('/signup', celebrate({
+    body: Joi.object().keys({
+      email: Joi.string().required().email(),
+      password: Joi.string().required(),
+      name: Joi.string().min(2).max(30),
+      about: Joi.string().min(2).max(30),
+      avatar: Joi.string().regex(/(http|https):\/\/(www)?\.?([A-Za-z0-9.-]+)\.([A-z]{2,})((?:\/[+~%/.\w-_]*)?\??(?:[-=&;%@.\w_]*)#?(?:[\w]*))?/),
+    }),
+  }), createUser);
 
-// app.get('/signout', (req, res) => {
-//   res.status(200).clearCookie('jwt', {
-//     httpOnly: true,
-//     sameSite: 'none',
-//     secure: true,
-//   }).send({ message: 'Выход' });
-// });
+  // app.get('/signout', (req, res) => {
+  //   res.status(200).clearCookie('jwt', {
+  //     httpOnly: true,
+  //     sameSite: 'none',
+  //     secure: true,
+  //   }).send({ message: 'Выход' });
+  // });
 
-app.use(isAuth);
+  app.use(isAuth);
 
-app.use('/', users);
-app.use('/', cards);
+  app.use('/', users);
+  app.use('/', cards);
+  app.use((req, res, next) => {
+    next(new NotFoundDataError('Запрошен несуществующий маршрут'));
+    next();
+  });
+  app.use(errorLogger); // подключаем логгер ошибок
+  app.use(errors());
 
-app.use(errorLogger); // подключаем логгер ошибок
-app.use(errors());
-app.use((req, res, next) => {
-  next(new NotFoundDataError('Запрошен несуществующий маршрут'));
-  next();
-});
+  app.use((err, req, res, next) => {
+    const { statusCode = 500, message } = err;
+    res.status(statusCode).send({ message: statusCode === 500 ? 'На сервере произошла ошибка' : message });
+    next();
+  });
 
-app.use((err, req, res, next) => {
-  const { statusCode = 500, message } = err;
-  res.status(statusCode).send({ message: statusCode === 500 ? 'На сервере произошла ошибка' : message });
-  next();
-});
+  app.listen(PORT, () => {
+    console.log(`Слушаем ${PORT} порт`);
+  });
+}
 
-app.listen(PORT, () => {
-  console.log(`Слушаем ${PORT} порт`);
-});
+main();
