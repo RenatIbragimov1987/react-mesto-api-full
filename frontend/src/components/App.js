@@ -239,7 +239,7 @@ function App() {
     if (localStorage.getItem("jwt")) {
       const token = localStorage.getItem("jwt");
       auth
-        // .userToken(token)
+        .userToken(token)
         .then((res) => {
           if (res) {
             setLoggedIn(true);
