@@ -18,6 +18,9 @@ const NotFoundDataError = require('./errors/NotFoundDataError');
 const app = express();
 const CORS_CONFIG = {
   credentials: true,
+  method: ['GET,HEAD,PUT,PATCH,POST,DELETE'],
+  preflightContinue: false,
+  optionsSuccessStatus: 204,
   origin: [
     'https://renat.domains.nomoredomains.sbs',
     'http://renat.domains.nomoredomains.sbs',
