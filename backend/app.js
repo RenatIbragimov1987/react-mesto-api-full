@@ -1,14 +1,13 @@
-const cookieParser = require('cookie-parser');
-const cors = require('cors');
-const { errors, celebrate, Joi } = require('celebrate');
 const express = require('express');
 const mongoose = require('mongoose');
-const isAuth = require('./middlewares/auth');
 
 require('dotenv').config();
 
-const { PORT = 3001 } = process.env;
-
+const { PORT = 3000 } = process.env;
+const cors = require('cors');
+const cookieParser = require('cookie-parser');
+const { errors, celebrate, Joi } = require('celebrate');
+const isAuth = require('./middlewares/auth');
 const { login, createUser } = require('./controllers/users');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { users } = require('./routes/users');
@@ -16,29 +15,35 @@ const { cards } = require('./routes/cards');
 const NotFoundDataError = require('./errors/NotFoundDataError');
 
 const app = express();
-const CORS_CONFIG = {
-  credentials: true,
+
+const accessCors = [
+  'https://renat.domains.nomoredomains.sbs',
+  'http://renat.domains.nomoredomains.sbs',
+  'http://localhost:3001',
+];
+
+const options = {
+  origin: accessCors,
   method: ['GET,HEAD,PUT,PATCH,POST,DELETE'],
   preflightContinue: false,
-  optionsSuccessStatus: 204,
-  origin: [
-    'https://renat.domains.nomoredomains.sbs',
-    'http://renat.domains.nomoredomains.sbs',
-    'https://localhost:3001',
-    'http://localhost:3001',
-  ],
+  optionsSuccessStatus: 200,
+  credentials: true,
 };
-
-// const options = {
-//   origin: CORS_CONFIG,
+app.use(cors(options));
+// const CORS_CONFIG = {
+//   credentials: true,
 //   method: ['GET,HEAD,PUT,PATCH,POST,DELETE'],
 //   preflightContinue: false,
 //   optionsSuccessStatus: 204,
-//   // credentials: true,
+//   origin: [
+//     'https://renat.domains.nomoredomains.sbs',
+//     'http://renat.domains.nomoredomains.sbs',
+//     'https://localhost:3001',
+//     'http://localhost:3001',
+//   ],
 // };
 
-app.use(cors(CORS_CONFIG));
-// app.use(cors(options));
+// app.use(cors(CORS_CONFIG));
 
 async function main() {
   await mongoose.connect('mongodb://localhost:27017/mestodb', {
