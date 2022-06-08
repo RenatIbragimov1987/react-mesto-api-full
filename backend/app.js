@@ -24,8 +24,8 @@ const CORS_CONFIG = {
   origin: [
     'https://renat.domains.nomoredomains.sbs',
     'http://renat.domains.nomoredomains.sbs',
-    'https://localhost:3001',
-    'http://localhost:3001',
+    'https://localhost:3000',
+    'http://localhost:3000',
   ],
 };
 
