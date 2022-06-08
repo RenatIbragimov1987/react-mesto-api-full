@@ -7,7 +7,7 @@ const isAuth = require('./middlewares/auth');
 
 require('dotenv').config();
 
-const { PORT = 3000 } = process.env;
+const { PORT = 3001 } = process.env;
 
 const { login, createUser } = require('./controllers/users');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
@@ -24,8 +24,8 @@ const CORS_CONFIG = {
   origin: [
     'https://renat.domains.nomoredomains.sbs',
     'http://renat.domains.nomoredomains.sbs',
-    'https://localhost:3000',
-    'http://localhost:3000',
+    'https://localhost:3001',
+    'http://localhost:3001',
   ],
 };
 
