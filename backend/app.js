@@ -1,6 +1,5 @@
-/* eslint-disable no-console */
-const cors = require('cors');
 const cookieParser = require('cookie-parser');
+const cors = require('cors');
 const { errors, celebrate, Joi } = require('celebrate');
 const express = require('express');
 const mongoose = require('mongoose');
@@ -17,21 +16,26 @@ const { cards } = require('./routes/cards');
 const NotFoundDataError = require('./errors/NotFoundDataError');
 
 const app = express();
-const accessCors = [
-  'https://renat.domains.nomoredomains.sbs',
-  'http://renat.domains.nomoredomains.sbs',
-  'http://localhost:3001',
-];
-
-const options = {
-  origin: accessCors,
-  method: ['GET,HEAD,PUT,PATCH,POST,DELETE'],
-  preflightContinue: false,
-  optionsSuccessStatus: 200,
+const CORS_CONFIG = {
   credentials: true,
+  origin: [
+    'https://renat.domains.nomoredomains.sbs',
+    'http://renat.domains.nomoredomains.sbs',
+    'https://localhost:3000',
+    'http://localhost:3000',
+  ],
 };
 
-app.use(cors(options));
+// const options = {
+//   origin: CORS_CONFIG,
+//   method: ['GET,HEAD,PUT,PATCH,POST,DELETE'],
+//   preflightContinue: false,
+//   optionsSuccessStatus: 204,
+//   // credentials: true,
+// };
+
+app.use(cors(CORS_CONFIG));
+// app.use(cors(options));
 
 mongoose.connect('mongodb://localhost:27017/mestodb', {
   useNewUrlParser: true,
