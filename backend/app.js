@@ -53,9 +53,9 @@ async function main() {
 
   app.use(cookieParser());
 
-  app.get('/*', (req, res) => { // не нужен
-    res.send(req.body);
-  });
+  // app.get('/', (req, res) => { // не нужен
+  //   res.send(req.body);
+  // });
 
   app.use(express.json());
 
