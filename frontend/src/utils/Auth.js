@@ -65,7 +65,7 @@ class Auth {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-			// credentials: 'include',
+			credentials: 'include',
     }).then(this._checkResponse);
   };
 }
