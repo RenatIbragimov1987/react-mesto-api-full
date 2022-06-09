@@ -73,7 +73,7 @@ async function main() {
     }).send({ message: 'Выход' });
   });
 
-  // app.use(isAuth);
+  app.use(isAuth);
 
   app.use('/', users);
   app.use('/', cards);
