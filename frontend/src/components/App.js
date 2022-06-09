@@ -265,23 +265,23 @@ function App() {
     history.push("/sign-in");
   }
 
-  function handleToken() {
-    if (localStorage.getItem("jwt")) {
-      const token = localStorage.getItem("jwt");
-      auth
-        .userToken(token)
-        .then((res) => {
-          if (res) {
-            setLoggedIn(true);
-            setEmail(res.data.email);
-            history.push("/");
-          }
-        })
-        .catch((err) => {
-          console.log(`Ошибка токена: ${err}`);
-        });
-    }
-  }
+  // function handleToken() {
+  //   if (localStorage.getItem("jwt")) {
+  //     const token = localStorage.getItem("jwt");
+  //     auth
+  //       .userToken(token)
+  //       .then((res) => {
+  //         if (res) {
+  //           setLoggedIn(true);
+  //           setEmail(res.data.email);
+  //           history.push("/");
+  //         }
+  //       })
+  //       .catch((err) => {
+  //         console.log(`Ошибка токена: ${err}`);
+  //       });
+  //   }
+  // }
 
   useEffect(() => {
     handleToken();
