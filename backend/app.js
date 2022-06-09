@@ -58,7 +58,7 @@ async function main() {
   // });
 
   app.use(express.json());
-
+  console.log(process.env.NODE_ENV);
   app.use(requestLogger); // подключаем логгер запросов
 
   app.post('/signin', celebrate({
