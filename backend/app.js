@@ -44,15 +44,16 @@ async function main() {
     res.send(req.body);
   });
 
+  app.use(express.json());
+
+  app.use(requestLogger); // подключаем логгер запросов
+
   app.post('/signin', celebrate({
     body: Joi.object().keys({
       email: Joi.string().required().email(),
       password: Joi.string().required(),
     }),
   }), login);
-  app.use(express.json());
-
-  app.use(requestLogger); // подключаем логгер запросов
 
   app.post('/signup', celebrate({
     body: Joi.object().keys({
@@ -72,7 +73,7 @@ async function main() {
     }).send({ message: 'Выход' });
   });
 
-  app.use(isAuth);
+  // app.use(isAuth);
 
   app.use('/', users);
   app.use('/', cards);
