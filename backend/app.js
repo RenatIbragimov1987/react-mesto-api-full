@@ -52,9 +52,11 @@ async function main() {
   });
 
   app.use(cookieParser());
+
   // app.get('/', (req, res) => {
   //   res.send(req.body);
   // });
+
   app.use(express.json());
 
   app.use(requestLogger); // подключаем логгер запросов
@@ -84,7 +86,7 @@ async function main() {
     }).send({ message: 'Выход' });
   });
 
-  // app.use(isAuth);
+  app.use(isAuth);
 
   app.use('/', users);
   app.use('/', cards);
