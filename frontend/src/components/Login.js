@@ -10,7 +10,7 @@ function Login({ authorization }) {
 
   function handleSubmit(evt) {
     evt.preventDefault();
-    authorization(password, email);
+    authorization(email, password);
   }
 
   function handleChangePassword(evt) {
