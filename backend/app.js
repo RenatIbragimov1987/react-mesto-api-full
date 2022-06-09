@@ -20,30 +20,17 @@ const accessCors = [
   'https://api.renat1987.nomoredomains.xyz',
   'http://api.renat1987.nomoredomains.xyz',
   'http://localhost:3001',
+  'https://localhost:3001',
 ];
 
-const options = {
+const CORS_CONFIG = {
   origin: accessCors,
   method: ['GET,HEAD,PUT,PATCH,POST,DELETE'],
   preflightContinue: false,
   optionsSuccessStatus: 200,
   credentials: true,
 };
-app.use(cors(options));
-// const CORS_CONFIG = {
-//   credentials: true,
-//   method: ['GET,HEAD,PUT,PATCH,POST,DELETE'],
-//   preflightContinue: false,
-//   optionsSuccessStatus: 204,
-//   origin: [
-//     'https://renat.domains.nomoredomains.sbs',
-//     'http://renat.domains.nomoredomains.sbs',
-//     'https://localhost:3001',
-//     'http://localhost:3001',
-//   ],
-// };
-
-// app.use(cors(CORS_CONFIG));
+app.use(cors(CORS_CONFIG));
 
 async function main() {
   await mongoose.connect('mongodb://localhost:27017/mestodb', {
@@ -53,12 +40,12 @@ async function main() {
 
   app.use(cookieParser());
 
-  // app.get('/', (req, res) => {
-  //   res.send(req.body);
-  // });
+  app.get('/', (req, res) => {
+    res.send(req.body);
+  });
 
   app.use(express.json());
-  console.log(process.env.NODE_ENV);
+
   app.use(requestLogger); // подключаем логгер запросов
 
   app.post('/signin', celebrate({
