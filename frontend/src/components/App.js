@@ -192,7 +192,29 @@ function App() {
     setSelectedCard(null);
     setIsInfoToolTip(false);
   }
-
+	useEffect(() => {
+    if (loggedIn) {
+        auth.getContent()
+            .then((data) => {
+                if (data && data.email) {
+                    setLoggedIn(true);
+                    history.push("/");
+                    checkRes(data);
+                }
+                else {
+                    setLoggedIn(false);
+                    history.push("/sign-in");
+                }
+            })
+            .catch((err) => {
+                console.error(err);
+                setLoggedIn(false);
+                setData({
+                    email: ""
+                });
+            });
+    }
+}, [loggedIn, history]); // зависимость от хистори и loggedIn
 
 	function authorization(email, password) {
 		setIsRequestLoading(true);
