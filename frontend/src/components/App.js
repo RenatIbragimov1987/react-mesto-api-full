@@ -283,9 +283,9 @@ function App() {
   //   }
   // }
 
-  useEffect(() => {
-    handleToken();
-  }, []);
+  // useEffect(() => {
+  //   handleToken();
+  // }, []);
 
   return (
     <div className="page">
