@@ -16,7 +16,7 @@ export const userRegistration = (email, password) => {
     },
     credentials: "include",
     body: JSON.stringify({ email, password }),
-  }).then(this._checkResponse);
+  }).then(checkResponse);
 };
 
 export const userAuthorization = (email, password) => {
@@ -28,7 +28,7 @@ export const userAuthorization = (email, password) => {
     },
     credentials: "include",
     body: JSON.stringify({ email, password }),
-  }).then(this._checkResponse);
+  }).then(checkResponse);
 };
 
 export const signout = () => {
@@ -39,7 +39,7 @@ export const signout = () => {
       "Content-Type": "application/json",
     },
     credentials: "include",
-  }).then(this._checkResponse);
+  }).then(checkResponse);
 };
 
 export const getContent = () => {
@@ -50,7 +50,7 @@ export const getContent = () => {
       "Content-Type": "application/json",
     },
     credentials: "include",
-  }).then(this._checkResponse);
+  }).then(checkResponse);
 };
 
 // userToken = (token) => {
