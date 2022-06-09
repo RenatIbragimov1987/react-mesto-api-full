@@ -30,6 +30,7 @@ function App() {
   const [email, setEmail] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
   const [isInfoToolTip, setIsInfoToolTip] = useState(false);
+	// const [isLoading, setIsLoading] = useState(false);
   const history = useHistory();
 	const [data, setData] = useState({
 		email: ""
@@ -359,7 +360,9 @@ function App() {
             cards={cards}
           />
 					<Route path="/sign-in">
-            <Login authorization={authorization} />
+            <Login authorization={authorization}
+						isRequestLoading={isRequestLoading}
+						/>
           </Route>
           <Route path="/sign-up">
             <Register registration={registration} />

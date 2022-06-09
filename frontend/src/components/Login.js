@@ -1,21 +1,45 @@
-import React from "react";
+import React, {useState} from 'react';
 
-function Login({ authorization }) {
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
+function Login({ authorization, isRequestLoading }) {
+	const [data, setData] = useState({
+		email: "",
+		password: ""
+})
 
-  function handleChangeEmail(evt) {
-    setEmail(evt.target.value);
-  }
+const handleChangeEmail = (e) => {
+		const {name, value} = e.target;
 
-  function handleSubmit(evt) {
-    evt.preventDefault();
-    authorization(email, password);
-  }
+		setData({
+				...data,
+				[name]: value,
+		});
+};
 
-  function handleChangePassword(evt) {
-    setPassword(evt.target.value);
-  }
+const handleSubmit = (e) => {
+		e.preventDefault();
+		if (!data.email || !data.password) {
+				console.log(data.email)
+				console.log(data.password)
+				return;
+		}
+		const {email, password} = data;
+		authorization(email, password);
+}
+  // const [email, setEmail] = React.useState("");
+  // const [password, setPassword] = React.useState("");
+
+  // function handleChangeEmail(evt) {
+  //   setEmail(evt.target.value);
+  // }
+
+  // function handleSubmit(evt) {
+  //   evt.preventDefault();
+  //   authorization(email, password);
+  // }
+
+  // function handleChangePassword(evt) {
+  //   setPassword(evt.target.value);
+  // }
 
   return (
     <>
@@ -50,7 +74,8 @@ function Login({ authorization }) {
               onSubmit={handleSubmit}
               className="popup__submit-button popup__submit-button_register"
             >
-              Войти
+							{isRequestLoading ? 'Вход...' : 'Войти'}
+              
             </button>
           </div>
         </fieldset>
