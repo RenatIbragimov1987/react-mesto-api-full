@@ -193,70 +193,99 @@ function App() {
     setIsInfoToolTip(false);
   }
 
-  //регистрация
-  function registration(email, password) {
-		setIsRequestLoading(true)
-    auth
-      .userRegistration(email, password)
-      .then(() => {
-        setIsSuccess(true);
-        authorization(email, password);
-        setIsInfoToolTip(true);
-      })
-      .catch((err) => {
-        setIsSuccess(false);
-        setIsInfoToolTip(true);
-        console.log(`Ошибка регистрации: ${err}`);
-      })
-			.finally(() => {
-        setIsRequestLoading(false);
-      });
-  }
+
+	function authorization(email, password) {
+		setIsRequestLoading(true);
+		auth.userAuthorization(email, password)
+				.then((data) => {
+						checkRes(data)
+						setLoggedIn(true);
+						history.push('/');
+				})
+				.catch((err) => {
+						console.error(err)
+						setIsInfoToolTip({
+								open: true,
+								status: false
+						});
+						console.log(`Ошибка авторизации: ${err}`);
+
+				})
+				.finally(() => {
+					setIsRequestLoading(false);
+				});
+	};
+
+	function registration(email, password) {
+		setIsRequestLoading(true);
+		auth.userRegistration(email, password)
+				.then((data) => {
+						checkRes(data)
+						history.replace({pathname: '/sign-in'})
+						setIsInfoToolTip({
+							open: true,
+							status: true
+					});
+				})
+				.catch((err) => {
+						console.error(err)
+						setIsInfoToolTip({
+								open: true,
+								status: false
+						});
+						console.log(`Ошибка регистрации: ${err}`);
+
+				})
+				.finally(() => {
+					setIsRequestLoading(false);
+				});
+	};
+
+
+  // //регистрация
+  // function registration(email, password) {
+	// 	setIsRequestLoading(true)
+  //   auth
+  //     .userRegistration(email, password)
+  //     .then(() => {
+  //       setIsSuccess(true);
+  //       authorization(email, password);
+  //       setIsInfoToolTip(true);
+  //     })
+  //     .catch((err) => {
+  //       setIsSuccess(false);
+  //       setIsInfoToolTip(true);
+  //       console.log(`Ошибка регистрации: ${err}`);
+  //     })
+	// 		.finally(() => {
+  //       setIsRequestLoading(false);
+  //     });
+  // }
 
   //авторизация
-  function authorization(email, password) {
-		setIsRequestLoading(true)
-    auth
-      .userAuthorization(email, password)
-      .then((data) => {
-        if (data.token) {
-          setLoggedIn(true);
-          localStorage.setItem("jwt", data.token);
-          setEmail(email);
-          history.push("/");
-        }
-      })
-      .catch((err) => {
-        setIsSuccess(false);
-        setIsInfoToolTip(true);
-        console.log(`Ошибка авторизации: ${err}`);
-      })
-			.finally(() => {
-        setIsRequestLoading(false);
-      });
-  }
+  // function authorization(email, password) {
+	// 	setIsRequestLoading(true)
+  //   auth
+  //     .userAuthorization(email, password)
+  //     .then((data) => {
+  //       if (data.token) {
+  //         setLoggedIn(true);
+  //         localStorage.setItem("jwt", data.token);
+  //         setEmail(email);
+  //         history.push("/");
+  //       }
+  //     })
+  //     .catch((err) => {
+  //       setIsSuccess(false);
+  //       setIsInfoToolTip(true);
+  //       console.log(`Ошибка авторизации: ${err}`);
+  //     })
+	// 		.finally(() => {
+  //       setIsRequestLoading(false);
+  //     });
+  // }
 
-	// function authorization(email, password) {
-	// 	setIsRequestLoading(true);
-	// 	auth.userAuthorization(email, password)
-	// 			.then((data) => {
-	// 					checkRes(data)
-	// 					setLoggedIn(true);
-	// 					history.push('/');
-	// 			})
-	// 			.catch((err) => {
-	// 					console.error(err)
-	// 					setIsInfoToolTip({
-	// 							open: true,
-	// 							status: false
-	// 					});
-	// 					console.log(`Ошибка авторизации: ${err}`);
 
-	// 			})
-	// 			.finally(() => {
-	// 				setIsRequestLoading(false);
-	// 			});
-	// };
   //выход с сайта
   function handleExitWebsite() {
     localStorage.removeItem("jwt");
@@ -265,27 +294,27 @@ function App() {
     history.push("/sign-in");
   }
 
-  function handleToken() {
-    if (localStorage.getItem("jwt")) {
-      const token = localStorage.getItem("jwt");
-      auth
-        .userToken(token)
-        .then((res) => {
-          if (res) {
-            setLoggedIn(true);
-            setEmail(res.data.email);
-            history.push("/");
-          }
-        })
-        .catch((err) => {
-          console.log(`Ошибка токена: ${err}`);
-        });
-    }
-  }
+  // function handleToken() {
+  //   if (localStorage.getItem("jwt")) {
+  //     const token = localStorage.getItem("jwt");
+  //     auth
+  //       .userToken(token)
+  //       .then((res) => {
+  //         if (res) {
+  //           setLoggedIn(true);
+  //           setEmail(res.data.email);
+  //           history.push("/");
+  //         }
+  //       })
+  //       .catch((err) => {
+  //         console.log(`Ошибка токена: ${err}`);
+  //       });
+  //   }
+  // }
 
-  useEffect(() => {
-    handleToken();
-  }, []);
+  // useEffect(() => {
+  //   handleToken();
+  // }, []);
 
   return (
     <div className="page">
@@ -305,11 +334,11 @@ function App() {
             onCardDelete={handleCardDelete}
             cards={cards}
           />
+					<Route path="/sign-in">
+            <Login authorization={authorization} />
+          </Route>
           <Route path="/sign-up">
             <Register registration={registration} />
-          </Route>
-          <Route path="/sign-in">
-            <Login authorization={authorization} />
           </Route>
         </Switch>
         <Footer />
