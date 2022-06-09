@@ -1,7 +1,7 @@
-import BASE_URL from './utils';
 class Api {
-  constructor({ address }) {
+  constructor({ address, headers }) {
     this._address = address;
+    this._headers = headers;
   }
 
   //возвращаем результат работы метода
@@ -17,10 +17,9 @@ class Api {
     return fetch(`${this._address}/cards`, {
       method: "POST",
       headers: {
-        Accept: "application/json",
+        Authorization: this._headers,
         "Content-Type": "application/json",
       },
-			credentials: 'include',
       body: JSON.stringify({ name, link }),
     }).then((res) => this._checkStatus(res));
   };
@@ -30,10 +29,9 @@ class Api {
     return fetch(`${this._address}/cards/likes/${id}`, {
       method: "PUT",
       headers: {
-        Accept: "application/json",
+        Authorization: this._headers,
         "Content-Type": "application/json",
       },
-			credentials: 'include',
     }).then((res) => this._checkStatus(res));
   };
 
@@ -42,10 +40,9 @@ class Api {
     return fetch(`${this._address}/cards/likes/${id}`, {
       method: "DELETE",
       headers: {
-        Accept: "application/json",
+        Authorization: this._headers,
         "Content-Type": "application/json",
       },
-			credentials: 'include',
     }).then((res) => this._checkStatus(res));
   };
 
@@ -54,10 +51,9 @@ class Api {
     return fetch(`${this._address}/users/me`, {
       method: "GET",
       headers: {
-        Accept: "application/json",
+        Authorization: this._headers,
         "Content-Type": "application/json",
       },
-			credentials: 'include',
     }).then((res) => this._checkStatus(res));
   }
 
@@ -66,10 +62,9 @@ class Api {
     return fetch(`${this._address}/cards`, {
       method: "GET",
       headers: {
-        Accept: "application/json",
+        Authorization: this._headers,
         "Content-Type": "application/json",
       },
-			credentials: 'include',
     }).then((res) => this._checkStatus(res));
   };
 
@@ -78,10 +73,9 @@ class Api {
     return fetch(`${this._address}/cards/${id}`, {
       method: "DELETE",
       headers: {
-        Accept: "application/json",
+        Authorization: this._headers,
         "Content-Type": "application/json",
       },
-			credentials: 'include',
     }).then((res) => this._checkStatus(res));
   };
 
@@ -90,10 +84,9 @@ class Api {
     return fetch(`${this._address}/users/me`, {
       method: "PATCH",
       headers: {
-        Accept: "application/json",
+        Authorization: this._headers,
         "Content-Type": "application/json",
       },
-			credentials: 'include',
       body: JSON.stringify({
         name: data.name,
         about: data.about,
@@ -106,19 +99,19 @@ class Api {
     return fetch(`${this._address}/users/me/avatar`, {
       method: "PATCH",
       headers: {
-        Accept: "application/json",
+        Authorization: this._headers,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
         avatar: item.avatar,
       }),
-			credentials: 'include',
     }).then((res) => this._checkStatus(res));
   };
 }
 
 const api = new Api({
-  address: BASE_URL
+  address: "https://mesto.nomoreparties.co/v1/cohort36",
+  headers: "e8a9f2b0-25e0-4ec4-83e8-52c6f0623a7c",
 });
 
 export default api;

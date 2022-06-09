@@ -1,45 +1,21 @@
-import React, {useState} from 'react';
+import React from "react";
 
-function Login({ authorization, isRequestLoading }) {
-	const [data, setData] = useState({
-		email: "",
-		password: ""
-})
+function Login({ authorization }) {
+  const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
 
-const handleChange = (e) => {
-		const {name, value} = e.target;
+  function handleChangeEmail(evt) {
+    setEmail(evt.target.value);
+  }
 
-		setData({
-				...data,
-				[name]: value,
-		});
-};
+  function handleSubmit(evt) {
+    evt.preventDefault();
+    authorization(password, email);
+  }
 
-const handleSubmit = (e) => {
-		e.preventDefault();
-		if (!data.email || !data.password) {
-				console.log(data.email)
-				console.log(data.password)
-				return;
-		}
-		const {email, password} = data;
-		authorization(email, password);
-}
-  // const [email, setEmail] = React.useState("");
-  // const [password, setPassword] = React.useState("");
-
-  // function handleChangeEmail(evt) {
-  //   setEmail(evt.target.value);
-  // }
-
-  // function handleSubmit(evt) {
-  //   evt.preventDefault();
-  //   authorization(email, password);
-  // }
-
-  // function handleChangePassword(evt) {
-  //   setPassword(evt.target.value);
-  // }
+  function handleChangePassword(evt) {
+    setPassword(evt.target.value);
+  }
 
   return (
     <>
@@ -51,8 +27,8 @@ const handleSubmit = (e) => {
               type="email"
               name="email"
               placeholder="Email"
-              value={data.email}
-              onChange={handleChange}
+              value={email}
+              onChange={handleChangeEmail}
               required
               className="popup__field-register"
             ></input>
@@ -62,8 +38,8 @@ const handleSubmit = (e) => {
               type="password"
               name="password"
               placeholder="Пароль"
-              value={data.password}
-              onChange={handleChange}
+              value={password}
+              onChange={handleChangePassword}
               required
               className="popup__field-register"
             ></input>
@@ -74,8 +50,7 @@ const handleSubmit = (e) => {
               onSubmit={handleSubmit}
               className="popup__submit-button popup__submit-button_register"
             >
-							{isRequestLoading ? 'Вход...' : 'Войти'}
-              
+              Войти
             </button>
           </div>
         </fieldset>
