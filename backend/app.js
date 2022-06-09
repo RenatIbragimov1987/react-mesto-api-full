@@ -17,10 +17,10 @@ const NotFoundDataError = require('./errors/NotFoundDataError');
 const app = express();
 
 const accessCors = [
-  'https://api.renat1987.nomoredomains.xyz',
-  'http://api.renat1987.nomoredomains.xyz',
-  'http://localhost:3001',
-  'https://localhost:3001',
+  'https://renat.domains.nomoredomains.sbs',
+  'http://renat.domains.nomoredomains.sbs',
+  // 'http://localhost:3001',
+  // 'https://localhost:3001',
 ];
 
 const CORS_CONFIG = {
