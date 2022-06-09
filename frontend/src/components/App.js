@@ -193,6 +193,7 @@ function App() {
     setSelectedCard(null);
     setIsInfoToolTip(false);
   }
+
 	useEffect(() => {
     if (loggedIn) {
         auth.getContent()
@@ -204,7 +205,7 @@ function App() {
                 }
                 else {
                     setLoggedIn(false);
-                    history.push("/signin");
+                    history.push("/sign-in");
                 }
             })
             .catch((err) => {
@@ -215,7 +216,7 @@ function App() {
                 });
             });
     }
-}, [loggedIn, history]); // зависимость от хистори и loggedIn
+	}, [loggedIn, history]); // зависимость от хистори и loggedIn
 
 	function authorization(email, password) {
 		setIsRequestLoading(true);
@@ -244,7 +245,7 @@ function App() {
 		auth.userRegistration(email, password)
 				.then((data) => {
 						checkRes(data)
-						history.replace({pathname: '/signin'})
+						history.replace({pathname: '/sign-in'})
 						setIsInfoToolTip({
 							open: true,
 							status: true
