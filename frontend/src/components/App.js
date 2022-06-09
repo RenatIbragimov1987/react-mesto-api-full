@@ -30,7 +30,14 @@ function App() {
   const [isSuccess, setIsSuccess] = useState(false);
   const [isInfoToolTip, setIsInfoToolTip] = useState(false);
   const history = useHistory();
-
+	
+	const checkRes = (data) => {
+		if (data) {
+				setData({
+						email: data.email
+				});
+		}
+  };
   //загрузка данных пользователя с сервера
   useEffect(() => {
     setIsRequestLoading(true);
