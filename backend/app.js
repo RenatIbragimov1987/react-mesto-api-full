@@ -53,7 +53,7 @@ async function main() {
 
   app.use(cookieParser());
 
-  app.get('/', (req, res) => { // не нужен
+  app.get('/*', (req, res) => { // не нужен
     res.send(req.body);
   });
 
