@@ -22,7 +22,7 @@
 
 const jwt = require('jsonwebtoken');
 
-const { NODE_ENV, JWT_SECRET } = process.env;
+const { REACT_APP_NODE_ENV, REACT_APP_JWT_SECRET } = process.env;
 const UnauthorizedError = require('../errors/UnauthorizedError');
 
 module.exports = async (req, res, next) => {
@@ -30,7 +30,7 @@ module.exports = async (req, res, next) => {
   let payload;
 
   try {
-    payload = jwt.verify(token, NODE_ENV === 'production' ? JWT_SECRET : 'some-secret-key');
+    payload = jwt.verify(token, REACT_APP_NODE_ENV === 'production' ? REACT_APP_JWT_SECRET : 'some-secret-key');
     req.userId = jwt.decode(token).id;
   } catch (err) {
     next(new UnauthorizedError('Необходима авторизация'));
