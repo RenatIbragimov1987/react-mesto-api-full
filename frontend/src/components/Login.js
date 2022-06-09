@@ -51,7 +51,7 @@ const handleSubmit = (e) => {
               type="email"
               name="email"
               placeholder="Email"
-              value={email}
+              value={data.email}
               onChange={handleChangeEmail}
               required
               className="popup__field-register"
@@ -62,7 +62,7 @@ const handleSubmit = (e) => {
               type="password"
               name="password"
               placeholder="Пароль"
-              value={password}
+              value={data.password}
               onChange={handleChangePassword}
               required
               className="popup__field-register"
