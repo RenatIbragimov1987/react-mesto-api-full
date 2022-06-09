@@ -35,27 +35,27 @@ class Auth {
     }).then(this._checkResponse);
   };
 
-// 	signout = () => {
-//     return fetch(`${this._backendUrl}/signout`, {
-//         method: "GET",
-//         headers: {
-//             Accept: "application/json",
-//             "Content-Type": "application/json",
-//         },
-//         credentials: 'include',
-//     }).then(this._checkResponse);
-// };
+	signout = () => {
+    return fetch(`${this._backendUrl}/signout`, {
+        method: "GET",
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+        },
+        credentials: 'include',
+    }).then(this._checkResponse);
+	};
 
-// getContent = () => {
-//     return fetch(`${this._backendUrl}/users/me`, {
-//         method: "GET",
-//         headers: {
-//             Accept: "application/json",
-//             "Content-Type": "application/json",
-//         },
-//         credentials: 'include',
-//     }).then(this._checkResponse);
-// };
+	getContent = () => {
+    return fetch(`${this._backendUrl}/users/me`, {
+        method: "GET",
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+        },
+        credentials: 'include',
+    }).then(this._checkResponse);
+	};
 
   userToken = (token) => {
     return fetch(`${this._backendUrl}/users/me`, {
@@ -63,7 +63,7 @@ class Auth {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${this._backendUrl}`,
       },
 			credentials: 'include',
     }).then(this._checkResponse);
