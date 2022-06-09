@@ -6,7 +6,7 @@ function Login({ authorization, isRequestLoading }) {
 		password: ""
 })
 
-const handleChangeEmail = (e) => {
+const handleChange = (e) => {
 		const {name, value} = e.target;
 
 		setData({
@@ -52,7 +52,7 @@ const handleSubmit = (e) => {
               name="email"
               placeholder="Email"
               value={data.email}
-              onChange={handleChangeEmail}
+              onChange={handleChange}
               required
               className="popup__field-register"
             ></input>
@@ -63,7 +63,7 @@ const handleSubmit = (e) => {
               name="password"
               placeholder="Пароль"
               value={data.password}
-              onChange={handleChangePassword}
+              onChange={handleChange}
               required
               className="popup__field-register"
             ></input>
