@@ -205,28 +205,49 @@ function App() {
   }
 
   //авторизация
-  function authorization(email, password) {
-		setIsRequestLoading(true)
-    auth
-      .userAuthorization(email, password)
-      .then((data) => {
-        if (data.token) {
-          setLoggedIn(true);
-          localStorage.setItem("jwt", data.token);
-          setEmail(email);
-          history.push("/");
-        }
-      })
-      .catch((err) => {
-        setIsSuccess(false);
-        setIsInfoToolTip(true);
-        console.log(`Ошибка авторизации: ${err}`);
-      })
-			.finally(() => {
-        setIsRequestLoading(false);
-      });
-  }
+  // function authorization(email, password) {
+	// 	setIsRequestLoading(true)
+  //   auth
+  //     .userAuthorization(email, password)
+  //     .then((data) => {
+  //       if (data.token) {
+  //         setLoggedIn(true);
+  //         localStorage.setItem("jwt", data.token);
+  //         setEmail(email);
+  //         history.push("/");
+  //       }
+  //     })
+  //     .catch((err) => {
+  //       setIsSuccess(false);
+  //       setIsInfoToolTip(true);
+  //       console.log(`Ошибка авторизации: ${err}`);
+  //     })
+	// 		.finally(() => {
+  //       setIsRequestLoading(false);
+  //     });
+  // }
 
+	function authorization(email, password) {
+		setIsRequestLoading(true);
+		auth.userAuthorization(email, password)
+				.then((data) => {
+						checkRes(data)
+						setLoggedIn(true);
+						history.push('/');
+				})
+				.catch((err) => {
+						console.error(err)
+						setIsInfoToolTip({
+								open: true,
+								status: false
+						});
+						console.log(`Ошибка авторизации: ${err}`);
+
+				})
+				.finally(() => {
+					setIsRequestLoading(false);
+				});
+	};
   //выход с сайта
   function handleExitWebsite() {
     localStorage.removeItem("jwt");
