@@ -30,7 +30,9 @@ function App() {
   const [isSuccess, setIsSuccess] = useState(false);
   const [isInfoToolTip, setIsInfoToolTip] = useState(false);
   const history = useHistory();
-	
+	const [data, setData] = useState({
+		email: ""
+  });
 	const checkRes = (data) => {
 		if (data) {
 				setData({
