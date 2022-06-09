@@ -53,14 +53,12 @@ async function main() {
 
   app.use(cookieParser());
 
-  // app.get('/', (req, res) => { // не нужен
-  //   res.send(req.body);
-  // });
-
   app.use(express.json());
 
   app.use(requestLogger); // подключаем логгер запросов
-
+  app.get('/', (req, res) => {
+    res.send(req.body);
+  });
   app.post('/signin', celebrate({
     body: Joi.object().keys({
       email: Joi.string().required().email(),
