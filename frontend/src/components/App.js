@@ -203,7 +203,7 @@ function App() {
                 }
                 else {
                     setLoggedIn(false);
-                    history.push("/sign-in");
+                    history.push("/signin");
                 }
             })
             .catch((err) => {
@@ -243,7 +243,7 @@ function App() {
 		auth.userRegistration(email, password)
 				.then((data) => {
 						checkRes(data)
-						history.replace({pathname: '/sign-in'})
+						history.replace({pathname: '/signin'})
 						setIsInfoToolTip({
 							open: true,
 							status: true
