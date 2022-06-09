@@ -20,7 +20,7 @@ class Api {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-			credentials: 'include',
+			// credentials: 'include',
       body: JSON.stringify({ name, link }),
     }).then((res) => this._checkStatus(res));
   };
@@ -33,7 +33,7 @@ class Api {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-			credentials: 'include',
+			// credentials: 'include',
     }).then((res) => this._checkStatus(res));
   };
 
@@ -45,7 +45,7 @@ class Api {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-			credentials: 'include',
+			// credentials: 'include',
     }).then((res) => this._checkStatus(res));
   };
 
@@ -57,7 +57,7 @@ class Api {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-			credentials: 'include',
+			// credentials: 'include',
     }).then((res) => this._checkStatus(res));
   }
 
@@ -69,7 +69,7 @@ class Api {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-			credentials: 'include',
+			// credentials: 'include',
     }).then((res) => this._checkStatus(res));
   };
 
@@ -81,7 +81,7 @@ class Api {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-			credentials: 'include',
+			// credentials: 'include',
     }).then((res) => this._checkStatus(res));
   };
 
@@ -93,7 +93,7 @@ class Api {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-			credentials: 'include',
+			// credentials: 'include',
       body: JSON.stringify({
         name: data.name,
         about: data.about,
@@ -112,7 +112,7 @@ class Api {
       body: JSON.stringify({
         avatar: item.avatar,
       }),
-			credentials: 'include',
+			// credentials: 'include',
     }).then((res) => this._checkStatus(res));
   };
 }
