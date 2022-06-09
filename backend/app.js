@@ -15,25 +15,22 @@ const { cards } = require('./routes/cards');
 const NotFoundDataError = require('./errors/NotFoundDataError');
 
 const app = express();
-app.use(cors({
-  origin: ['http://localhost:3000/', 'https://renat.domains.nomoredomains.sbs'],
-  // credentials: true,
-}));
-// const accessCors = [
-//   'https://api.renat1987.nomoredomains.xyz',
-//   'http://api.renat1987.nomoredomains.xyz',
-//   'http://localhost:3001',
-//   'https://localhost:3001',
-// ];
 
-// const CORS_CONFIG = {
-//   origin: accessCors,
-//   method: ['GET,HEAD,PUT,PATCH,POST,DELETE'],
-//   preflightContinue: false,
-//   optionsSuccessStatus: 200,
-//   credentials: true,
-// };
-// app.use(cors(CORS_CONFIG));
+const accessCors = [
+  'https://api.renat1987.nomoredomains.xyz',
+  'http://api.renat1987.nomoredomains.xyz',
+  'http://localhost:3001',
+  'https://localhost:3001',
+];
+
+const CORS_CONFIG = {
+  origin: accessCors,
+  method: ['GET,HEAD,PUT,PATCH,POST,DELETE'],
+  preflightContinue: false,
+  optionsSuccessStatus: 200,
+  credentials: true,
+};
+app.use(cors(CORS_CONFIG));
 
 async function main() {
   await mongoose.connect('mongodb://localhost:27017/mestodb', {
@@ -51,6 +48,13 @@ async function main() {
 
   app.use(requestLogger); // подключаем логгер запросов
 
+  app.post('/signin', celebrate({
+    body: Joi.object().keys({
+      email: Joi.string().required().email(),
+      password: Joi.string().required(),
+    }),
+  }), login);
+
   app.post('/signup', celebrate({
     body: Joi.object().keys({
       email: Joi.string().required().email(),
@@ -60,13 +64,6 @@ async function main() {
       avatar: Joi.string().regex(/(http|https):\/\/(www)?\.?([A-Za-z0-9.-]+)\.([A-z]{2,})((?:\/[+~%/.\w-_]*)?\??(?:[-=&;%@.\w_]*)#?(?:[\w]*))?/),
     }),
   }), createUser);
-
-  app.post('/signin', celebrate({
-    body: Joi.object().keys({
-      email: Joi.string().required().email(),
-      password: Joi.string().required(),
-    }),
-  }), login);
 
   app.get('/signout', (req, res) => {
     res.status(200).clearCookie('jwt', {

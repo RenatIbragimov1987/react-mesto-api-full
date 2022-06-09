@@ -18,7 +18,7 @@ class Auth {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-			// credentials: 'include',
+			credentials: 'include',
       body: JSON.stringify({email, password}),
     }).then(this._checkResponse);
   };
@@ -30,7 +30,7 @@ class Auth {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-			// credentials: 'include',
+			credentials: 'include',
       body: JSON.stringify({email, password}),
     }).then(this._checkResponse);
   };
@@ -42,7 +42,7 @@ class Auth {
             Accept: "application/json",
             "Content-Type": "application/json",
         },
-        // credentials: 'include',
+        credentials: 'include',
     }).then(this._checkResponse);
 	};
 
@@ -53,7 +53,7 @@ class Auth {
             Accept: "application/json",
             "Content-Type": "application/json",
         },
-        // credentials: 'include',
+        credentials: 'include',
     }).then(this._checkResponse);
 	};
 
@@ -65,7 +65,7 @@ class Auth {
         "Content-Type": "application/json",
         Authorization: `Bearer ${this._backendUrl}`,
       },
-			// credentials: 'include',
+			credentials: 'include',
     }).then(this._checkResponse);
   };
 }
