@@ -19,7 +19,7 @@ const app = express();
 const accessCors = [
   'https://renat.domains.nomoredomains.sbs',
   'http://renat.domains.nomoredomains.sbs',
-  'http://localhost:3001',
+  'http://localhost:3000',
   // 'https://localhost:3001',
 ];
 
