@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 
 require('dotenv').config();
 
-const { PORT = 3000 } = process.env;
+const { PORT = 5000 } = process.env;
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const { errors, celebrate, Joi } = require('celebrate');
@@ -40,9 +40,9 @@ async function main() {
 
   app.use(cookieParser());
 
-  // app.get('/', (req, res) => {
-  //   res.send(req.body);
-  // });
+  app.get('/', (req, res) => {
+    res.send(req.body);
+  });
 
   app.use(express.json());
 
