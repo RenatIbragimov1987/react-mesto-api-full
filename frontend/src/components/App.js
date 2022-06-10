@@ -281,7 +281,7 @@ function App() {
 		setIsRequestLoading(true);
 		auth.userRegistration(email, password)
 				.then((data) => {
-						checkRes(data)
+					  authData(data)
 						history.replace({pathname: '/sign-in'})
 						setIsInfoToolTip({
 							open: true,

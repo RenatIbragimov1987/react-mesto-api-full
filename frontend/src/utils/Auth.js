@@ -15,7 +15,7 @@ export const userRegistration = (email, password) => {
       password
     }),
   })
-    .then(isResOk)
+    .then(checkResponse)
 }
 
 export const userAuthorization = (email, password) => {
@@ -27,7 +27,7 @@ export const userAuthorization = (email, password) => {
     },
     body: JSON.stringify({email, password})
   })
-    .then(isResOk)
+    .then(checkResponse)
 }
 
 export const getContent = (token) => {
