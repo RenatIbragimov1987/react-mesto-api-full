@@ -30,7 +30,7 @@ module.exports = async (req, res, next) => {
   let payload;
 
   try {
-    payload = jwt.verify(token, REACT_APP_NODE_ENV === 'production' ? REACT_APP_JWT_SECRET : 'some-secret-key');
+    payload = jwt.verify(token, REACT_APP_NODE_ENV === 'production' ? REACT_APP_JWT_SECRET : 'efed42a609a1be1e1ba62ba374dd21e324364d309a998156a2bee646bd541cc0');
     req.userId = jwt.decode(token).id;
   } catch (err) {
     next(new UnauthorizedError('Необходима авторизация'));
