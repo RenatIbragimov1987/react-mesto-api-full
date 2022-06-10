@@ -1,33 +1,21 @@
 import React from "react";
-// import React, {useState} from 'react';
 
 function Register({ registration }) {
-  // const [email, setEmail] = React.useState("");
-  // const [password, setPassword] = React.useState("");
-	const [data, setData] = React.useState({
-		email: "",
-		password: ""
-});
+  const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
 
-
-  function handleChange(e) {
-    const {name, value} = e.target;
-        setData({
-            ...data,
-            [name]: value,
-        });
+  function handleChangeEmail(evt) {
+    setEmail(evt.target.value);
   }
 
   function handleSubmit(evt) {
     evt.preventDefault();
-		const {email, password} = data;
     registration(email, password);
-		setData({ email: '', password: '' });
   }
 
-  // function handleChangePassword(evt) {
-  //   setPassword(evt.target.value);
-  // }
+  function handleChangePassword(evt) {
+    setPassword(evt.target.value);
+  }
 
   return (
     <>
@@ -36,24 +24,22 @@ function Register({ registration }) {
           <h1 className="popup__title-register">Регистрация</h1>
           <label className="popup__form-wrapper">
             <input
-              value={data.email}
+              value={email}
               name="email"
               type="email"
               placeholder="Email"
-							id="email"
-              onChange={handleChange}
+              onChange={handleChangeEmail}
               required
               className="popup__field-register"
             ></input>
           </label>
           <label className="popup__form-wrapper">
             <input
-              value={data.password}
+              value={password}
               name="password"
               type="password"
-							id="password"
               placeholder="Пароль"
-              onChange={handleChange}
+              onChange={handleChangePassword}
               required
               className="popup__field-register"
             ></input>
@@ -62,7 +48,7 @@ function Register({ registration }) {
             <button
               className="popup__submit-button popup__submit-button_register"
               type="submit"
-              // onSubmit={handleSubmit}
+              onSubmit={handleSubmit}
             >
               Зарегистрироваться
             </button>
