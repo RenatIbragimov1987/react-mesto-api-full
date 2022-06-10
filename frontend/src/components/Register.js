@@ -1,21 +1,32 @@
 import React from "react";
 
 function Register({ registration }) {
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
+  // const [email, setEmail] = React.useState("");
+  // const [password, setPassword] = React.useState("");
+	const [data, setData] = useState({
+		email: "",
+		password: ""
+});
 
-  function handleChangeEmail(evt) {
-    setEmail(evt.target.value);
+
+  function handleChange(e) {
+    const {name, value} = e.target;
+        setData({
+            ...data,
+            [name]: value,
+        });
   }
 
   function handleSubmit(evt) {
     evt.preventDefault();
+		const {email, password} = data;
     registration(email, password);
+		setData({ email: '', password: '' });
   }
 
-  function handleChangePassword(evt) {
-    setPassword(evt.target.value);
-  }
+  // function handleChangePassword(evt) {
+  //   setPassword(evt.target.value);
+  // }
 
   return (
     <>
@@ -24,22 +35,22 @@ function Register({ registration }) {
           <h1 className="popup__title-register">Регистрация</h1>
           <label className="popup__form-wrapper">
             <input
-              value={email}
+              value={data.email}
               name="email"
               type="email"
               placeholder="Email"
-              onChange={handleChangeEmail}
+              onChange={handleChange}
               required
               className="popup__field-register"
             ></input>
           </label>
           <label className="popup__form-wrapper">
             <input
-              value={password}
+              value={data.password}
               name="password"
               type="password"
               placeholder="Пароль"
-              onChange={handleChangePassword}
+              onChange={handleChange}
               required
               className="popup__field-register"
             ></input>
