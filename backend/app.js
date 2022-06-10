@@ -16,7 +16,7 @@ const NotFoundDataError = require('./errors/NotFoundDataError');
 
 const app = express();
 app.use(cors({
-  origin: ['http://localhost:3000/', 'https://renat.domains.nomoredomains.sbs'],
+  origin: ['http://localhost:3000', 'https://renat.domains.nomoredomains.sbs'],
   // credentials: true,
 }));
 // const accessCors = [
