@@ -1,51 +1,66 @@
-class Auth {
-  constructor({ address }) {
-    this._backendUrl = address;
+import BASE_URL from "./utils";
+
+export const checkResponse = (res) => {
+  if (res.ok) {
+    return res.json();
   }
+  return Promise.reject(`Error: ${res.status}`);
+};
 
-  _checkResponse = (res) => {
-    if (res.ok) {
-      return res.json();
-    }
-    return Promise.reject(`Error: ${res.status}`);
-  };
+export const userRegistration = (email, password) => {
+  return fetch(`${BASE_URL}/signup`, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    credentials: "include",
+    body: JSON.stringify({ email, password }),
+  }).then(checkResponse);
+};
 
-  userRegistration = (password, email) => {
-    return fetch(`${this._backendUrl}/signup`, {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ password, email }),
-    }).then(this._checkResponse);
-  };
+export const userAuthorization = (email, password) => {
+  return fetch(`${BASE_URL}/signin`, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    credentials: "include",
+    body: JSON.stringify({ email, password }),
+  }).then(checkResponse);
+};
 
-  userAuthorization = (password, email) => {
-    return fetch(`${this._backendUrl}/signin`, {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ password, email }),
-    }).then(this._checkResponse);
-  };
+export const signout = () => {
+  return fetch(`${BASE_URL}/signout`, {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    credentials: "include",
+  }).then(checkResponse);
+};
 
-  userToken = (token) => {
-    return fetch(`${this._backendUrl}/users/me`, {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    }).then(this._checkResponse);
-  };
-}
+export const getContent = () => {
+  return fetch(`${BASE_URL}/users/me`, {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    credentials: "include",
+  }).then(checkResponse);
+};
 
-const auth = new Auth({
-  address: "https://auth.nomoreparties.co",
-});
-
-export default auth;
+// userToken = (token) => {
+//   return fetch(`${this._backendUrl}/users/me`, {
+//     method: "GET",
+//     headers: {
+//       Accept: "application/json",
+//       "Content-Type": "application/json",
+//       Authorization: `Bearer ${this._backendUrl}`,
+//     },
+// 		credentials: 'include',
+//   }).then(this._checkResponse);
+// };

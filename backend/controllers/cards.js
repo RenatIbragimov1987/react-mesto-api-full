@@ -5,7 +5,7 @@ const DeleteDataError = require('../errors/DeleteDataError');
 
 const getCard = async (req, res, next) => {
   try {
-    const cards = await Card.find({}).populate('owner').exec();
+    const cards = await Card.find({}).populate((['owner', 'likes'])).exec();
     res.status(200).send(cards);
   } catch (err) {
     next(err);
@@ -17,7 +17,9 @@ const createCard = async (req, res, next) => {
     const owner = req.userId;
     const { name, link } = req.body;
     const card = new Card({ name, link, owner });
-    res.status(201).send(await card.save());
+    await card.save();
+    await card.populate('owner');
+    res.status(201).send(card);
   } catch (err) {
     if (err.name === 'ValidationError') {
       next(new BadRequestError('Произошла ошибка. Поля должны быть заполнены'));
@@ -57,7 +59,7 @@ const likeCard = async (req, res, next) => {
       req.params.cardId,
       { $addToSet: { likes: req.userId } },
       { new: true },
-    );
+    ).populate(['owner', 'likes']);
     if (!like) {
       next(new NotFoundDataError('Нет карточки с этим id'));
       return;
@@ -78,7 +80,7 @@ const dislikeCard = async (req, res, next) => {
       req.params.cardId,
       { $pull: { likes: req.userId } },
       { new: true },
-    );
+    ).populate(['owner', 'likes']);
     if (!like) {
       next(new NotFoundDataError('Нет карточки с этим id'));
       return;
