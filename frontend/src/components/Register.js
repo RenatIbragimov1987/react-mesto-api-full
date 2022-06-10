@@ -40,6 +40,7 @@ function Register({ registration }) {
               name="email"
               type="email"
               placeholder="Email"
+							id="email"
               onChange={handleChange}
               required
               className="popup__field-register"
@@ -50,6 +51,7 @@ function Register({ registration }) {
               value={data.password}
               name="password"
               type="password"
+							id="password"
               placeholder="Пароль"
               onChange={handleChange}
               required
@@ -60,7 +62,7 @@ function Register({ registration }) {
             <button
               className="popup__submit-button popup__submit-button_register"
               type="submit"
-              onSubmit={handleSubmit}
+              // onSubmit={handleSubmit}
             >
               Зарегистрироваться
             </button>
