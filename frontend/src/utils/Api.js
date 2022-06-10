@@ -93,11 +93,11 @@ class Api {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-			credentials: 'include',
       body: JSON.stringify({
         name: data.name,
         about: data.about,
       }),
+			credentials: 'include',
     }).then((res) => this._checkStatus(res));
   };
 

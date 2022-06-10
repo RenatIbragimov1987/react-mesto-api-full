@@ -1,6 +1,6 @@
 import BASE_URL from "./utils";
 
-export const checkResponse = (res) => {
+const checkResponse = (res) => {
   if (res.ok) {
     return res.json();
   }
@@ -14,8 +14,8 @@ export const userRegistration = (email, password) => {
       Accept: "application/json",
       "Content-Type": "application/json",
     },
-    credentials: "include",
-    body: JSON.stringify({ email, password }),
+    credentials: 'include',
+    body: JSON.stringify({email, password}),
   }).then(checkResponse);
 };
 
@@ -26,8 +26,8 @@ export const userAuthorization = (email, password) => {
       Accept: "application/json",
       "Content-Type": "application/json",
     },
-    credentials: "include",
-    body: JSON.stringify({ email, password }),
+    credentials: 'include',
+    body: JSON.stringify({email, password}),
   }).then(checkResponse);
 };
 
@@ -38,7 +38,7 @@ export const signout = () => {
       Accept: "application/json",
       "Content-Type": "application/json",
     },
-    credentials: "include",
+    credentials: 'include',
   }).then(checkResponse);
 };
 
@@ -49,7 +49,7 @@ export const getContent = () => {
       Accept: "application/json",
       "Content-Type": "application/json",
     },
-    credentials: "include",
+    credentials: 'include',
   }).then(checkResponse);
 };
 
