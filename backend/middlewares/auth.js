@@ -1,22 +1,42 @@
+const { REACT_APP_JWT_SECRET = 'strong-secret-key' } = process.env;
 const jwt = require('jsonwebtoken');
-
-const { REACT_APP_NODE_ENV, REACT_APP_JWT_SECRET } = process.env;
 const UnauthorizedError = require('../errors/UnauthorizedError');
 
-module.exports = async (req, res, next) => {
-  const token = req.cookies.jwt;
+module.exports = (req, res, next) => {
+  const { authorization } = req.headers;
+  if (!authorization || !authorization.startsWith('Bearer ')) {
+    throw new UnauthorizedError('Необходима авторизация');
+  }
+
+  const token = authorization.replace('Bearer ', '');
   let payload;
 
   try {
-    payload = jwt.verify(token, REACT_APP_NODE_ENV === 'production' ? REACT_APP_JWT_SECRET : 'efed42a609a1be1e1ba62ba374dd21e324364d309a998156a2bee646bd541cc0');
-    req.userId = jwt.decode(token).id;
+    payload = jwt.verify(token, REACT_APP_JWT_SECRET);
   } catch (err) {
     next(new UnauthorizedError('Необходима авторизация'));
-    return;
   }
-  req.user = payload; // записываем пейлоуд в объект запроса
-  next(); // пропускаем запрос дальше
+
+  req.user = payload;
+  next();
 };
+
+// const jwt = require('jsonwebtoken');
+// const { REACT_APP_NODE_ENV, REACT_APP_JWT_SECRET } = process.env;
+// const UnauthorizedError = require('../errors/UnauthorizedError');
+// module.exports = async (req, res, next) => {
+//   const token = req.cookies.jwt;
+//   let payload;
+//   try {
+//     payload = jwt.verify(token, REACT_APP_NODE_ENV === 'production' ? REACT_APP_JWT_SECRET : 'efed42a609a1be1e1ba62ba374dd21e324364d309a998156a2bee646bd541cc0');
+//     req.userId = jwt.decode(token).id;
+//   } catch (err) {
+//     next(new UnauthorizedError('Необходима авторизация'));
+//     return;
+//   }
+//   req.user = payload; // записываем пейлоуд в объект запроса
+//   next(); // пропускаем запрос дальше
+// };
 
 // const jwt = require('jsonwebtoken');
 // // const JWT_SECRET = require('../utils/jwt');
