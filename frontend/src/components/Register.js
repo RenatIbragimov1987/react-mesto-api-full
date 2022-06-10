@@ -10,7 +10,7 @@ function Register({ registration }) {
 
   function handleSubmit(evt) {
     evt.preventDefault();
-    registration(password, email);
+    registration(email, password);
   }
 
   function handleChangePassword(evt) {
