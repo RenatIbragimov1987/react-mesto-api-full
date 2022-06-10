@@ -1,9 +1,10 @@
 import React from "react";
+// import React, {useState} from 'react';
 
 function Register({ registration }) {
   // const [email, setEmail] = React.useState("");
   // const [password, setPassword] = React.useState("");
-	const [data, setData] = useState({
+	const [data, setData] = React.useState({
 		email: "",
 		password: ""
 });
