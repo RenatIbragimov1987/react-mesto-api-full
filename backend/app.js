@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 
 // require('dotenv').config();
 
-const { PORT = 4000 } = process.env;
+const { PORT = 3000 } = process.env;
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const { errors, celebrate, Joi } = require('celebrate');
@@ -19,7 +19,7 @@ const app = express();
 const accessCors = [
   'https://renat.domains.nomoredomains.sbs',
   'http://renat.domains.nomoredomains.sbs',
-  'http://localhost:3000',
+  'http://localhost:3001',
   // 'https://localhost:3001',
 ];
 
