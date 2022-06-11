@@ -20,20 +20,20 @@ const accessCors = [
   'https://renat.domains.nomoredomains.sbs',
   'http://renat.domains.nomoredomains.sbs',
   'http://localhost:3001',
-  'https://localhost:3001',
+  // 'https://localhost:3001',
 ];
 
-const CORS_CONFIG = {
+const options = {
   origin: accessCors,
   method: ['GET,HEAD,PUT,PATCH,POST,DELETE'],
   preflightContinue: false,
   optionsSuccessStatus: 200,
-  // credentials: true,
+  credentials: true,
 };
-app.use(cors(CORS_CONFIG));
+app.use(cors(options));
 
-
-  mongoose.connect('mongodb://localhost:27017/mestodb', {
+async function main() {
+  await mongoose.connect('mongodb://localhost:27017/mestodb', {
     useNewUrlParser: true,
     useUnifiedTopology: false,
   });
@@ -73,7 +73,7 @@ app.use(cors(CORS_CONFIG));
   //   }).send({ message: 'Выход' });
   // });
 
-  // app.use(isAuth);
+  app.use(isAuth);
 
   app.use('/', users);
   app.use('/', cards);
@@ -93,4 +93,6 @@ app.use(cors(CORS_CONFIG));
   app.listen(PORT, () => {
     console.log(`Слушаем ${PORT} порт`);
   });
+}
 
+main();

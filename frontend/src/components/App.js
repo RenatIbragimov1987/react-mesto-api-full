@@ -367,6 +367,9 @@ function App() {
           <Route path="/sign-up">
             <Register registration={registration} />
           </Route>
+					<Route>
+            {loggedIn ? <Redirect to="/"/> : <Redirect to="/sign-in"/>}
+          </Route>
         </Switch>
         <Footer />
         <EditProfilePopup
