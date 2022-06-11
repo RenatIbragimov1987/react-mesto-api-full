@@ -31,6 +31,7 @@ function App() {
   const [isSuccess, setIsSuccess] = useState(false);
   const [isInfoToolTip, setIsInfoToolTip] = useState(false);
 	// const [isLoading, setIsLoading] = useState(false);
+	const [isHeaderInfoOpened, setIsHeaderInfoOpened] = useState(false);
   const history = useHistory();
 	const [data, setData] = useState({
 		email: ""
@@ -314,12 +315,15 @@ function App() {
 
 
   //выход с сайта
-  // function handleExitWebsite() {
-  //   localStorage.removeItem("jwt");
-  //   setLoggedIn(false);
-  //   setEmail("");
-  //   history.push("/sign-in");
-  // }
+  function handleExitWebsite() {
+    
+    setData({
+			email: null
+		});
+    // setEmail("");
+    history.push("/sign-in");
+		setIsHeaderInfoOpened(false)
+  }
 
   // function handleToken() {
   //   if (localStorage.getItem("jwt")) {
