@@ -5,7 +5,7 @@ const DeleteDataError = require('../errors/DeleteDataError');
 
 const getCard = async (req, res, next) => {
   try {
-    const cards = await Card.find({}).populate('owner').exec();
+    const cards = await Card.find({}).populate((['owner', 'likes'])).exec();
     res.status(200).send(cards);
   } catch (err) {
     next(err);
@@ -78,7 +78,7 @@ const dislikeCard = async (req, res, next) => {
       req.params.cardId,
       { $pull: { likes: req.userId } },
       { new: true },
-    );
+    ).populate(['owner', 'likes']);
     if (!like) {
       next(new NotFoundDataError('Нет карточки с этим id'));
       return;
