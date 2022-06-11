@@ -17,21 +17,21 @@ const NotFoundDataError = require('./errors/NotFoundDataError');
 
 const app = express();
 
-const accessCors = [
-  'https://renat.domains.nomoredomains.sbs',
-  'http://renat.domains.nomoredomains.sbs',
-  'http://localhost:3001',
-];
+// const accessCors = [
+//   'https://renat.domains.nomoredomains.sbs',
+//   'http://renat.domains.nomoredomains.sbs',
+//   'http://localhost:3001',
+// ];
 
-const options = {
-  origin: accessCors,
-  method: ['GET,HEAD,PUT,PATCH,POST,DELETE'],
-  preflightContinue: false,
-  optionsSuccessStatus: 200,
-  credentials: true,
-};
+// const options = {
+//   origin: accessCors,
+//   method: ['GET,HEAD,PUT,PATCH,POST,DELETE'],
+//   preflightContinue: false,
+//   optionsSuccessStatus: 200,
+//   credentials: true,
+// };
 
-app.use(cors(options));
+app.use(cors());
 
 mongoose.connect('mongodb://localhost:27017/mestodb', {
   useNewUrlParser: true,
