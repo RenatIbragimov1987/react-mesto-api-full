@@ -35,13 +35,7 @@ function App() {
 	const [data, setData] = useState({
 		email: ""
   });
-	const checkRes = (data) => {
-		if (data) {
-				setData({
-						email: data.email
-				});
-		}
-  };
+
   //загрузка данных пользователя с сервера
   useEffect(() => {
     setIsRequestLoading(true);
@@ -195,6 +189,14 @@ function App() {
     setIsInfoToolTip(false);
   }
 
+	const checkRes = (data) => {
+		if (data) {
+				setData({
+						email: data.email
+				});
+		}
+  };
+
 	useEffect(() => {
     if (loggedIn) {
         auth.getContent()
@@ -347,8 +349,7 @@ function App() {
         <Header email={email} handleExitWebsite={handleExitWebsite} />
         <Switch>
           <ProtectedRoute
-            exact
-            path="/"
+            exact path="/"
             component={Main}
             loggedIn={loggedIn}
             onCardClick={handleCardClick}
@@ -360,12 +361,12 @@ function App() {
             cards={cards}
           />
 					<Route path="/sign-in">
-            <Login authorization={authorization}
+            <Login authorization={authorization()}
 						isRequestLoading={isRequestLoading}
 						/>
           </Route>
           <Route path="/sign-up">
-            <Register registration={registration} />
+            <Register registration={registration()} />
           </Route>
 					<Route>
             {loggedIn ? <Redirect to="/"/> : <Redirect to="/sign-in"/>}
