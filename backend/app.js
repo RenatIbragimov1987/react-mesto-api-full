@@ -3,24 +3,27 @@ const mongoose = require('mongoose');
 
 require('dotenv').config();
 
-const { PORT = 3000 } = process.env;
+const { PORT = 3000 } = process.env; // Слушаем 3000 порт
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
-const { errors, celebrate, Joi } = require('celebrate');
-const isAuth = require('./middlewares/auth');
+const helmet = require('helmet');
+const { errors } = require('celebrate');
+const auth = require('./middlewares/auth');
+const handleError = require('./middlewares/handleError');
 const { login, createUser } = require('./controllers/users');
-const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { users } = require('./routes/users');
 const { cards } = require('./routes/cards');
-const NotFoundDataError = require('./errors/NotFoundDataError');
+const { validateUser, validateLogin } = require('./validator/validator');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
+const NotFoundError = require('./errors/NotFoundError');
 
 const app = express();
 
+// Массив разрешенных кросс-доменных запросов
 const accessCors = [
   'https://renat.domains.nomoredomains.sbs',
   'http://renat.domains.nomoredomains.sbs',
   'http://localhost:3001',
-  // 'https://localhost:3001',
 ];
 
 const options = {
@@ -30,68 +33,70 @@ const options = {
   optionsSuccessStatus: 200,
   credentials: true,
 };
+
 app.use(cors(options));
 
+// подключаемся к серверу mongo
 async function main() {
   await mongoose.connect('mongodb://localhost:27017/mestodb', {
     useNewUrlParser: true,
     useUnifiedTopology: false,
   });
 
-  app.use(cookieParser());
+  app.use(helmet());
+
+  app.use(cookieParser()); // подключаем парсер кук как мидлвэр
 
   app.get('/', (req, res) => {
     res.send(req.body);
   });
 
+  // мидлвэр c методом express.json(),
+  // встроенный в express для распознавания входящего объекта запроса как объекта JSON.
   app.use(express.json());
 
-  app.use(requestLogger); // подключаем логгер запросов
+  // подключаем логгер запросов
+  // Логгер запросов нужно подключить до всех обработчиков роутов
+  app.use(requestLogger);
 
-  app.post('/signin', celebrate({
-    body: Joi.object().keys({
-      email: Joi.string().required().email(),
-      password: Joi.string().required(),
-    }),
-  }), login);
+  app.get('/crash-test', () => {
+    setTimeout(() => {
+      throw new Error('Сервер сейчас упадёт');
+    }, 0);
+  });
 
-  app.post('/signup', celebrate({
-    body: Joi.object().keys({
-      email: Joi.string().required().email(),
-      password: Joi.string().required(),
-      name: Joi.string().min(2).max(30),
-      about: Joi.string().min(2).max(30),
-      avatar: Joi.string().regex(/(http|https):\/\/(www)?\.?([A-Za-z0-9.-]+)\.([A-z]{2,})((?:\/[+~%/.\w-_]*)?\??(?:[-=&;%@.\w_]*)#?(?:[\w]*))?/),
-    }),
-  }), createUser);
+  app.post('/signin', validateLogin, login);
+  app.post('/signup', validateUser, createUser);
 
-  // app.get('/signout', (req, res) => {
-  //   res.status(200).clearCookie('jwt', {
-  //     httpOnly: true,
-  //     sameSite: 'none',
-  //     secure: true,
-  //   }).send({ message: 'Выход' });
-  // });
+  // Так как используется хранение токена в cookies
+  // добавляем роут signout, который очищает бы куки
+  app.get('/signout', (req, res) => {
+    res.status(200).clearCookie('jwt', {
+      httpOnly: true,
+      sameSite: 'none',
+      secure: true,
+    }).send({ message: 'Выход' });
+  });
 
-  app.use(isAuth);
-
+  app.use(auth); // защищаем все роуты ниже, нет доступа неавторизованным пользователям
   app.use('/', users);
   app.use('/', cards);
-  app.use((req, res, next) => {
-    next(new NotFoundDataError('Запрошен несуществующий маршрут'));
-    next();
-  });
-  app.use(errorLogger); // подключаем логгер ошибок
-  app.use(errors());
 
-  app.use((err, req, res, next) => {
-    const { statusCode = 500, message } = err;
-    res.status(statusCode).send({ message: statusCode === 500 ? 'На сервере произошла ошибка' : message });
-    next();
+  app.use(() => {
+    throw new NotFoundError('Ой! Такой страницы нет');
   });
+
+  // подключаем логгер ошибок
+  // нужно подключить после обработчиков роутов и до обработчиков ошибок
+  app.use(errorLogger);
+
+  app.use(errors()); // обработчик ошибок celebrate
+
+  app.use(handleError); // централизованная обработка ошибок
 
   app.listen(PORT, () => {
-    console.log(`Слушаем ${PORT} порт`);
+    // Если всё работает, консоль покажет, какой порт приложение слушает
+    console.log(`App listening on port ${PORT}`);
   });
 }
 

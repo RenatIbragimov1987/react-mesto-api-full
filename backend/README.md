@@ -1,28 +1,96 @@
-[![Tests](https://github.com/yandex-praktikum/express-mesto-gha/actions/workflows/tests-13-sprint.yml/badge.svg)](https://github.com/yandex-praktikum/express-mesto-gha/actions/workflows/tests-13-sprint.yml) [![Tests](https://github.com/yandex-praktikum/express-mesto-gha/actions/workflows/tests-14-sprint.yml/badge.svg)](https://github.com/yandex-praktikum/express-mesto-gha/actions/workflows/tests-14-sprint.yml)
-# Проект Mesto фронтенд + бэкенд
+[![Tests](https://github.com/airatmm/express-mesto-gha/actions/workflows/tests-13-sprint.yml/badge.svg)](https://github.com/airatmm/express-mesto-gha/actions/workflows/tests-13-sprint.yml) [![Tests](https://github.com/airatmm/express-mesto-gha/actions/workflows/tests-14-sprint.yml/badge.svg)](https://github.com/airatmm/express-mesto-gha/actions/workflows/tests-14-sprint.yml)
 
+# Проект Mesto фронтенд + бэкенд (#13, #14)
 
+## Стек
 
-## Настройка бейджей статуса тестов
-Перед началом работы над проектом рекомендуется исправить бейджи, отражающие статус прохождения тестов.
-Для этого замените разметку бейджей на следующий фрагмент, подставив вместо `${имя_пользователя}` и `${имя_репозитория}` соответствующие значения.
-
-```
-[![Tests for sprint 13](https://github.com/${имя_пользователя}/${имя репозитория}/actions/workflows/tests-13-sprint.yml/badge.svg)](https://github.com/${имя_пользователя}/${имя репозитория}/actions/workflows/tests-13-sprint.yml) 
-
-[![Tests for sprint 14](https://github.com/${имя_пользователя}/${имя репозитория}/actions/workflows/tests-14-sprint.yml/badge.svg)](https://github.com/${имя_пользователя}/${имя репозитория}/actions/workflows/tests-14-sprint.yml)
-```
-[express-mesto-gha.com](http://git@github.com:RenatIbragimov1987/express-mesto-gha.git)
+* Node.js
+* Express
+* MongoDB
 
 ## Директории
 
-`/routes` — папка с файлами роутера  
-`/controllers` — папка с файлами контроллеров пользователя и карточки   
-`/models` — папка с файлами описания схем пользователя и карточки  
-  
-Остальные директории вспомогательные, создаются при необходимости разработчиком
+* `/routes` — папка с файлами роутера  
+* `/controllers` — папка с файлами контроллеров пользователя и карточки   
+* `/routes` — папка с файлами роутера
+* `/controllers` — папка с файлами контроллеров пользователя и карточки
+* `/routes` — папка с файлами роутера
+* `/controllers` — папка с файлами контроллеров пользователя и карточки
+* `/models` — папка с файлами описания схем пользователя и карточки
 
-## Запуск проекта
+> upd sprint#14
 
-`npm run start` — запускает сервер   
-`npm run dev` — запускает сервер с hot-reload
+* `/errors` — папка с модулями ошибок
+* `/middlewares` — папка с мидлвэрами
+>
+
+## Запуск проекта локально
+
+1. Клонировать проект
+2. Установить зависимости
+```
+npm i
+```
+3. Запустить проект
+```
+npm start
+```
+Проект запустится по адресу http://localhost:3000/
+
+## Схемы, модели, контроллеры, роуты, ошибки
+Поля схемы пользователя:
+
+- name — имя пользователя, строка от 2 до 30 символов, обязательное поле;
+- about — информация о пользователе, строка от 2 до 30 символов, обязательное поле;
+- avatar — ссылка на аватарку, строка, обязательное поле. В следующем спринте вы напишите собственное решение для валидации этого поля.
+
+> upd sprint#14 (user). Регистрация и авторизация пользователя
+- email - почка пользователям
+- password - пароль пользователя
+
+Создан мидлвэр для авторизации который верифицирует токен и добавляет пейлоуд токена в объект запроса. При попытке неавторизованного пользователя обратиться к защищённому маршруту выдается ошибка. Реализована централизованная обработка ошибок.
+>
+
+Поля схемы карточки:
+
+- name — имя карточки, строка от 2 до 30 символов, обязательное поле;
+- link — ссылка на картинку, строка, обязательно поле.
+- owner — ссылка на модель автора карточки, тип ObjectId, обязательное поле;
+- likes — список лайкнувших пост пользователей, массив ObjectId, по умолчанию — пустой массив (поле default);
+- createdAt — дата создания, тип Date, значение по умолчанию Date.now.
+
+Созданы контроллеры и роуты для пользователей
+
+- GET /users — возвращает всех пользователей
+- GET /users/:userId — возвращает пользователя по \_id
+- POST /users — создаёт пользователя
+- PATCH /users/me — обновляет профиль
+- PATCH /users/me/avatar — обновляет аватар
+
+> upd sprint#14
+- POST /signin — авторизация
+- POST /signup — регистрация
+- GET /users/me — возвращает информацию о текущем пользователе
+>
+Созданы контроллеры и роуты для карточек
+
+- GET /cards — возвращает все карточки
+- POST /cards — создаёт карточку
+- DELETE /cards/:cardId — удаляет карточку по идентификатору
+- PUT /cards/:cardId/likes — поставить лайк карточке
+- DELETE /cards/:cardId/likes — убрать лайк с карточки
+
+Реализована обработка ошибок
+
+- 400 — переданы некорректные данные в методы создания карточки, пользователя, обновления аватара пользователя или профиля;
+- 404 — карточка или пользователь не найден.
+- 500 — ошибка по-умолчанию.
+
+>upd sprint#14
+
+Обработка ошибок при помощи модуля celebrate.
+
+Библиотека [celebrate](https://www.npmjs.com/package/celebrate) используется как мидлвэр express-а. [Joi](https://github.com/sideway/joi/tree/master) популярная библиотека для валидации данных.
+>
+
+https://github.com/airatmm/express-mesto-gha

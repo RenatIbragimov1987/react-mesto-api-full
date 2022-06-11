@@ -1,22 +1,22 @@
 import React from "react";
-import closeIcon from "../images/CloseIcon.svg";
 
-function ImagePopup({ card, onClose, name }) {
-  return (
-    <div className={`popup popup_${name} ${card && "popup_opened"}`}>
-      <div className="popup__container popup__container_type_image">
-        <button
-          type="button"
-          className="popup__close-icon popup__close-icon_img"
-          onClick={onClose}
-        >
-          <img src={closeIcon} className="popup__icon" alt="редактор" />
-        </button>
-        {card && <img className="popup__img" src={card.link} alt={card.name} />}
-        {card && <h2 className="popup__image-title">{card.name}</h2>}
-      </div>
-    </div>
-  );
+const ImagePopup = ({card, onClose}) => {
+
+    const handleCloseByClick = (evt) => {
+        if (evt.currentTarget === evt.target) {
+            onClose();
+        }
+    }
+
+    return (
+            <div onClick={handleCloseByClick} className={`popup popup_type_photo ${card && 'popup_opened'}`}>
+                <div className="popup__photo">
+                    <button className="popup__close popup__close_button" type="button" onClick={onClose} />
+                    {card && <img className="popup__photo-image" src={card.link} alt={card.name}/>}
+                    {card && <h3 className="popup__photo-title">{card.name}</h3>}
+                </div>
+            </div>
+    );
 }
 
 export default ImagePopup;

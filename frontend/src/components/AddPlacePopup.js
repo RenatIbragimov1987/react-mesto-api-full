@@ -1,73 +1,62 @@
-import "../utils/Api";
-import React, { useState, useEffect } from "react";
 import PopupWithForm from "./PopupWithForm";
+import {useEffect, useState} from "react";
 
-function AddPlacePopup(props) {
-  const [name, setName] = useState("");
-  const [link, setlink] = useState("");
+const AddPlacePopup = ({isOpen, onClose, onAddPlace, isLoading}) => {
+    const [name, setName] = useState('');
+    const [link, setLink] = useState('');
 
-  function handleChangeName(e) {
-    setName(e.target.value);
-  }
-  function handleChangeLink(e) {
-    setlink(e.target.value);
-  }
 
-  function handleSubmit(evt) {
-    evt.preventDefault();
-    props.onAddPlace({
-      name,
-      link,
-    });
-  }
+    const handleNameChange = (evt) => {
+        setName(evt.target.value);
+    }
 
-  useEffect(() => {
-    setName("");
-    setlink("");
-  }, [props.isOpen]);
+    const handleLinkChange = (evt) => {
+        setLink(evt.target.value);
+    }
 
-  return (
-    <PopupWithForm
-      name="form_add"
-      title="Новое место"
-      buttonText="Создать"
-      isOpen={props.isOpen}
-      onClose={props.onClose}
-      onSubmit={handleSubmit}
-			isRequestLoading={props.isRequestLoading}
-    >
-      <label className="popup__form-wrapper">
-        <input
-          onChange={handleChangeName}
-          value={name}
-          id="popup-title-field"
-          placeholder="Название"
-          type="text"
-          className="popup__field popup__field_title"
-          name="form-title"
-          required
-          minLength="2"
-          maxLength="30"
-          autoComplete="off"
-        />
-        <span className="popup-title-field-error popup__input-error popup__input-error_active" />
-      </label>
-      <label className="popup__form-wrapper">
-        <input
-          onChange={handleChangeLink}
-          value={link}
-          id="popup-address-field"
-          placeholder="Ссылка на картинку"
-          type="url"
-          className="popup__field popup__field_subtitle"
-          name="form-subtitle"
-          required
-          autoComplete="off"
-        />
-        <span className="popup-address-field-error popup__input-error popup__input-error_active" />
-      </label>
-    </PopupWithForm>
-  );
+    const handleSubmit = (evt) => {
+        evt.preventDefault();
+        onAddPlace({
+            name,
+            link
+        });
+    }
+// очищение инпутов, но почему-то не работает, жду ответа в слаке
+    useEffect(() => {
+        setName('');
+        setLink('');
+    }, [isOpen]);
+
+    return (
+        <PopupWithForm
+            name="card"
+            title="Новое место"
+            buttonText="Создать"
+            isOpen={isOpen}
+            onClose={onClose}
+            onSubmit={handleSubmit}
+            isLoading={isLoading}
+        >
+            <input onChange={handleNameChange}
+                   value={name}
+                   id="cardtitle"
+                   placeholder="Название"
+                   type="text"
+                   className="popup__input popup__input_card_name"
+                   name="name"
+                   required minLength="2"
+                   maxLength="30"/>
+            <span className="popup__error cardtitle-error"/>
+            <input onChange={handleLinkChange}
+                   value={link} id="cardurl"
+                   placeholder="Ссылка на картинку"
+                   type="url"
+                   className="popup__input popup__input_card_url"
+                   name="link"
+                   required/>
+            <span className="popup__error cardurl-error"/>
+        </PopupWithForm>
+    )
 }
 
 export default AddPlacePopup;

@@ -1,78 +1,50 @@
-import React, { useContext } from "react";
-import "../utils/Api";
-import profilePencil from "../images/VectorEdditButton.svg";
-import profileButtonPlus from "../images/Vectorbutton.svg";
-import { CurrentUserContext } from "../contexts/CurrentUserContext";
-import Card from "./Card";
+import React, {useContext} from 'react';
+import {CurrentUserContext} from '../contexts/CurrentUserContext';
+import Card from './Card';
 
-function Main(props) {
-  const currentUser = useContext(CurrentUserContext);
+const Main = (
+    {
+        cards,
+        onEditAvatar,
+        onEditProfile,
+        onAddPlace,
+        onCardClick,
+        onCardLike,
+        onCardDeleteClick
+    }
+) => {
+    const currentUser = useContext(CurrentUserContext);
 
-  return (
-    <main className="content">
-      <section className="profile page__profile">
-        <div className="profile__container">
-          <div className="profile__avatar-container">
-            {currentUser.avatar && (
-              <img
-                className="profile__avatar"
-                name="avatar"
-                src={currentUser.avatar}
-                alt="аватар"
-              />
-            )}
-            <div className="profile__button-background">
-              <button
-                type="button"
-                className="profile__edit-avatar"
-                onClick={props.onEditAvatar}
-                aria-label="Редактировать аватар"
-              ></button>
-            </div>
-          </div>
-          <div className="profile__profile-info">
-            <div className="profile__name-info">
-              <h1 className="profile__title">{currentUser.name}</h1>
-              <button
-                className="profile__edit-button"
-                onClick={props.onEditProfile}
-                type="button"
-              >
-                <img
-                  className="profile__pencil"
-                  src={profilePencil}
-                  alt="Редактировать профиль"
-                />
-              </button>
-            </div>
-            <p className="profile__paragraph">{currentUser.about}</p>
-          </div>
-        </div>
-        <button
-          className="profile__button-add"
-          onClick={props.onAddPlace}
-          type="button"
-        >
-          <img
-            className="profile__plus"
-            src={profileButtonPlus}
-            alt="Добавить место"
-          />
-        </button>
-      </section>
-      <ul className="elements page__elements">
-        {props.cards.map((card) => (
-          <Card
-            card={card}
-            key={card._id}
-            onCardDelete={props.onCardDelete}
-            onCardLike={props.onCardLike}
-            onCardClick={props.onCardClick}
-          />
-        ))}
-      </ul>
-    </main>
-  );
+    return (
+        <main className="main">
+            <section className="profile">
+                <div className="profile__avatar" onClick={onEditAvatar}>
+                    {currentUser.avatar && <img className="profile__image" src={currentUser.avatar} alt="Аватар"/>}
+                </div>
+                <div className="profile__info">
+                    <h1 className="profile__title">{currentUser.name}</h1>
+                    <button className="button profile__button profile__button_action_edit" type="button"
+                            onClick={onEditProfile}/>
+                    <p className="profile__description">{currentUser.about}</p>
+                </div>
+                <button className="button profile__button profile__button_action_add" type="button"
+                        onClick={onAddPlace}/>
+            </section>
+            <section className="cards">
+                <ul className="cards__list">
+                    {cards.map((card) => (
+                        <Card
+                            key={card._id}
+                            card={card}
+                            onCardClick={onCardClick}
+                            onCardLike={onCardLike}
+                            onCardDeleteClick={onCardDeleteClick}
+                        />
+                    ))}
+                </ul>
+            </section>
+        </main>
+    );
 }
 
 export default Main;

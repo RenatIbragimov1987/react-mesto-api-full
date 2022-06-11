@@ -1,20 +1,17 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import { BrowserRouter } from 'react-router-dom';
-import "./index.css";
-import App from "./components/App";
-import reportWebVitals from "./reportWebVitals";
-// import * as serviceWorker from './serviceWorker';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import './index.css';
+import './vendor/normalize.css';
+import App from './components/App';
+import reportWebVitals from './reportWebVitals';
+import {BrowserRouter} from "react-router-dom";
 
 ReactDOM.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+      <BrowserRouter>
+          <App/>
+      </BrowserRouter>
   </React.StrictMode>,
-  document.getElementById("root")
+  document.querySelector('.page')
 );
-
-
 reportWebVitals();
-// serviceWorker.

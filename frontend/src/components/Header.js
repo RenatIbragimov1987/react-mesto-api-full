@@ -1,26 +1,27 @@
-// import React from "react";
-import { Switch, Route, Link } from 'react-router-dom'
+import React from 'react';
+import {Link, useLocation/*, Route, Switch*/} from 'react-router-dom';
+import logo from '../images/logo.svg';
+import HeaderInfo from "./HeaderInfo";
+import Hamburger from "./Hamburger";
 
-function Header({email, handleExitWebsite}) {
-  return (
-    <header className="header page__header">
-      <a href="#" className="header__logo"></a>
-			<Switch>
-        <Route path="/sign-in">
-          <Link to="/sign-up" className="header__come">Регистрация</Link>
-        </Route>
-        <Route path="/sign-up">
-          <Link to="/sign-in" className="header__come">Войти</Link>
-        </Route>
-        <Route exact path="/">
-          <div className="header__access">
-            <p className="header__address">{email}</p>
-            <button className="header__log-off" onClick={handleExitWebsite}>Выйти</button>
-          </div>
-        </Route>
-      </Switch>
-    </header>
-  );
+const Header = ({ email, onSignOut, loggedIn,  isHeaderInfoOpened, onHamburgerClick}) => {
+    const {pathname} = useLocation();
+    const linkText = `${pathname === '/sign-in' ? 'Регистрация' : 'Войти'}`;
+    const linkPath = `${pathname === '/sign-in' ? 'sign-up' : 'sign-in'}`;
+
+    return (
+        <header className="header">
+            <div className="header__content">
+                <img className="header__logo" src={logo} alt="Логотип"/>
+                {loggedIn ?
+                    <>
+                        <HeaderInfo email={email} onSignOut={onSignOut} />
+                        <Hamburger isHeaderInfoOpened={isHeaderInfoOpened} onHamburgerClick={onHamburgerClick}/>
+                    </>
+                    : <Link to={linkPath} className="link header__link">{linkText}</Link>}
+            </div>
+        </header>
+    );
 }
 
 export default Header;

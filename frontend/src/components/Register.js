@@ -1,68 +1,75 @@
-import React from "react";
+import React, {useState} from 'react';
+import {Link} from 'react-router-dom';
 
-function Register({ registration }) {
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
+const Register = ({ onRegister, isLoading }) => {
+    const [data, setData] = useState({
+        email: "",
+        password: ""
+    });
 
-  function handleChangeEmail(evt) {
-    setEmail(evt.target.value);
-  }
+    const handleChange = (e) => {
+        const {name, value} = e.target;
 
-  function handleSubmit(evt) {
-    evt.preventDefault();
-    registration(email, password);
-  }
+        setData({
+            ...data,
+            [name]: value,
+        });
+    };
 
-  function handleChangePassword(evt) {
-    setPassword(evt.target.value);
-  }
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const {email, password} = data;
+        onRegister(email, password);
+        setData({ email: '', password: '' });
 
-  return (
-    <>
-      <form onSubmit={handleSubmit} className="popup__form">
-        <fieldset className="popup__set">
-          <h1 className="popup__title-register">Регистрация</h1>
-          <label className="popup__form-wrapper">
-            <input
-              value={email}
-              name="email"
-              type="email"
-              placeholder="Email"
-              onChange={handleChangeEmail}
-              required
-              className="popup__field-register"
-            ></input>
-          </label>
-          <label className="popup__form-wrapper">
-            <input
-              value={password}
-              name="password"
-              type="password"
-              placeholder="Пароль"
-              onChange={handleChangePassword}
-              required
-              className="popup__field-register"
-            ></input>
-          </label>
-          <div className="popup__submit-register">
-            <button
-              className="popup__submit-button popup__submit-button_register"
-              type="submit"
-              onSubmit={handleSubmit}
-            >
-              Зарегистрироваться
-            </button>
-            <p className="popup__question-register">
-              Уже зарегистрированы? &nbsp;
-              <a href="#" className="popup__question-register-link">
-                Войти
-              </a>
+    }
+
+    return (
+        <div className="login">
+            <p className="login__welcome">
+                Регистрация
             </p>
-          </div>
-        </fieldset>
-      </form>
-    </>
-  );
+            <form onSubmit={handleSubmit} className="login__form">
+                <label htmlFor="username"/>
+                <input
+                    className="login__input"
+                    placeholder="Email"
+                    required
+                    id="email"
+                    name="email"
+                    type="text"
+                    value={data.email}
+                    onChange={handleChange}
+                />
+                <label htmlFor="password"/>
+                <input
+                    className="login__input"
+                    placeholder="Пароль"
+                    required
+                    id="password"
+                    name="password"
+                    type="password"
+                    value={data.password}
+                    onChange={handleChange}
+                />
+                    <button
+                        type="submit"
+                        className="login__button">
+                        {isLoading ? 'Регистрация...' : 'Зарегистрироваться'}
+                    </button>
+            </form>
+            <div className="login__signup">
+                <p className="login__text">
+                    Уже зарегистрированы?&nbsp;
+                    <Link
+                        to="/sign-in"
+                        className="login__link">
+                        Войти
+                    </Link>
+                </p>
+            </div>
+        </div>
+    )
 }
 
 export default Register;

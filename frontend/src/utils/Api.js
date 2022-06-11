@@ -1,124 +1,117 @@
 import BASE_URL from './utils';
+
 class Api {
-  constructor({ address }) {
-    this._address = address;
-  }
+	constructor({ address }) {
+		this._address = address;
+	}
 
-  //возвращаем результат работы метода
-  _checkStatus = (res) => {
-    if (res.ok) {
-      return res.json();
-    }
-    return Promise.reject(`Error: ${res.status}`);
-  };
+// Проверяем на ошибки
+	_checkResponse(res) {
+		if (res.ok) {
+			return res.json();
+		}
+		return Promise.reject(`Error: ${res.status}`);
+	}
 
-  //добавление новой карточки
-  addingNewCard = ({ name, link }) => {
-    return fetch(`${this._address}/cards`, {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
+// метод получения карточек с сервера
+	getCards() {
+		return fetch(`${this._address}/cards`, {
+			method: 'GET',
+			headers: {
+				Accept: "application/json",
+				'Content-Type': 'application/json'
+			},
 			credentials: 'include',
-      body: JSON.stringify({ name, link }),
-    }).then((res) => this._checkStatus(res));
-  };
+		}).then(this._checkResponse)
+	}
 
-  // постановка и снятие лайка
-  addLike = (id) => {
-    return fetch(`${this._address}/cards/likes/${id}`, {
-      method: "PUT",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
+	// получение данных профиля с сервера
+	getUserInfo() {
+		return fetch(`${this._address}/users/me`, {
+			method: 'GET',
+			headers: {
+				Accept: "application/json",
+				'Content-Type': 'application/json'
+			},
 			credentials: 'include',
-    }).then((res) => this._checkStatus(res));
-  };
+		}).then(this._checkResponse)
+	}
 
-  // удаление лайка
-  removeLike = (id) => {
-    return fetch(`${this._address}/cards/likes/${id}`, {
-      method: "DELETE",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
+	// редактирование профиля
+	editProfile({name, about}) {
+		return fetch(`${this._address}/users/me`, {
+			method: 'PATCH',
+			headers: {
+				Accept: "application/json",
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				name,
+				about
+			}),
 			credentials: 'include',
-    }).then((res) => this._checkStatus(res));
-  };
+		}).then(this._checkResponse)
+	}
 
-  // загрузка информации о пользователе с сервера
-  loadingUserInformation() {
-    return fetch(`${this._address}/users/me`, {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
+	// добавление карточки
+	addNewCard({name, link}) {
+		return fetch(`${this._address}/cards`, {
+			method: 'POST',
+			headers: {
+				Accept: "application/json",
+				'Content-Type': 'application/json'
+			},
 			credentials: 'include',
-    }).then((res) => this._checkStatus(res));
-  }
+			body: JSON.stringify({
+				name,
+				link
+			}),
 
-  //загрузка карточек с сервера
-  downloadingCardsServer = () => {
-    return fetch(`${this._address}/cards`, {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-			credentials: 'include',
-    }).then((res) => this._checkStatus(res));
-  };
+		}).then(this._checkResponse)
+	}
 
-  // удаление карточки
-  deleteCard = (id) => {
-    return fetch(`${this._address}/cards/${id}`, {
-      method: "DELETE",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
+	// удаление карточки
+	deleteCard(id) {
+		return fetch(`${this._address}/cards/${id}`, {
+			method: 'DELETE',
+			headers: {
+				Accept: "application/json",
+				'Content-Type': 'application/json'
+			},
 			credentials: 'include',
-    }).then((res) => this._checkStatus(res));
-  };
+		}).then(this._checkResponse)
+	}
 
-  //редактирование профиля
-  setUserInfo = (data) => {
-    return fetch(`${this._address}/users/me`, {
-      method: "PATCH",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name: data.name,
-        about: data.about,
-      }),
+	// добавление лайка / удаление лайка
+	changeLikeCardStatus(id, like) {
+		return fetch(`${this._address}/cards/${id}/likes`, {
+			method: like ? 'PUT' : 'DELETE',
+			headers: {
+				Accept: "application/json",
+				'Content-Type': 'application/json'
+			},
 			credentials: 'include',
-    }).then((res) => this._checkStatus(res));
-  };
+		}).then(this._checkResponse)
+	}
 
-  // обновление аватара пользователя
-  setUserAvatar = (item) => {
-    return fetch(`${this._address}/users/me/avatar`, {
-      method: "PATCH",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        avatar: item.avatar,
-      }),
+	// поменять аватар
+	changeUserAvatar({avatar}) {
+		return fetch(`${this._address}/users/me/avatar`, {
+			method: 'PATCH',
+			headers: {
+				Accept: "application/json",
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				avatar
+			}),
 			credentials: 'include',
-    }).then((res) => this._checkStatus(res));
-  };
+		}).then(this._checkResponse)
+	}
 }
 
-const api = new Api({
-  address: BASE_URL
-});
+const api = new Api({ address: BASE_URL});
 
 export default api;
+
+
