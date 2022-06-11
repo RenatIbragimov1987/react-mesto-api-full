@@ -365,12 +365,12 @@ function App() {
             cards={cards}
           />
 					<Route path="/sign-in">
-            <Login authorization={authorization()}
+            <Login authorization={authorization}
 						isRequestLoading={isRequestLoading}
 						/>
           </Route>
           <Route path="/sign-up">
-            <Register registration={registration()} />
+            <Register registration={registration} />
           </Route>
 					<Route>
             {loggedIn ? <Redirect to="/"/> : <Redirect to="/sign-in"/>}
