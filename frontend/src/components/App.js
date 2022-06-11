@@ -314,12 +314,12 @@ function App() {
 
 
   //выход с сайта
-  function handleExitWebsite() {
-    localStorage.removeItem("jwt");
-    setLoggedIn(false);
-    setEmail("");
-    history.push("/sign-in");
-  }
+  // function handleExitWebsite() {
+  //   localStorage.removeItem("jwt");
+  //   setLoggedIn(false);
+  //   setEmail("");
+  //   history.push("/sign-in");
+  // }
 
   // function handleToken() {
   //   if (localStorage.getItem("jwt")) {
