@@ -1,0 +1,15 @@
+.profile__pencil {
+  width: 10px;
+  height: 10px;
+  display: flex;
+  margin: auto;
+	background-image: url(../../../images/VectorEdditButton.svg);
+	background-repeat: no-repeat;
+	background-size: contain;
+}
+@media screen and (max-width: 320px) {
+	.profile__pencil {
+    width: 7.5px;
+    height: 7.5px;   
+  }
+}

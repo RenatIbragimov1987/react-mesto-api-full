@@ -1,0 +1,10 @@
+.header__access {
+  display: flex;
+  height: 68px;
+}
+
+@media screen and (max-width: 580px) {
+  .header__access {
+    flex-direction: column;
+  }
+}

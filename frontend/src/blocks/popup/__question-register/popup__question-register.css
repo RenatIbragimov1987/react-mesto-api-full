@@ -1,0 +1,14 @@
+.popup__question-register {
+	max-width: 358px;
+	width: 100%;
+  font-family: "Inter", Arial, "Times New Roman", sans-serif;
+	font-weight: 400;
+	font-style: normal;
+  color: #FFFFFF;
+  line-height: 17px;
+  font-size: 14px;
+	display: flex;
+	margin: 0 auto;
+	justify-content: center;
+
+}

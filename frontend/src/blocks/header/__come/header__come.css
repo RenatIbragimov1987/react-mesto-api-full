@@ -1,0 +1,17 @@
+.header__come {
+  font-family: "Inter", Arial, "Times New Roman", sans-serif;
+  font-style: Inter;
+	font-weight: 400;
+  color: #FFFFFF;
+  line-height: 22px;
+  font-size: 18px;
+	text-decoration: none;
+  overflow: hidden;
+	display: inline-block;
+	background-size: contain;
+	height: 22px;
+}
+
+.header__come:hover {
+	opacity: 70%;
+}
