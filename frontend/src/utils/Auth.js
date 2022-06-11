@@ -1,3 +1,4 @@
+import BASE_URL from './utils';
 class Auth {
   constructor({ address }) {
     this._backendUrl = address;
@@ -45,7 +46,7 @@ class Auth {
 }
 
 const auth = new Auth({
-  address: "https://api.renat1987.nomoredomains.xyz",
+  address: BASE_URL,
 });
 
 export default auth;
