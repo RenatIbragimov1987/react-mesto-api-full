@@ -65,13 +65,11 @@ app.use(isAuth);
 app.use('/', users);
 app.use('/', cards);
 
-app.use(errorLogger); // подключаем логгер ошибок
-
 app.use((req, res, next) => {
   next(new NotFoundDataError('Запрошен несуществующий маршрут'));
   next();
 });
-
+app.use(errorLogger); // подключаем логгер ошибок
 app.use(errors());
 
 app.use((err, req, res, next) => {
