@@ -1,9 +1,12 @@
-/* eslint-disable no-console */
+const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const { errors, celebrate, Joi } = require('celebrate');
 const express = require('express');
 const mongoose = require('mongoose');
 const isAuth = require('./middlewares/auth');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
+
+require('dotenv').config();
 
 const { PORT = 3000 } = process.env;
 const { login, createUser } = require('./controllers/users');
@@ -13,6 +16,22 @@ const NotFoundDataError = require('./errors/NotFoundDataError');
 
 const app = express();
 
+const accessCors = [
+  'https://renat.domains.nomoredomains.sbs',
+  'http://renat.domains.nomoredomains.sbs',
+  'http://localhost:3001',
+];
+
+const options = {
+  origin: accessCors,
+  method: ['GET,HEAD,PUT,PATCH,POST,DELETE'],
+  preflightContinue: false,
+  optionsSuccessStatus: 200,
+  credentials: true,
+};
+
+app.use(cors(options));
+
 mongoose.connect('mongodb://localhost:27017/mestodb', {
   useNewUrlParser: true,
   useUnifiedTopology: false,
@@ -21,6 +40,8 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
 app.use(cookieParser());
 
 app.use(express.json());
+
+app.use(requestLogger); // подключаем логгер запросов;
 
 app.post('/signin', celebrate({
   body: Joi.object().keys({
@@ -43,6 +64,8 @@ app.use(isAuth);
 
 app.use('/', users);
 app.use('/', cards);
+
+app.use(errorLogger); // подключаем логгер ошибок
 
 app.use((req, res, next) => {
   next(new NotFoundDataError('Запрошен несуществующий маршрут'));
