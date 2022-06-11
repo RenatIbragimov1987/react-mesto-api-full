@@ -1,11 +1,9 @@
-const { JWT_SECRET = 'strong-secret-key' } = process.env;
-const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const User = require('../models/user');
 const BadRequestError = require('../errors/BadRequestError');
 const ConflictDataError = require('../errors/ConflictDataError');
 const NotFoundDataError = require('../errors/NotFoundDataError');
-// const { getToken } = require('../utils/jwt');
+const { getToken } = require('../utils/jwt');
 const { DUBLICATE_MONGOOSE_ERROR_CODE, SALT_ROUNDS } = require('../constants/const');
 
 const getUsers = async (req, res, next) => {
@@ -88,36 +86,26 @@ const createUser = async (req, res, next) => {
   }
 };
 
-const login = async (req, res) => {
-  const { email, password } = req.body;
-
-  return User.findUserByCredentials(email, password)
-    .then((user) => {
-      const token = jwt.sign({ _id: user._id }, JWT_SECRET, { expiresIn: '7d' });
-      res.send({ token });
-    })
-    .catch(() => {
-      throw new NotFoundDataError('Неверный логин или пароль');
+const login = async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
+    if (!email || !password) {
+      next(new BadRequestError('Переданы некорректные данные логина или пароля'));
+      return;
+    }
+    const admin = await User.findUserByCredentials(email, password);
+    const token = await getToken(admin._id);
+    res.cookie('jwt', token, {
+      maxAge: 3600000 * 24 * 7,
+      httpOnly: true,
+      sameSite: 'none',
+      secure: true,
     });
-  // try {
-  //   const { email, password } = req.body;
-  //   if (!email || !password) {
-  //     next(new BadRequestError('Переданы некорректные данные логина или пароля'));
-  //     return;
-  //   }
-  //   const admin = await User.findUserByCredentials(email, password);
-  //   const token = await getToken(admin._id);
-  //   res.cookie('jwt', token, {
-  //     maxAge: 3600000 * 24 * 7,
-  //     httpOnly: true,
-  //     sameSite: 'none',
-  //     secure: true,
-  //   });
-  //   res.status(200).send({ token });
-  //   return;
-  // } catch (err) {
-  //   next(err);
-  // }
+    res.status(200).send({ token });
+    return;
+  } catch (err) {
+    next(err);
+  }
 };
 
 const updateUser = async (req, res, next) => {

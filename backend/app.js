@@ -15,15 +15,12 @@ const { cards } = require('./routes/cards');
 const NotFoundDataError = require('./errors/NotFoundDataError');
 
 const app = express();
-// app.use(cors({
-//   origin: ['http://localhost:3000', 'https://renat.domains.nomoredomains.sbs'],
-//   // credentials: true,
-// }));
+
 const accessCors = [
   'https://renat.domains.nomoredomains.sbs',
   'http://renat.domains.nomoredomains.sbs',
-  'http://localhost:3000',
-  'https://localhost:3000',
+  'http://localhost:3001',
+  'https://localhost:3001',
 ];
 
 const CORS_CONFIG = {
@@ -68,13 +65,13 @@ async function main() {
     }),
   }), createUser);
 
-  // app.get('/signout', (req, res) => {
-  //   res.status(200).clearCookie('jwt', {
-  //     httpOnly: true,
-  //     sameSite: 'none',
-  //     secure: true,
-  //   }).send({ message: 'Выход' });
-  // });
+  app.get('/signout', (req, res) => {
+    res.status(200).clearCookie('jwt', {
+      httpOnly: true,
+      sameSite: 'none',
+      secure: true,
+    }).send({ message: 'Выход' });
+  });
 
   app.use(isAuth);
 
