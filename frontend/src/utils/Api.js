@@ -1,3 +1,4 @@
+import BASE_URL from './utils';
 class Api {
   constructor({ address, headers }) {
     this._address = address;
@@ -110,8 +111,8 @@ class Api {
 }
 
 const api = new Api({
-  address: "https://api.renat1987.nomoredomains.xyz",
-  headers: "e8a9f2b0-25e0-4ec4-83e8-52c6f0623a7c",
+  address: BASE_URL,
+  // headers: "e8a9f2b0-25e0-4ec4-83e8-52c6f0623a7c",
 });
 
 export default api;
