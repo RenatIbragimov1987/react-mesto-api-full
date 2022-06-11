@@ -77,7 +77,7 @@ app.get('/signout', (req, res) => {
   }).send({ message: 'Выход' });
 });
 
-app.use(isAuth);
+// app.use(isAuth);
 
 app.use('/', users);
 app.use('/', cards);
