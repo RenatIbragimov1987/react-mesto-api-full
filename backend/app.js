@@ -75,8 +75,8 @@ app.use(cors(CORS_CONFIG));
 
   // app.use(isAuth);
 
-  app.use('/', isAuth, users);
-  app.use('/', isAuth, cards);
+  app.use('/', users);
+  app.use('/', cards);
   app.use((req, res, next) => {
     next(new NotFoundDataError('Запрошен несуществующий маршрут'));
     next();
