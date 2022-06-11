@@ -281,6 +281,9 @@ function App() {
           <Route path="/sign-in">
             <Login authorization={authorization} />
           </Route>
+					<Route>
+            {loggedIn ? <Redirect to="/"/> : <Redirect to="/sign-in"/>}
+          </Route>
         </Switch>
         <Footer />
         <EditProfilePopup
