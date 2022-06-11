@@ -1,3 +1,4 @@
+const helmet = require('helmet');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const { errors, celebrate, Joi } = require('celebrate');
@@ -20,6 +21,7 @@ const accessCors = [
   'https://renat.domains.nomoredomains.sbs',
   'http://renat.domains.nomoredomains.sbs',
   'http://localhost:3001',
+  'https://localhost:3001',
 ];
 
 const options = {
@@ -36,9 +38,11 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
   useNewUrlParser: true,
   useUnifiedTopology: false,
 });
-
+app.use(helmet());
 app.use(cookieParser());
-
+app.get('/', (req, res) => {
+  res.send(req.body);
+});
 app.use(express.json());
 
 app.use(requestLogger); // подключаем логгер запросов;
