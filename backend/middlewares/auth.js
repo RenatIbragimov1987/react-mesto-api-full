@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-
+console.log(jwt);
 const { REACT_APP_NODE_ENV, REACT_APP_JWT_SECRET } = process.env;
 const UnauthorizedError = require('../errors/UnauthorizedError');
 
@@ -11,6 +11,7 @@ module.exports = async (req, res, next) => {
     payload = jwt.verify(token, REACT_APP_NODE_ENV === 'production' ? REACT_APP_JWT_SECRET : 'efed42a609a1be1e1ba62ba374dd21e324364d309a998156a2bee646bd541cc0');
     req.userId = jwt.decode(token).id;
   } catch (err) {
+
     next(new UnauthorizedError('Необходима авторизация'));
     return;
   }
