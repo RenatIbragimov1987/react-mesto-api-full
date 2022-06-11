@@ -28,7 +28,7 @@ const CORS_CONFIG = {
   method: ['GET,HEAD,PUT,PATCH,POST,DELETE'],
   preflightContinue: false,
   optionsSuccessStatus: 200,
-  credentials: true,
+  // credentials: true,
 };
 app.use(cors(CORS_CONFIG));
 
@@ -73,10 +73,10 @@ async function main() {
     }).send({ message: 'Выход' });
   });
 
-  app.use(isAuth);
+  // app.use(isAuth);
 
-  app.use('/', users);
-  app.use('/', cards);
+  app.use('/', isAuth, users);
+  app.use('/', isAuth, cards);
   app.use((req, res, next) => {
     next(new NotFoundDataError('Запрошен несуществующий маршрут'));
     next();
