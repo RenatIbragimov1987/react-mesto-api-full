@@ -7,31 +7,31 @@ const UnauthorizedError = require('../errors/UnauthorizedError');
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
-    default: 'Жак-Ив Кусто',
     minlength: 2,
     maxlength: 30,
     required: false,
+    default: 'Жак-Ив Кусто',
   },
   about: {
     type: String,
-    default: 'Исследователь',
     minlength: 2,
     maxlength: 30,
     required: false,
+    default: 'Исследователь',
   },
   avatar: {
     type: String,
     required: false,
-    default: 'https://pictures.s3.yandex.net/resources/jacques-cousteau_1604399756.png',
     validate: {
       validator: (link) => isUrl(link),
       message: 'Неверный формат записи ссылки',
     },
+    default: 'https://pictures.s3.yandex.net/resources/jacques-cousteau_1604399756.png',
   },
   email: {
     type: String,
-    required: true,
     unique: true,
+    required: true,
     validate: {
       validator: (email) => isEmail(email),
       message: 'Неверный формат записи почты',
@@ -46,14 +46,16 @@ const userSchema = new mongoose.Schema({
 
 userSchema.statics.findUserByCredentials = function (email, password) {
   return this.findOne({ email }).select('+password')
+    // по умолчанию хеш пароля пользователя не будет возвращаться из базы,
+    // но для аутентификации хэш пароля нужен (метод .select + 'password')
     .then((user) => {
       if (!user) {
-        throw new UnauthorizedError('Переданы некорректные данные логина или пароля');
+        throw new UnauthorizedError('Неправильные email или пароль');
       }
-      return bcrypt.compare(password, user.password)
+      return bcrypt.compare(password, user.password) // сравниваем переданный пароль и хеш из базы
         .then((matched) => {
           if (!matched) {
-            throw new UnauthorizedError('Переданы некорректные данные логина или пароля');
+            throw new UnauthorizedError('Неправильные email или пароль');
           }
           return user;
         });
