@@ -34,37 +34,31 @@ function App() {
 });
   const history = useHistory();
 
-  //загрузка данных пользователя с сервера
-  useEffect(() => {
-    setIsRequestLoading(true);
-    api
-      .loadingUserInformation() //запрос
-      .then((currentUser) => {
-        setCurrentUser(currentUser); //вытянули данные в State
-      })
-      .catch((err) => {
-        console.log(`Ошибка запроса данных пользователя с сервера: ${err}`);
-      })
-			.finally(() => {
-        setIsRequestLoading(false);
-      });
-  }, []);
-
-  // загрузка карточек с сервера
-  useEffect(() => {
-    setIsRequestLoading(true);
-    api
-      .downloadingCardsServer() //запрос
-      .then((cards) => {
-        setCards(cards); //вытянули данные в State
-      })
-      .catch((err) => {
-        console.log(`Ошибка загрузки карточек с сервера: ${err}`);
-      })
-			.finally(() => {
-        setIsRequestLoading(false);
-      });
-  }, []);
+	//popaps
+	function handleEditProfileClick() {
+    // меняем состояние "редактировать профиль"
+    setIsEditProfilePopupOpen(true);
+  }
+  function handleAddPlaceClick() {
+    // меняем состояние "добавления нового места"
+    setIsAddPlacePopupOpen(true);
+  }
+  function handleEditAvatarClick() {
+    // меняем состояние "смены аватара"
+    setIsEditAvatarPopupOpen(true);
+  }
+  function handleCardClick(card) {
+    // меняем состояние "большой картинки"
+    setSelectedCard(card);
+  }
+  function closeAllPopups() {
+    // закрытие попапов, возвращаем изначальное состояние false для функций
+    setIsEditProfilePopupOpen(false);
+    setIsAddPlacePopupOpen(false);
+    setIsEditAvatarPopupOpen(false);
+    setSelectedCard(null);
+    setIsInfoToolTip(false);
+  }
 
   //лайки
   function handleCardLike(card) {
@@ -162,30 +156,51 @@ function App() {
       });
   }
 
-  function handleEditProfileClick() {
-    // меняем состояние "редактировать профиль"
-    setIsEditProfilePopupOpen(true);
-  }
-  function handleAddPlaceClick() {
-    // меняем состояние "добавления нового места"
-    setIsAddPlacePopupOpen(true);
-  }
-  function handleEditAvatarClick() {
-    // меняем состояние "смены аватара"
-    setIsEditAvatarPopupOpen(true);
-  }
-  function handleCardClick(card) {
-    // меняем состояние "большой картинки"
-    setSelectedCard(card);
-  }
-  function closeAllPopups() {
-    // закрытие попапов, возвращаем изначальное состояние false для функций
-    setIsEditProfilePopupOpen(false);
-    setIsAddPlacePopupOpen(false);
-    setIsEditAvatarPopupOpen(false);
-    setSelectedCard(null);
-    setIsInfoToolTip(false);
-  }
+	useEffect(() => {
+		if (loggedIn) {
+				Promise.all([
+						api.loadingUserInformation(),
+						api.downloadingCardsServer()
+				])
+						.then(([cards, info]) => {
+								setCards(cards);
+								setCurrentUser(info);
+						})
+						.catch((err) => console.log(`Ошибка загрузки данных с сервера (cards или userInfo) ${err}`));
+	 }
+}, [loggedIn]);
+
+  // //загрузка данных пользователя с сервера
+  // useEffect(() => {
+  //   setIsRequestLoading(true);
+  //   api
+  //     .loadingUserInformation() //запрос
+  //     .then((currentUser) => {
+  //       setCurrentUser(currentUser); //вытянули данные в State
+  //     })
+  //     .catch((err) => {
+  //       console.log(`Ошибка запроса данных пользователя с сервера: ${err}`);
+  //     })
+	// 		.finally(() => {
+  //       setIsRequestLoading(false);
+  //     });
+  // }, []);
+
+  // // загрузка карточек с сервера
+  // useEffect(() => {
+  //   setIsRequestLoading(true);
+  //   api
+  //     .downloadingCardsServer() //запрос
+  //     .then((cards) => {
+  //       setCards(cards); //вытянули данные в State
+  //     })
+  //     .catch((err) => {
+  //       console.log(`Ошибка загрузки карточек с сервера: ${err}`);
+  //     })
+	// 		.finally(() => {
+  //       setIsRequestLoading(false);
+  //     });
+  // }, []);
 
   //регистрация
   function registration(email, password) {
