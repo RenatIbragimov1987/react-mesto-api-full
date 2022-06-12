@@ -182,29 +182,29 @@ function App() {
             // history.replace({pathname: "/"});
       }
   };
-	useEffect(() => {
-    if (loggedIn) {
-        auth.getContent()
-            .then((data) => {
-                if (data && data.email) {
-                    setLoggedIn(true);
-                    history.push("/");
-                    checkRes(data);
-                }
-                else {
-                    setLoggedIn(false);
-                    history.push("/sign-in");
-                }
-            })
-            .catch((err) => {
-                console.error(err);
-                setLoggedIn(false);
-                setData({
-                    email: ""
-                });
-            });
-    }
-	}, [loggedIn, history]); // зависимость от хистори и loggedIn
+	// useEffect(() => {
+  //   if (loggedIn) {
+  //       auth.getContent()
+  //           .then((data) => {
+  //               if (data && data.email) {
+  //                   setLoggedIn(true);
+  //                   history.push("/");
+  //                   checkRes(data);
+  //               }
+  //               else {
+  //                   setLoggedIn(false);
+  //                   history.push("/sign-in");
+  //               }
+  //           })
+  //           .catch((err) => {
+  //               console.error(err);
+  //               setLoggedIn(false);
+  //               setData({
+  //                   email: ""
+  //               });
+  //           });
+  //   }
+	// }, [loggedIn, history]); // зависимость от хистори и loggedIn
 
 
 	// выход
