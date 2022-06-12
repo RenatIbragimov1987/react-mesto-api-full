@@ -5,6 +5,7 @@ class Auth {
   };
 
   _checkResponse = (res) => {
+		console.log("checResponse", res)
     if (res.ok) {
       return res.json();
     }
@@ -35,16 +36,16 @@ class Auth {
     }).then(this._checkResponse);
   };
 
-  userToken = (token) => {
-    return fetch(`${this._backendUrl}/users/me`, {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    }).then(this._checkResponse);
-  };
+  // userToken = (token) => {
+  //   return fetch(`${this._backendUrl}/users/me`, {
+  //     method: "GET",
+  //     headers: {
+  //       Accept: "application/json",
+  //       "Content-Type": "application/json",
+  //       Authorization: `Bearer ${token}`,
+  //     },
+  //   }).then(this._checkResponse);
+  // };
 
 	signout = () => {
     return fetch(`${BASE_URL}/signout`, {
