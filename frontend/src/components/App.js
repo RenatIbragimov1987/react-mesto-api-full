@@ -28,7 +28,10 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [email, setEmail] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
-  const [isInfoToolTip, setIsInfoToolTip] = useState(false);
+  const [isInfoToolTip, setIsInfoToolTip] = useState({
+		open: false,
+		status: false
+});
   const history = useHistory();
 
   //загрузка данных пользователя с сервера
