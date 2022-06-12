@@ -173,7 +173,7 @@ function App() {
 	const checkRes = (data) => {
       if (data) {
             //setToken(res.jwt);
-          setEmail({
+          email({
               email: data.email
           });
             // setLoggedIn(true);
@@ -197,7 +197,7 @@ function App() {
             .catch((err) => {
                 console.error(err);
                 setLoggedIn(false);
-                setEmail({
+                email({
                     email: ""
                 });
             });
