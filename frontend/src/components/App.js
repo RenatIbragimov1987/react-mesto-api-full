@@ -26,7 +26,9 @@ function App() {
   const [isRequestLoading, setIsRequestLoading] = useState(false);
   const [cards, setCards] = useState([]);
   const [loggedIn, setLoggedIn] = useState(false);
-  const [email, setEmail] = useState("");
+  const [data, setData] = useState({
+		email: ""
+	});
   const [isSuccess, setIsSuccess] = useState(false);
   const [isInfoToolTip, setIsInfoToolTip] = useState({
 		open: false,
@@ -173,7 +175,7 @@ function App() {
 	const checkRes = (data) => {
       if (data) {
             //setToken(res.jwt);
-          email({
+          setData({
               email: data.email
           });
             // setLoggedIn(true);
@@ -197,77 +199,35 @@ function App() {
             .catch((err) => {
                 console.error(err);
                 setLoggedIn(false);
-                email({
+                setData({
                     email: ""
                 });
             });
     }
 	}, [loggedIn, history]); // зависимость от хистори и loggedIn
 
-  // //загрузка данных пользователя с сервера
-  // useEffect(() => {
-  //   setIsRequestLoading(true);
-  //   api
-  //     .loadingUserInformation() //запрос
-  //     .then((currentUser) => {
-  //       setCurrentUser(currentUser); //вытянули данные в State
-  //     })
-  //     .catch((err) => {
-  //       console.log(`Ошибка запроса данных пользователя с сервера: ${err}`);
-  //     })
-	// 		.finally(() => {
-  //       setIsRequestLoading(false);
-  //     });
-  // }, []);
 
-  // // загрузка карточек с сервера
-  // useEffect(() => {
-  //   setIsRequestLoading(true);
-  //   api
-  //     .downloadingCardsServer() //запрос
-  //     .then((cards) => {
-  //       setCards(cards); //вытянули данные в State
-  //     })
-  //     .catch((err) => {
-  //       console.log(`Ошибка загрузки карточек с сервера: ${err}`);
-  //     })
-	// 		.finally(() => {
-  //       setIsRequestLoading(false);
-  //     });
-  // }, []);
+	// выход
+// const handleSignOut = () => {
+// 	auth.signout();
+// 	setLoggedIn(false);
+// 	setData({
+// 			email: null
+// 	});
+// 	//removeToken();
+// 			history.push('/sign-in');
+// 			setIsHeaderInfoOpened(false)
+// 	}
 
-  //регистрация
-  function registration(email, password) {
-		setIsRequestLoading(true)
-    auth
-      .userRegistration(email, password)
-      .then(() => {
-        setIsSuccess(true);
-        authorization(email, password);
-        setIsInfoToolTip(true);
-      })
-      .catch((err) => {
-        setIsSuccess(false);
-        setIsInfoToolTip(true);
-        console.log(`Ошибка регистрации: ${err}`);
-      })
-			.finally(() => {
-        setIsRequestLoading(false);
-      });
-  }
-
-  //авторизация
+	//авторизация
   function authorization(email, password) {
 		setIsRequestLoading(true)
     auth
       .userAuthorization(email, password)
       .then((data) => {
-        // if (data.token) {
+				checkRes(data)
           setLoggedIn(true);
-          // localStorage.setItem("jwt", data.token);
-          setEmail(email);
           history.push("/");
-        // }
       })
       .catch((err) => {
         setIsSuccess(false);
@@ -279,40 +239,60 @@ function App() {
       });
   }
 
-  //выход с сайта
-  function handleExitWebsite() {
-    localStorage.removeItem("jwt");
-    setLoggedIn(false);
-    setEmail("");
-    history.push("/sign-in");
+  //регистрация
+  function registration(email, password) {
+		setIsRequestLoading(true)
+    auth
+      .userRegistration(email, password)
+      .then((data) => {
+				checkRes(data)
+				history.replace({pathname: '/sign-in'})
+        setIsInfoToolTip(true);
+      })
+      .catch((err) => {
+        // setIsSuccess(false);
+        setIsInfoToolTip(true);
+        console.log(`Ошибка регистрации: ${err}`);
+      })
+			.finally(() => {
+        setIsRequestLoading(false);
+      });
   }
 
-  function handleToken() {
-    if (localStorage.getItem("jwt")) {
-      const token = localStorage.getItem("jwt");
-      auth
-        .userToken(token)
-        .then((res) => {
-          if (res) {
-            setLoggedIn(true);
-            setEmail(res.data.email);
-            history.push("/");
-          }
-        })
-        .catch((err) => {
-          console.log(`Ошибка токена: ${err}`);
-        });
-    }
-  }
+  // //выход с сайта
+  // function handleExitWebsite() {
+  //   localStorage.removeItem("jwt");
+  //   setLoggedIn(false);
+  //   setData("");
+  //   history.push("/sign-in");
+  // }
 
-  useEffect(() => {
-    handleToken();
-  }, []);
+  // function handleToken() {
+  //   if (localStorage.getItem("jwt")) {
+  //     const token = localStorage.getItem("jwt");
+  //     auth
+  //       .userToken(token)
+  //       .then((res) => {
+  //         if (res) {
+  //           setLoggedIn(true);
+  //           setData(res.data.email);
+  //           history.push("/");
+  //         }
+  //       })
+  //       .catch((err) => {
+  //         console.log(`Ошибка токена: ${err}`);
+  //       });
+  //   }
+  // }
+
+  // useEffect(() => {
+  //   handleToken();
+  // }, []);
 
   return (
     <div className="page">
       <CurrentUserContext.Provider value={currentUser}>
-        <Header email={email} handleExitWebsite={handleExitWebsite} />
+        <Header email={data.email} handleExitWebsite={handleExitWebsite} />
         <Switch>
           <ProtectedRoute
             exact
