@@ -162,9 +162,9 @@ function App() {
 						api.loadingUserInformation(),
 						api.downloadingCardsServer()
 				])
-						.then(([cards, info]) => {
-								setCards(cards);
+						.then(([info, cards]) => {
 								setCurrentUser(info);
+								setCards(cards);
 						})
 						.catch((err) => console.log(`Ошибка загрузки данных с сервера (cards или userInfo) ${err}`));
 	 }
