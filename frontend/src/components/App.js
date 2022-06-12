@@ -208,16 +208,16 @@ function App() {
 
 
 	// выход
-// const handleSignOut = () => {
-// 	auth.signout();
-// 	setLoggedIn(false);
-// 	setData({
-// 			email: null
-// 	});
-// 	//removeToken();
-// 			history.push('/sign-in');
-// 			setIsHeaderInfoOpened(false)
-// 	}
+	const handleExitWebsite = () => {
+		auth.signout();
+		setLoggedIn(false);
+		setData({
+			email: null
+		});
+		//removeToken();
+			history.push('/sign-in');
+			// setIsHeaderInfoOpened(false)
+	}
 
 	//авторизация
   function authorization(email, password) {
