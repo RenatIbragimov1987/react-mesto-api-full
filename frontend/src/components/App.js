@@ -210,12 +210,12 @@ function App() {
     auth
       .userAuthorization(email, password)
       .then((data) => {
-        if (data.token) {
+        // if (data.token) {
           setLoggedIn(true);
-          localStorage.setItem("jwt", data.token);
+          // localStorage.setItem("jwt", data.token);
           setEmail(email);
           history.push("/");
-        }
+        // }
       })
       .catch((err) => {
         setIsSuccess(false);
@@ -265,21 +265,21 @@ function App() {
           <ProtectedRoute
             exact
             path="/"
-            component={Main}
+            cards={cards}
             loggedIn={loggedIn}
+						component={Main}
             onCardClick={handleCardClick}
             onEditProfile={handleEditProfileClick}
             onAddPlace={handleAddPlaceClick}
             onEditAvatar={handleEditAvatarClick}
             onCardLike={handleCardLike}
             onCardDelete={handleCardDelete}
-            cards={cards}
           />
-          <Route path="/sign-up">
-            <Register registration={registration} />
-          </Route>
           <Route path="/sign-in">
             <Login authorization={authorization} />
+          </Route>
+          <Route path="/sign-up">
+            <Register registration={registration} />
           </Route>
 					<Route>
             {loggedIn ? <Redirect to="/"/> : <Redirect to="/sign-in"/>}
