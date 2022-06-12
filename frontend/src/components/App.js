@@ -174,37 +174,35 @@ function App() {
 
 	const checkRes = (data) => {
       if (data) {
-            //setToken(res.jwt);
           setData({
               email: data.email
           });
-            // setLoggedIn(true);
-            // history.replace({pathname: "/"});
       }
   };
-	// useEffect(() => {
-  //   if (loggedIn) {
-  //       auth.getContent()
-  //           .then((data) => {
-  //               if (data && data.email) {
-  //                   setLoggedIn(true);
-  //                   history.push("/");
-  //                   checkRes(data);
-  //               }
-  //               else {
-  //                   setLoggedIn(false);
-  //                   history.push("/sign-in");
-  //               }
-  //           })
-  //           .catch((err) => {
-  //               console.error(err);
-  //               setLoggedIn(false);
-  //               setData({
-  //                   email: ""
-  //               });
-  //           });
-  //   }
-	// }, [loggedIn, history]); // зависимость от хистори и loggedIn
+	
+	useEffect(() => {
+    if (loggedIn) {
+        auth.getContent()
+            .then((data) => {
+                if (data && data.email) {
+                    setLoggedIn(true);
+                    history.push("/");
+                    checkRes(data);
+                }
+                else {
+                    setLoggedIn(false);
+                    history.push("/sign-in");
+                }
+            })
+            .catch((err) => {
+                console.error(err);
+                setLoggedIn(false);
+                setData({
+                    email: ""
+                });
+            });
+    }
+	}, [loggedIn, history]); // зависимость от хистори и loggedIn
 
 
 	// выход
@@ -214,9 +212,7 @@ function App() {
 		setData({
 			email: null
 		});
-		//removeToken();
 			history.push('/sign-in');
-			// setIsHeaderInfoOpened(false)
 	}
 
 	//авторизация
