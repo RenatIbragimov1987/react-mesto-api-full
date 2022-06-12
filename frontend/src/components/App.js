@@ -170,6 +170,40 @@ function App() {
 	 }
 }, [loggedIn]);
 
+	const checkRes = (data) => {
+      if (data) {
+            //setToken(res.jwt);
+          setEmail({
+              email: data.email
+          });
+            // setLoggedIn(true);
+            // history.replace({pathname: "/"});
+      }
+  };
+	useEffect(() => {
+    if (loggedIn) {
+        auth.getContent()
+            .then((data) => {
+                if (data && data.email) {
+                    setLoggedIn(true);
+                    history.push("/");
+                    checkRes(data);
+                }
+                else {
+                    setLoggedIn(false);
+                    history.push("/sign-in");
+                }
+            })
+            .catch((err) => {
+                console.error(err);
+                setLoggedIn(false);
+                setEmail({
+                    email: ""
+                });
+            });
+    }
+	}, [loggedIn, history]); // зависимость от хистори и loggedIn
+
   // //загрузка данных пользователя с сервера
   // useEffect(() => {
   //   setIsRequestLoading(true);
