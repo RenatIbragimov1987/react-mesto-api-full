@@ -1,5 +1,5 @@
-import React, { useContext } from "react";
-import { CurrentUserContext } from "../contexts/CurrentUserContext";
+import {CurrentUserContext} from '../contexts/CurrentUserContext';
+import {useContext} from "react";
 
 function Card({ card, onCardClick, onCardLike, onCardDelete }) {
   const currentUser = useContext(CurrentUserContext);
@@ -14,9 +14,7 @@ function Card({ card, onCardClick, onCardLike, onCardDelete }) {
   const isLiked = card.likes.some((i) => i._id === currentUser._id);
 
   // Создаём переменную, которую после зададим в `className` для кнопки лайка
-  const cardLikeButtonClassName = `element__like ${
-    isLiked ? "element__like_active_black" : "element__like"
-  }`;
+  const cardLikeButtonClassName = (`element__like ${isLiked ? "element__like_active_black" : "element__like"}`);
 
   function handleDeleteClick() {
     onCardDelete(card);

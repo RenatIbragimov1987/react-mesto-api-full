@@ -9,7 +9,7 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 require('dotenv').config();
 
-const { PORT = 3000 } = process.env;
+const { PORT = 4000 } = process.env;
 const { login, createUser } = require('./controllers/users');
 const { users } = require('./routes/users');
 const { cards } = require('./routes/cards');
@@ -20,7 +20,7 @@ const app = express();
 const accessCors = [
   'https://renat.domains.nomoredomains.sbs',
   'http://renat.domains.nomoredomains.sbs',
-  'http://localhost:3001',
+  'http://localhost:3000',
 ];
 
 const options = {
@@ -37,16 +37,21 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
   useNewUrlParser: true,
   useUnifiedTopology: false,
 });
+
 // app.use(helmet());
+
 app.use(cookieParser());
+
 app.get('/', (req, res) => {
   res.send(req.body);
 });
+
 app.use(express.json());
 
 app.use(requestLogger); // подключаем логгер запросов;
 
 app.get('/crash-test', () => {
+  console.log('Hello');
   setTimeout(() => {
     throw new Error('Сервер сейчас упадёт');
   }, 0);
@@ -77,13 +82,15 @@ app.get('/signout', (req, res) => {
   }).send({ message: 'Выход' });
 });
 
-app.use('/', isAuth, users);
-app.use('/', isAuth, cards);
+app.use(isAuth);
+app.use('/', users);
+app.use('/', cards);
 
 app.use((req, res, next) => {
   next(new NotFoundDataError('Запрошен несуществующий маршрут'));
   next();
 });
+
 app.use(errorLogger); // подключаем логгер ошибок
 app.use(errors());
 

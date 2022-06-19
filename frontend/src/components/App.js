@@ -25,19 +25,19 @@ function App() {
   const [currentUser, setCurrentUser] = useState({});
   const [isRequestLoading, setIsRequestLoading] = useState(false);
   const [cards, setCards] = useState([]);
-  const [loggedIn, setLoggedIn] = useState(false);
   const [data, setData] = useState({
-		email: ""
-	});
+    email: "",
+  });
+  const [loggedIn, setLoggedIn] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [isInfoToolTip, setIsInfoToolTip] = useState({
-		open: false,
-		status: false
-});
+    open: false,
+    status: false,
+  });
   const history = useHistory();
-
-	//popaps
-	function handleEditProfileClick() {
+  // const [isLoading, setIsLoading] = useState(false); // процесс загрузки, сохранения и тд (Сохранение...)
+  //popaps
+  function handleEditProfileClick() {
     // меняем состояние "редактировать профиль"
     setIsEditProfilePopupOpen(true);
   }
@@ -59,13 +59,16 @@ function App() {
     setIsAddPlacePopupOpen(false);
     setIsEditAvatarPopupOpen(false);
     setSelectedCard(null);
-    setIsInfoToolTip(false);
+    setIsInfoToolTip({
+      open: false,
+      status: false,
+    });
   }
 
   //лайки
   function handleCardLike(card) {
-    // Снова проверяем, есть ли уже лайк на этой карточке
-    const isLiked = card.likes.some((i) => i._id === currentUser._id);
+    // Снова проверяем, есть ли уже лайк настоящего пользователя на этой карточке
+    const isLiked = card.likes.some((i) => i._id === currentUser._id); 
     // установка лайка
     if (!isLiked) {
       api
@@ -110,10 +113,10 @@ function App() {
   }
 
   //добавление карточки
-  function handleAddPlaceSubmit(name, link) {
+  function handleAddPlaceSubmit(newCard) {
     setIsRequestLoading(true);
     api
-      .addingNewCard(name, link)
+      .addingNewCard(newCard)
       .then((newCard) => {
         setCards([newCard, ...cards]);
         closeAllPopups();
@@ -121,7 +124,7 @@ function App() {
       .catch((err) => {
         console.log(`Ошибка добавления карточки: ${err}`);
       })
-			.finally(() => {
+      .finally(() => {
         setIsRequestLoading(false);
       });
   }
@@ -137,10 +140,11 @@ function App() {
       .catch((err) => {
         console.log(`Ошибка изменения данных профиля: ${err}`);
       })
-			.finally(() => {
+      .finally(() => {
         setIsRequestLoading(false);
       });
   }
+
   //изменение аватарки
   function handleUpdateAvatar(item) {
     setIsRequestLoading(true);
@@ -153,34 +157,51 @@ function App() {
       .catch((err) => {
         console.log(`Ошибка изменения данных профиля: ${err}`);
       })
-			.finally(() => {
+      .finally(() => {
         setIsRequestLoading(false);
       });
   }
 
-	useEffect(() => {
-		if (loggedIn) {
-				Promise.all([
-						api.loadingUserInformation(),
-						api.downloadingCardsServer()
-				])
-						.then(([info, cards]) => {
-								setCurrentUser(info);
-								setCards(cards);
-						})
-						.catch((err) => console.log(`Ошибка загрузки данных с сервера (cards или userInfo) ${err}`));
-	 }
-}, [loggedIn]);
-
 	const checkRes = (data) => {
-      if (data) {
-          setData({
-              email: data.email
-          });
-      }
+    if (data) {
+      setData({
+        email: data.email,
+      });
+    }
   };
+
+  // загрузка карточек с сервера
+  // useEffect(() => {
+  //   setIsRequestLoading(true);
+  //   api
+  //     .downloadingCardsServer() //запрос
+  //     .then((cards) => {
+  //       setCards(cards); //вытянули данные в State
+  //     })
+  //     .catch((err) => {
+  //       console.log(`Ошибка загрузки карточек с сервера: ${err}`);
+  //     })
+  //     .finally(() => {
+  //       setIsRequestLoading(false);
+  //     });
+  // }, []);
 	
-	useEffect(() => {
+  // отобразить карточки и инфо пользователя
+  useEffect(() => {
+  	if (loggedIn) {
+  			Promise.all([
+  				api.downloadingCardsServer(),
+  				api.loadingUserInformation()
+  			])
+  					.then(([cards, info]) => {
+  							setCurrentUser(info);
+  							setCards(cards);
+  					})
+  					.catch((err) => console.log(`Ошибка загрузки данных с сервера (cards или userInfo) ${err}`));
+   }
+  }, [loggedIn]);
+
+  useEffect(() => {
     if (loggedIn) {
         auth.getContent()
             .then((data) => {
@@ -195,95 +216,72 @@ function App() {
                 }
             })
             .catch((err) => {
-                console.error(err);
                 setLoggedIn(false);
                 setData({
                     email: ""
                 });
             });
     }
-	}, [loggedIn, history]); // зависимость от хистори и loggedIn
+  }, [loggedIn, history]);
 
-
-	// выход
-	const handleExitWebsite = () => {
-		auth.signout();
-		setLoggedIn(false);
-		setData({
-			email: null
-		});
-			history.push('/sign-in');
-	}
-
-	//авторизация
+  //авторизация
   function authorization(email, password) {
-		setIsRequestLoading(true)
+    setIsRequestLoading(true);
     auth
       .userAuthorization(email, password)
       .then((data) => {
-				checkRes(data)
-          setLoggedIn(true);
-          history.push("/");
+        checkRes(data);
+        setLoggedIn(true);
+        history.push("/");
       })
       .catch((err) => {
         setIsSuccess(false);
-        setIsInfoToolTip(true);
+        setIsInfoToolTip({
+          open: true,
+          status: false,
+        });
         console.log(`Ошибка авторизации: ${err}`);
       })
-			.finally(() => {
+      .finally(() => {
         setIsRequestLoading(false);
       });
   }
 
   //регистрация
   function registration(email, password) {
-		setIsRequestLoading(true)
+    setIsRequestLoading(true);
     auth
       .userRegistration(email, password)
       .then((data) => {
-				checkRes(data)
-				history.replace({pathname: '/sign-in'})
-        setIsInfoToolTip(true);
+        checkRes(data);
+        history.replace({ pathname: "/sign-in" });
+        setIsInfoToolTip({
+          open: true,
+          status: true,
+        });
       })
       .catch((err) => {
-        // setIsSuccess(false);
-        setIsInfoToolTip(true);
+        setIsSuccess(false);
+        setIsInfoToolTip({
+          open: true,
+          status: false,
+        });
         console.log(`Ошибка регистрации: ${err}`);
       })
-			.finally(() => {
+      .finally(() => {
         setIsRequestLoading(false);
       });
   }
 
-  // //выход с сайта
-  // function handleExitWebsite() {
-  //   localStorage.removeItem("jwt");
-  //   setLoggedIn(false);
-  //   setData("");
-  //   history.push("/sign-in");
-  // }
-
-  // function handleToken() {
-  //   if (localStorage.getItem("jwt")) {
-  //     const token = localStorage.getItem("jwt");
-  //     auth
-  //       .userToken(token)
-  //       .then((res) => {
-  //         if (res) {
-  //           setLoggedIn(true);
-  //           setData(res.data.email);
-  //           history.push("/");
-  //         }
-  //       })
-  //       .catch((err) => {
-  //         console.log(`Ошибка токена: ${err}`);
-  //       });
-  //   }
-  // }
-
-  // useEffect(() => {
-  //   handleToken();
-  // }, []);
+	// выход
+  const handleExitWebsite = () => {
+    auth.signout();
+    setLoggedIn(false);
+    setData({
+      email: null,
+    });
+    history.push("/sign-in");
+  };
 
   return (
     <div className="page">
@@ -295,7 +293,7 @@ function App() {
             path="/"
             cards={cards}
             loggedIn={loggedIn}
-						component={Main}
+            component={Main}
             onCardClick={handleCardClick}
             onEditProfile={handleEditProfileClick}
             onAddPlace={handleAddPlaceClick}
@@ -304,33 +302,39 @@ function App() {
             onCardDelete={handleCardDelete}
           />
           <Route path="/sign-in">
-            <Login authorization={authorization} />
+            <Login
+              authorization={authorization}
+              isRequestLoading={isRequestLoading}
+            />
           </Route>
           <Route path="/sign-up">
-            <Register registration={registration} />
+            <Register
+              registration={registration}
+              isRequestLoading={isRequestLoading}
+            />
           </Route>
-					{/* <Route>
-            {loggedIn ? <Redirect to="/"/> : <Redirect to="/sign-in"/>}
-          </Route> */}
+          <Route>
+            {loggedIn ? <Redirect to="/" /> : <Redirect to="/sign-in" />}
+          </Route>
         </Switch>
         <Footer />
         <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
           onUpdateUser={handleUpdateUser}
-					isRequestLoading={isRequestLoading}
+          isRequestLoading={isRequestLoading}
         />
         <EditAvatarPopup
           isOpen={isEditAvatarPopupOpen}
           onClose={closeAllPopups}
           onUpdateAvatar={handleUpdateAvatar}
-					isRequestLoading={isRequestLoading}
+          isRequestLoading={isRequestLoading}
         />
         <AddPlacePopup
           isOpen={isAddPlacePopupOpen}
           onClose={closeAllPopups}
           onAddPlace={handleAddPlaceSubmit}
-					isRequestLoading={isRequestLoading}
+          isRequestLoading={isRequestLoading}
         />
         <ImagePopup
           name="type_image"
@@ -338,7 +342,7 @@ function App() {
           onClose={closeAllPopups}
         />
         <InfoTooltip
-          isOpen={isInfoToolTip}
+          isInfoToolTip={isInfoToolTip}
           onClose={closeAllPopups}
           isSuccess={isSuccess}
         />

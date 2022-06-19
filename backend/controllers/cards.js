@@ -17,6 +17,8 @@ const createCard = async (req, res, next) => {
     const owner = req.userId;
     const { name, link } = req.body;
     const card = new Card({ name, link, owner });
+    await card.save();
+    await card.populate('owner');
     res.status(201).send(await card.save());
   } catch (err) {
     if (err.name === 'ValidationError') {
@@ -57,12 +59,12 @@ const likeCard = async (req, res, next) => {
       req.params.cardId,
       { $addToSet: { likes: req.userId } },
       { new: true },
-    );
+    ).populate(['owner', 'likes']);
     if (!like) {
       next(new NotFoundDataError('Нет карточки с этим id'));
       return;
     }
-    res.status(200).send(like);
+    res.status(200).send(like); //  вернули статус 200 отправили лайк;
   } catch (err) {
     if (err.name === 'CastError') {
       next(new BadRequestError('Неверный id у карточки'));

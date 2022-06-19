@@ -49,6 +49,7 @@ const currentUser = async (req, res, next) => {
   }
 };
 
+// регистрация
 const createUser = async (req, res, next) => {
   const {
     name,
@@ -94,8 +95,8 @@ const login = async (req, res, next) => {
       next(new BadRequestError('Переданы некорректные данные логина или пароля'));
       return;
     }
-    const admin = await User.findUserByCredentials(email, password);
-    const token = await getToken(admin._id);
+    const user = await User.findUserByCredentials(email, password);
+    const token = await getToken(user._id);
     res.cookie('jwt', token, {
       maxAge: 3600000 * 24 * 7,
       httpOnly: true,

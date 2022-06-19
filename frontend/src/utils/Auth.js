@@ -5,13 +5,14 @@ class Auth {
   };
 
   _checkResponse = (res) => {
-		console.log("checResponse", res)
     if (res.ok) {
       return res.json();
     }
     return Promise.reject(`Error: ${res.status}`);
+
   };
 
+	//регистрация
   userRegistration = (email, password) => {
     return fetch(`${this._backendUrl}/signup`, {
       method: "POST",
@@ -20,46 +21,28 @@ class Auth {
         "Content-Type": "application/json",
       },
 			credentials: 'include',
-      body: JSON.stringify({ email, password }),
-    }).then(this._checkResponse);
+      body: JSON.stringify({email, password}),
+    })
+		.then(this._checkResponse);
   };
 
-  userAuthorization = (email, password) => {
-    return fetch(`${this._backendUrl}/signin`, {
+	//авторизация
+  userAuthorization (email, password) {
+			return fetch(`${this._backendUrl}/signin`, {
       method: "POST",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
 			credentials: 'include',
-      body: JSON.stringify({ email, password }),
-    }).then(this._checkResponse);
+      body: JSON.stringify({email, password}),
+		})
+		.then(this._checkResponse);
   };
 
-  // userToken = (token) => {
-  //   return fetch(`${this._backendUrl}/users/me`, {
-  //     method: "GET",
-  //     headers: {
-  //       Accept: "application/json",
-  //       "Content-Type": "application/json",
-  //       Authorization: `Bearer ${token}`,
-  //     },
-  //   }).then(this._checkResponse);
-  // };
 
 	signout = () => {
-    return fetch(`${BASE_URL}/signout`, {
-        method: "GET",
-        headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-        },
-        credentials: 'include',
-    }).then(this._checkResponse);
-  };
-
-	getContent = () => {
-    return fetch(`${BASE_URL}/users/me`, {
+    return fetch(`${this._backendUrl}/signout`, {
         method: "GET",
         headers: {
             Accept: "application/json",
@@ -67,7 +50,19 @@ class Auth {
         },
         credentials: 'include',
     })
-        .then(this._checkResponse);
+		.then(this._checkResponse);
+  };
+
+	getContent = () => {
+    return fetch(`${this._backendUrl}/users/me`, {
+        method: "GET",
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+        },
+        credentials: 'include',
+    })
+    .then(this._checkResponse);
 	};
 
 }
