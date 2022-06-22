@@ -170,59 +170,43 @@ function App() {
     }
   };
 
-  // загрузка карточек с сервера
-  // useEffect(() => {
-  //   setIsRequestLoading(true);
-  //   api
-  //     .downloadingCardsServer() //запрос
-  //     .then((cards) => {
-  //       setCards(cards); //вытянули данные в State
-  //     })
-  //     .catch((err) => {
-  //       console.log(`Ошибка загрузки карточек с сервера: ${err}`);
-  //     })
-  //     .finally(() => {
-  //       setIsRequestLoading(false);
-  //     });
-  // }, []);
-
   // отобразить карточки и инфо пользователя
   useEffect(() => {
   	if (loggedIn) {
   			Promise.all([
 					api.downloadingCardsServer(),
-					// api.loadingUserInformation()
+					api.loadingUserInformation()
   			])
-  					.then(([cards]) => {
+  					.then(([cards, info]) => {
 								setCards(cards);
-  							// setCurrentUser(info);
+  							setCurrentUser(info);
   					})
   					.catch((err) => console.log(`Ошибка загрузки данных с сервера (cards или userInfo) ${err}`));
    }
   }, [loggedIn]);
 
-  // useEffect(() => {
-  //   if (loggedIn) {
-  //       auth.getContent()
-  //           .then((data) => {
-  //               if (data && data.email) {
-  //                   setLoggedIn(true);
-  //                   history.push("/");
-  //                   checkRes(data);
-  //               }
-  //               else {
-  //                   setLoggedIn(false);
-  //                   history.push("/sign-in");
-  //               }
-  //           })
-  //           .catch((err) => {
-  //               setLoggedIn(false);
-  //               setData({
-  //                   email: ""
-  //               });
-  //           });
-  //   }
-  // }, [loggedIn, history]);
+  useEffect(() => {
+    if (loggedIn) {
+        auth.getContent()
+            .then((data) => {
+                if (data && data.email) {
+                    setLoggedIn(true);
+                    history.push("/");
+                    checkRes(data);
+                }
+                else {
+                    setLoggedIn(false);
+                    history.push("/sign-in");
+                }
+            })
+            .catch((err) => {
+                setLoggedIn(false);
+                setData({
+                    email: ""
+                });
+            });
+    }
+  }, [loggedIn, history]);
 
   //авторизация
   function authorization(email, password) {
