@@ -9,7 +9,7 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 // require('dotenv').config();
 
-const { PORT = 3000 } = process.env;
+const { PORT = 4000 } = process.env;
 const { login, createUser } = require('./controllers/users');
 const { users } = require('./routes/users');
 const { cards } = require('./routes/cards');
@@ -20,8 +20,8 @@ const app = express();
 const accessCors = [
   'https://renat.domains.nomoredomains.sbs',
   'http://renat.domains.nomoredomains.sbs',
-  'http://localhost:3001',
-  'https://localhost:3001',
+  'http://localhost:3000',
+  'https://localhost:3000',
 ];
 
 const options = {
