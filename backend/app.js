@@ -84,8 +84,8 @@ app.get('/signout', (req, res) => {
 });
 
 app.use(isAuth);
-app.use('/users/me', users);
-app.use('/cards', cards);
+app.use('/', users);
+app.use('/', cards);
 
 app.use((req, res, next) => {
   next(new NotFoundDataError('Запрошен несуществующий маршрут'));
