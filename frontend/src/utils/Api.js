@@ -62,7 +62,7 @@ class Api {
 	}
   // загрузка информации о пользователе с сервера
   loadingUserInformation() {
-    return fetch(`${this._address}/users/me`, {
+    return fetch(`https://api.renat1987.nomoredomains.xyz/users/me`, {
       method: "GET",
       headers: {
         Accept: "application/json",
@@ -74,7 +74,7 @@ class Api {
 
   //загрузка карточек с сервера
   downloadingCardsServer = () => {
-    return fetch(`${this._address}/cards`, {
+    return fetch(`https://api.renat1987.nomoredomains.xyz/cards`, {
       method: "GET",
       headers: {
         Accept: "application/json",
