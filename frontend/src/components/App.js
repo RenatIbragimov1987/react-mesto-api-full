@@ -171,36 +171,36 @@ function App() {
   };
 
   // загрузка карточек с сервера
-  // useEffect(() => {
-  //   setIsRequestLoading(true);
-  //   api
-  //     .downloadingCardsServer() //запрос
-  //     .then((cards) => {
-  //       setCards(cards); //вытянули данные в State
-  //     })
-  //     .catch((err) => {
-  //       console.log(`Ошибка загрузки карточек с сервера: ${err}`);
-  //     })
-  //     .finally(() => {
-  //       setIsRequestLoading(false);
-  //     });
-  // }, []);
+  useEffect(() => {
+    setIsRequestLoading(true);
+    api
+      .downloadingCardsServer() //запрос
+      .then((cards) => {
+        setCards(cards); //вытянули данные в State
+      })
+      .catch((err) => {
+        console.log(`Ошибка загрузки карточек с сервера: ${err}`);
+      })
+      .finally(() => {
+        setIsRequestLoading(false);
+      });
+  }, []);
 	
   // отобразить карточки и инфо пользователя
-  useEffect(() => {
-  	if (loggedIn) {
-  			Promise.all([
-					api.loadingUserInformation(),
-  				api.downloadingCardsServer()
+  // useEffect(() => {
+  // 	if (loggedIn) {
+  // 			Promise.all([
+	// 				api.loadingUserInformation(),
+  // 				api.downloadingCardsServer()
   				
-  			])
-  					.then(([info, cards]) => {
-  							setCurrentUser(info);
-  							setCards(cards);
-  					})
-  					.catch((err) => console.log(`Ошибка загрузки данных с сервера (cards или userInfo) ${err}`));
-   }
-  }, [loggedIn]);
+  // 			])
+  // 					.then(([info, cards]) => {
+  // 							setCurrentUser(info);
+  // 							setCards(cards);
+  // 					})
+  // 					.catch((err) => console.log(`Ошибка загрузки данных с сервера (cards или userInfo) ${err}`));
+  //  }
+  // }, [loggedIn]);
 
   useEffect(() => {
     if (loggedIn) {
