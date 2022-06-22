@@ -51,12 +51,12 @@ app.use(express.json());
 
 app.use(requestLogger); // подключаем логгер запросов;
 
-app.get('/crash-test', () => {
-  console.log('Hello');
-  setTimeout(() => {
-    throw new Error('Сервер сейчас упадёт');
-  }, 0);
-});
+// app.get('/crash-test', () => {
+//   console.log('Hello');
+//   setTimeout(() => {
+//     throw new Error('Сервер сейчас упадёт');
+//   }, 0);
+// });
 
 app.post('/signin', celebrate({
   body: Joi.object().keys({
@@ -83,7 +83,7 @@ app.get('/signout', (req, res) => {
   }).send({ message: 'Выход' });
 });
 
-app.use(isAuth);
+// app.use(isAuth);
 app.use('/', users);
 app.use('/', cards);
 
