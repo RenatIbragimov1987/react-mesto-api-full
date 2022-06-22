@@ -201,28 +201,28 @@ function App() {
    }
   }, [loggedIn]);
 
-  useEffect(() => {
-    if (loggedIn) {
-        auth.getContent()
-            .then((data) => {
-                if (data && data.email) {
-                    setLoggedIn(true);
-                    history.push("/");
-                    checkRes(data);
-                }
-                else {
-                    setLoggedIn(false);
-                    history.push("/sign-in");
-                }
-            })
-            .catch((err) => {
-                setLoggedIn(false);
-                setData({
-                    email: ""
-                });
-            });
-    }
-  }, [loggedIn, history]);
+  // useEffect(() => {
+  //   if (loggedIn) {
+  //       auth.getContent()
+  //           .then((data) => {
+  //               if (data && data.email) {
+  //                   setLoggedIn(true);
+  //                   history.push("/");
+  //                   checkRes(data);
+  //               }
+  //               else {
+  //                   setLoggedIn(false);
+  //                   history.push("/sign-in");
+  //               }
+  //           })
+  //           .catch((err) => {
+  //               setLoggedIn(false);
+  //               setData({
+  //                   email: ""
+  //               });
+  //           });
+  //   }
+  // }, [loggedIn, history]);
 
   //авторизация
   function authorization(email, password) {
