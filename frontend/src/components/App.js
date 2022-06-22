@@ -187,19 +187,19 @@ function App() {
   // }, []);
 	
   // отобразить карточки и инфо пользователя
-  useEffect(() => {
-  	if (loggedIn) {
-  			Promise.all([
-  				api.downloadingCardsServer(),
-  				api.loadingUserInformation()
-  			])
-  					.then(([cards, info]) => {
-  							setCurrentUser(info);
-  							setCards(cards);
-  					})
-  					.catch((err) => console.log(`Ошибка загрузки данных с сервера (cards или userInfo) ${err}`));
-   }
-  }, [loggedIn]);
+  // useEffect(() => {
+  // 	if (loggedIn) {
+  // 			Promise.all([
+  // 				api.downloadingCardsServer(),
+  // 				api.loadingUserInformation()
+  // 			])
+  // 					.then(([cards, info]) => {
+  // 							setCurrentUser(info);
+  // 							setCards(cards);
+  // 					})
+  // 					.catch((err) => console.log(`Ошибка загрузки данных с сервера (cards или userInfo) ${err}`));
+  //  }
+  // }, [loggedIn]);
 
   useEffect(() => {
     if (loggedIn) {

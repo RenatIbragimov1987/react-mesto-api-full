@@ -7,7 +7,7 @@ const mongoose = require('mongoose');
 const isAuth = require('./middlewares/auth');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
-require('dotenv').config();
+// require('dotenv').config();
 
 const { PORT = 3000 } = process.env;
 const { login, createUser } = require('./controllers/users');
