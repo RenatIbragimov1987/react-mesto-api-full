@@ -191,11 +191,11 @@ function App() {
   	if (loggedIn) {
   			Promise.all([
 					api.downloadingCardsServer(),
-					api.loadingUserInformation()
+					// api.loadingUserInformation()
   			])
-  					.then(([cards, info]) => {
+  					.then(([cards]) => {
 								setCards(cards);
-  							setCurrentUser(info);
+  							// setCurrentUser(info);
   					})
   					.catch((err) => console.log(`Ошибка загрузки данных с сервера (cards или userInfo) ${err}`));
    }
