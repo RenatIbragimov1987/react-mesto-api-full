@@ -186,6 +186,21 @@ function App() {
       });
   }, []);
 	
+	useEffect(() => {
+    setIsRequestLoading(true);
+    api
+      .loadingUserInformation() //запрос
+      .then((info) => {
+        setCurrentUser(info); //вытянули данные в State
+      })
+      .catch((err) => {
+        console.log(`Ошибка загрузки карточек с сервера: ${err}`);
+      })
+      .finally(() => {
+        setIsRequestLoading(false);
+      });
+  }, []);
+	
   // отобразить карточки и инфо пользователя
   // useEffect(() => {
   // 	if (loggedIn) {
