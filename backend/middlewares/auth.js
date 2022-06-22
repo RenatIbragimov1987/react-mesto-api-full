@@ -7,6 +7,7 @@ const UnauthorizedError = require('../errors/UnauthorizedError');
 
 const isAuth = async (req, res, next) => {
   const token = req.cookies.jwt;
+
   let payload;
   try {
     // при продакшене используем JWT_SECRET
