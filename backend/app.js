@@ -9,7 +9,7 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 // require('dotenv').config();
 
-const { PORT = 3000 } = process.env;
+const { PORT = 5000 } = process.env;
 const { login, createUser } = require('./controllers/users');
 const { users } = require('./routes/users');
 const { cards } = require('./routes/cards');
