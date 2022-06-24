@@ -1,6 +1,6 @@
 // const helmet = require('helmet');
 const cors = require('cors');
-const cookieParser = require('cookie-parser');
+const cookieParser = require('cookie-parser'); // модуль для чтения куки
 const { errors, celebrate, Joi } = require('celebrate');
 const express = require('express');
 const mongoose = require('mongoose');
@@ -40,14 +40,13 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
 });
 
 // app.use(helmet());
+app.use(express.json());
 
-app.use(cookieParser());
+app.use(cookieParser()); // подключаем парсер кук как мидлвэр
 
 app.get('/', (req, res) => {
   res.send(req.body);
 });
-
-app.use(express.json());
 
 app.use(requestLogger); // подключаем логгер запросов;
 
