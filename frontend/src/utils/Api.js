@@ -81,7 +81,11 @@ class Api {
         "Content-Type": "application/json",
       },
 			credentials: 'include',
-    }).then((res) => this._checkStatus(res));
+    }).then((res) => this._checkStatus(res))
+		.catch(err => {
+		console.log('downloadingCardsServer', err);
+		})
+
   };
 
   // удаление карточки
