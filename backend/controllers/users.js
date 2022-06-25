@@ -96,6 +96,8 @@ const login = async (req, res, next) => {
       return;
     }
     const user = await User.findUserByCredentials(email, password);
+    console.log('NODE_ENV: ', process.env.NODE_ENV);
+    console.log('JWT_SECRET: ', process.env.JWT_SECRET);
     const token = await getToken(user._id);
     res.cookie('jwt', token, {
       maxAge: 3600000 * 24 * 7,
