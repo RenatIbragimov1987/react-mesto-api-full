@@ -16,7 +16,7 @@ const { cards } = require('./routes/cards');
 const NotFoundDataError = require('./errors/NotFoundDataError');
 
 const app = express();
-app.use(cookieParser()); // подключаем парсер кук как мидлвэр
+
 const accessCors = [
   'https://renat.domains.nomoredomains.sbs',
   'http://renat.domains.nomoredomains.sbs',
@@ -39,15 +39,11 @@ async function main() {
     useNewUrlParser: true,
     useUnifiedTopology: false,
   });
-
-  app.use(express.json());
-
-
-
+  app.use(cookieParser()); // подключаем парсер кук как мидлвэр
   app.get('/', (req, res) => {
     res.send(req.body);
   });
-
+  app.use(express.json());
   app.use(requestLogger); // подключаем логгер запросов;
 
   // app.get('/crash-test', () => {
