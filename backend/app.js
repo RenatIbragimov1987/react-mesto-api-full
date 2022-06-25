@@ -39,10 +39,10 @@ async function main() {
     useNewUrlParser: true,
     useUnifiedTopology: false,
   });
-  app.use(cookieParser()); // подключаем парсер кук как мидлвэр
-  app.get('/', (req, res) => {
-    res.send(req.body);
-  });
+  app.use(cookieParser());
+  // app.get('/', (req, res) => {
+  //   res.send(req.body);
+  // });
   app.use(express.json());
   app.use(requestLogger); // подключаем логгер запросов;
 
