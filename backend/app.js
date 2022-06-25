@@ -33,7 +33,7 @@ const options = {
 };
 
 app.use(cors(options));
-
+app.use(cookieParser()); // подключаем парсер кук как мидлвэр
 async function main() {
   await mongoose.connect('mongodb://localhost:27017/mestodb', {
     useNewUrlParser: true,
@@ -42,7 +42,7 @@ async function main() {
 
   app.use(express.json());
 
-  app.use(cookieParser()); // подключаем парсер кук как мидлвэр
+
 
   app.get('/', (req, res) => {
     res.send(req.body);
