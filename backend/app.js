@@ -22,6 +22,10 @@ const accessCors = [
   'http://renat.domains.nomoredomains.sbs',
   'http://localhost:3001',
   'https://localhost:3001',
+  'http://localhost:3000',
+  'https://localhost:3000',
+  'https://api.renat1987.nomoredomains.xyz',
+  'http://api.renat1987.nomoredomains.xyz',
 ];
 
 const options = {
