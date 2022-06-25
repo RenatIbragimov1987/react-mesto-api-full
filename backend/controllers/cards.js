@@ -8,6 +8,7 @@ const getCard = async (req, res, next) => {
     const cards = await Card.find({}).populate((['owner', 'likes'])).exec();
     res.status(200).send(cards);
   } catch (err) {
+    console.log('errGetcard', err);
     next(err);
   }
 };
