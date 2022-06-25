@@ -5,6 +5,7 @@ class Auth {
   };
 
   _checkResponse = (res) => {
+		console.log('res', res);
     if (res.ok) {
       return res.json();
     }
@@ -37,7 +38,10 @@ class Auth {
 			credentials: 'include',
       body: JSON.stringify({email, password}),
 		})
-		.then(this._checkResponse);
+		.then(this._checkResponse)
+		.cath(err => {
+			console.log('err', err);
+		})
   };
 
 
