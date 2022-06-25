@@ -39,7 +39,7 @@ class Auth {
       body: JSON.stringify({email, password}),
 		})
 		.then(this._checkResponse)
-		.cath(err => {
+		.catch(err => {
 			console.log('err', err);
 		})
   };
