@@ -68,7 +68,7 @@ class Api {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-			credentials: 'include',
+			credentials: 'same-origin',
     }).then((res) => this._checkStatus(res));
   }
 
@@ -80,7 +80,7 @@ class Api {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-			credentials: 'include',
+			credentials: 'same-origin',
     }).then((res) => this._checkStatus(res))
 		.catch(err => {
 		console.log('downloadingCardsServer', err);
