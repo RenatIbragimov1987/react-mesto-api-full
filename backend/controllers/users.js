@@ -95,11 +95,9 @@ const login = async (req, res, next) => {
       next(new BadRequestError('Переданы некорректные данные логина или пароля'));
       return;
     }
-    const users = await User.find();
-    console.log(users);
     const user = await User.findUserByCredentials(email, password);
-    console.log('user: ', user);
     const token = await getToken(user._id);
+    console.log('token', token);
     res.cookie('jwt', token, {
       maxAge: 3600000 * 24 * 7,
       httpOnly: true,
