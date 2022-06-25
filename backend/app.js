@@ -16,7 +16,7 @@ const { cards } = require('./routes/cards');
 const NotFoundDataError = require('./errors/NotFoundDataError');
 
 const app = express();
-
+app.use(cookieParser()); // подключаем парсер кук как мидлвэр
 const accessCors = [
   'https://renat.domains.nomoredomains.sbs',
   'http://renat.domains.nomoredomains.sbs',
@@ -33,7 +33,7 @@ const options = {
 };
 
 app.use(cors(options));
-app.use(cookieParser()); // подключаем парсер кук как мидлвэр
+
 async function main() {
   await mongoose.connect('mongodb://localhost:27017/mestodb', {
     useNewUrlParser: true,
