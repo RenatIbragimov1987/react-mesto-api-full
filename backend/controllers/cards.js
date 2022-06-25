@@ -6,6 +6,7 @@ const DeleteDataError = require('../errors/DeleteDataError');
 const getCard = async (req, res, next) => {
   try {
     const cards = await Card.find({}).populate((['owner', 'likes'])).exec();
+    console.log('cards', cards);
     res.status(200).send(cards);
   } catch (err) {
     console.log('errGetcard', err);
