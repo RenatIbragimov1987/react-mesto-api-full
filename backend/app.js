@@ -50,7 +50,6 @@ app.get('/', (req, res) => {
 app.use(requestLogger); // подключаем логгер запросов;
 
 // app.get('/crash-test', () => {
-//   console.log('Hello');
 //   setTimeout(() => {
 //     throw new Error('Сервер сейчас упадёт');
 //   }, 0);

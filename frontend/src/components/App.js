@@ -128,6 +128,7 @@ function App() {
         setIsRequestLoading(false);
       });
   }
+	
   //изменение данных профиля
   function handleUpdateUser(data) {
     setIsRequestLoading(true);

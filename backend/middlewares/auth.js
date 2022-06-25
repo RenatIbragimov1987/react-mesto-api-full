@@ -6,18 +6,18 @@ const { NODE_ENV, JWT_SECRET } = process.env;
 const UnauthorizedError = require('../errors/UnauthorizedError');
 
 const isAuth = async (req, res, next) => {
-  console.log('reqCookies', req.cookies);
+  // console.log('reqCookies', req.cookies);
   const token = req.cookies.jwt;
 
   let payload;
   try {
     // при продакшене используем JWT_SECRET
     payload = jwt.verify(token, NODE_ENV === 'production' ? JWT_SECRET : 'some-secret-key');
-    console.log('payload', payload);
+    // console.log('payload', payload);
     req.userId = jwt.decode(token).id;
-    console.log('userId', req.userId);
+    // console.log('userId', req.userId);
   } catch (err) {
-    console.log('isAuth.err', err);
+    // console.log('isAuth.err', err);
     next(new UnauthorizedError('Ошибка. Необходима авторизация'));
     return;
   }
