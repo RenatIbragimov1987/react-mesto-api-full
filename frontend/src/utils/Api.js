@@ -82,9 +82,9 @@ class Api {
       },
 			credentials: 'include',
     }).then((res) => this._checkStatus(res))
-		.catch(err => {
-		console.log('downloadingCardsServer', err);
-		})
+		// .catch(err => {
+		// console.log('downloadingCardsServer', err);
+		// })
 
   };
 
