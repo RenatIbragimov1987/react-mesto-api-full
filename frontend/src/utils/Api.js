@@ -28,7 +28,7 @@ class Api {
 
   // постановка лайка
   addLike = (id) => {
-    return fetch(`${this._address}/cards/likes/${id}`, {
+    return fetch(`${this._address}/cards/${id}/likes`, {
       method: "PUT",
       headers: {
         Accept: "application/json",
@@ -40,7 +40,7 @@ class Api {
 
   // удаление лайка
   removeLike = (id) => {
-    return fetch(`${this._address}/cards/likes/${id}`, {
+    return fetch(`${this._address}/cards/${id}/likes`, {
       method: "DELETE",
       headers: {
         Accept: "application/json",
@@ -50,16 +50,16 @@ class Api {
     }).then((res) => this._checkStatus(res));
   };
 
-	changeLikeCardStatus(id, like) {
-		return fetch(`${this._address}/cards/${id}/likes`, {
-			method: like ? 'PUT' : 'DELETE',
-			headers: {
-				Accept: "application/json",
-				'Content-Type': 'application/json'
-			},
-			credentials: 'include',
-		}).then(this._checkResponse)
-	}
+	// changeLikeCardStatus(id, like) {
+	// 	return fetch(`${this._address}/cards/${id}/likes`, {
+	// 		method: like ? 'PUT' : 'DELETE',
+	// 		headers: {
+	// 			Accept: "application/json",
+	// 			'Content-Type': 'application/json'
+	// 		},
+	// 		credentials: 'include',
+	// 	}).then(this._checkResponse)
+	// }
   // загрузка информации о пользователе с сервера
   loadingUserInformation() {
     return fetch(`${this._address}/users/me`, {
