@@ -6,7 +6,7 @@ const { NODE_ENV, JWT_SECRET } = process.env;
 const UnauthorizedError = require('../errors/UnauthorizedError');
 
 const isAuth = async (req, res, next) => {
-  // console.log('reqCookies', req.cookies);
+  console.log('reqCookies', req.cookies);
   const token = req.cookies.jwt;
 
   let payload;
