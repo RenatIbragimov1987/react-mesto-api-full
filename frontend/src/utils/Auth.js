@@ -39,9 +39,6 @@ class Auth {
       body: JSON.stringify({email, password}),
 		})
 		.then(this._checkResponse)
-		.catch(err => {
-			console.log('err', err);
-		})
   };
 
 

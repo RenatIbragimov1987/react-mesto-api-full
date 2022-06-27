@@ -30,10 +30,7 @@ function App() {
   });
   const [loggedIn, setLoggedIn] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
-  const [isInfoToolTip, setIsInfoToolTip] = useState({
-    open: false,
-    status: false,
-  });
+  const [isInfoToolTip, setIsInfoToolTip] = useState(false);
   const history = useHistory();
   // const [isLoading, setIsLoading] = useState(false); // процесс загрузки, сохранения и тд (Сохранение...)
   //popaps
@@ -59,10 +56,7 @@ function App() {
     setIsAddPlacePopupOpen(false);
     setIsEditAvatarPopupOpen(false);
     setSelectedCard(null);
-    setIsInfoToolTip({
-      open: false,
-      status: false,
-    });
+    setIsInfoToolTip(false);
   }
 
   //лайки
@@ -327,9 +321,10 @@ function App() {
           onClose={closeAllPopups}
         />
         <InfoTooltip
-          isInfoToolTip={isInfoToolTip}
+					InfoTooltip={InfoTooltip}
           onClose={closeAllPopups}
           isSuccess={isSuccess}
+					isOpen={isInfoToolTip}
         />
       </CurrentUserContext.Provider>
     </div>

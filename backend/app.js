@@ -43,11 +43,15 @@ async function main() {
     useNewUrlParser: true,
     useUnifiedTopology: false,
   });
+
   app.use(cookieParser());
-  // app.get('/', (req, res) => {
-  //   res.send(req.body);
-  // });
+
+  app.get('/', (req, res) => {
+    res.send(req.body);
+  });
+
   app.use(express.json());
+
   app.use(requestLogger); // подключаем логгер запросов;
 
   // app.get('/crash-test', () => {

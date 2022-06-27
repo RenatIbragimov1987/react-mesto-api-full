@@ -2,7 +2,6 @@ import BASE_URL from './utils';
 class Api {
   constructor({ address }) {
     this._address = address;
-    // this._headers = headers;
   }
 
   //возвращаем результат работы метода
@@ -50,16 +49,16 @@ class Api {
     }).then((res) => this._checkStatus(res));
   };
 
-	// changeLikeCardStatus(id, like) {
-	// 	return fetch(`${this._address}/cards/${id}/likes`, {
-	// 		method: like ? 'PUT' : 'DELETE',
-	// 		headers: {
-	// 			Accept: "application/json",
-	// 			'Content-Type': 'application/json'
-	// 		},
-	// 		credentials: 'include',
-	// 	}).then(this._checkResponse)
-	// }
+	changeLikeCardStatus(id, like) {
+		return fetch(`${this._address}/cards/${id}/likes`, {
+			method: like ? 'PUT' : 'DELETE',
+			headers: {
+				Accept: "application/json",
+				'Content-Type': 'application/json'
+			},
+			credentials: 'include',
+		}).then(this._checkResponse)
+	}
   // загрузка информации о пользователе с сервера
   loadingUserInformation() {
     return fetch(`${this._address}/users/me`, {
@@ -82,10 +81,6 @@ class Api {
       },
 			credentials: 'include',
     }).then((res) => this._checkStatus(res))
-		// .catch(err => {
-		// console.log('downloadingCardsServer', err);
-		// })
-
   };
 
   // удаление карточки
@@ -135,7 +130,6 @@ class Api {
 
 const api = new Api({
   address: BASE_URL,
-  // headers: "e8a9f2b0-25e0-4ec4-83e8-52c6f0623a7c",
 });
 
 export default api;
