@@ -5,7 +5,6 @@ class Auth {
   };
 
   _checkResponse = (res) => {
-		console.log('res', res);
     if (res.ok) {
       return res.json();
     }
