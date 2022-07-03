@@ -20,12 +20,12 @@ const app = express();
 const accessCors = [
   'https://renat.domains.nomoredomains.sbs',
   'http://renat.domains.nomoredomains.sbs',
-  'http://localhost:3001',
-  'https://localhost:3001',
-  'http://localhost:3000',
-  'https://localhost:3000',
-  'https://api.renat1987.nomoredomains.xyz',
-  'http://api.renat1987.nomoredomains.xyz',
+  // 'http://localhost:3001',
+  // 'https://localhost:3001',
+  // 'http://localhost:3000',
+  // 'https://localhost:3000',
+  // 'https://api.renat1987.nomoredomains.xyz',
+  // 'http://api.renat1987.nomoredomains.xyz',
 ];
 
 const options = {
@@ -57,7 +57,7 @@ async function main() {
   app.get('/crash-test', () => {
     setTimeout(() => {
       throw new Error('Сервер сейчас упадёт');
-    }, 10);
+    }, 4000);
   });
 
   app.post(
