@@ -54,11 +54,11 @@ async function main() {
 
   app.use(requestLogger); // подключаем логгер запросов;
 
-  app.get('/crash-test', () => {
-    setTimeout(() => {
-      throw new Error('Сервер сейчас упадёт');
-    }, 4000);
-  });
+  // app.get('/crash-test', () => {
+  //   setTimeout(() => {
+  //     throw new Error('Сервер сейчас упадёт');
+  //   }, 4000);
+  // });
 
   app.post(
     '/signin',
