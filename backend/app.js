@@ -24,8 +24,8 @@ const accessCors = [
   'https://localhost:3001',
   'http://localhost:3000',
   'https://localhost:3000',
-  // 'https://api.renat1987.nomoredomains.xyz',
-  // 'http://api.renat1987.nomoredomains.xyz',
+  'https://api.renat1987.nomoredomains.xyz',
+  'http://api.renat1987.nomoredomains.xyz',
 ];
 
 const options = {
