@@ -234,6 +234,7 @@ function App() {
       .then((data) => {
         checkRes(data);
         history.replace({ pathname: "/sign-in" });
+				setIsSuccess(true);
         setIsInfoToolTip({
           open: true,
           status: true,
@@ -321,10 +322,9 @@ function App() {
           onClose={closeAllPopups}
         />
         <InfoTooltip
-					InfoTooltip={InfoTooltip}
           onClose={closeAllPopups}
           isSuccess={isSuccess}
-					isOpen={isInfoToolTip}
+					isInfoToolTip={isInfoToolTip}
         />
       </CurrentUserContext.Provider>
     </div>

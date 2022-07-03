@@ -9,7 +9,7 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 require('dotenv').config();
 
-const { PORT = 3000 } = process.env;
+const { PORT = 4000 } = process.env;
 const { login, createUser } = require('./controllers/users');
 const { users } = require('./routes/users');
 const { cards } = require('./routes/cards');
@@ -20,12 +20,12 @@ const app = express();
 const accessCors = [
   'https://renat.domains.nomoredomains.sbs',
   'http://renat.domains.nomoredomains.sbs',
-  'http://localhost:3001',
-  'https://localhost:3001',
+  // 'http://localhost:3001',
+  // 'https://localhost:3001',
   'http://localhost:3000',
   'https://localhost:3000',
-  'https://api.renat1987.nomoredomains.xyz',
-  'http://api.renat1987.nomoredomains.xyz',
+  // 'https://api.renat1987.nomoredomains.xyz',
+  // 'http://api.renat1987.nomoredomains.xyz',
 ];
 
 const options = {
@@ -54,11 +54,11 @@ async function main() {
 
   app.use(requestLogger); // подключаем логгер запросов;
 
-  // app.get('/crash-test', () => {
-  //   setTimeout(() => {
-  //     throw new Error('Сервер сейчас упадёт');
-  //   }, 0);
-  // });
+  app.get('/crash-test', () => {
+    setTimeout(() => {
+      throw new Error('Сервер сейчас упадёт');
+    }, 10);
+  });
 
   app.post(
     '/signin',
