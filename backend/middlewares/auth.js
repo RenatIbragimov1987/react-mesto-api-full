@@ -11,7 +11,7 @@ const isAuth = async (req, res, next) => {
   let payload;
   try {
     payload = jwt.verify(token, NODE_ENV === 'production' ? JWT_SECRET : 'some-secret-key');
-    req.userId = jwt.decode(token).id;
+    // req.userId = jwt.decode(token).id;
   } catch (err) {
     next(new UnauthorizedError('Ошибка. Необходима авторизация'));
     return;
