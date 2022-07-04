@@ -22,8 +22,8 @@ const accessCors = [
   'http://renat.domains.nomoredomains.sbs',
   // 'http://localhost:3001',
   // 'https://localhost:3001',
-  // 'http://localhost:3000',
-  // 'https://localhost:3000',
+  'http://localhost:3000',
+  'https://localhost:3000',
   // 'https://api.renat1987.nomoredomains.xyz',
   // 'http://api.renat1987.nomoredomains.xyz',
 ];
@@ -54,11 +54,11 @@ async function main() {
 
   app.use(requestLogger); // подключаем логгер запросов;
 
-  // app.get('/crash-test', () => {
-  //   setTimeout(() => {
-  //     throw new Error('Сервер сейчас упадёт');
-  //   }, 4000);
-  // });
+  app.get('/crash-test', () => {
+    setTimeout(() => {
+      throw new Error('Сервер сейчас упадёт');
+    }, 0);
+  });
 
   app.post(
     '/signin',
