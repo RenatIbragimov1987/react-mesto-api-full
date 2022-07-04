@@ -7,6 +7,7 @@ const UnauthorizedError = require('../errors/UnauthorizedError');
 
 const isAuth = async (req, res, next) => {
   const token = req.cookies.jwt;
+  console.log(token);
   let payload;
   try {
     payload = jwt.verify(token, NODE_ENV === 'production' ? JWT_SECRET : 'some-secret-key');
