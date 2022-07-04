@@ -1,21 +1,21 @@
-import React, { useState, useEffect } from "react";
-import Header from "./Header";
-import Main from "./Main";
-import Footer from "./Footer";
-import ImagePopup from "./ImagePopup";
-import "../index.css";
-import { CurrentUserContext } from "../contexts/CurrentUserContext";
-import EditProfilePopup from "./EditProfilePopup";
-import EditAvatarPopup from "./EditAvatarPopup";
-import AddPlacePopup from "./AddPlacePopup";
+import React, { useState, useEffect } from 'react';
+import Header from './Header';
+import Main from './Main';
+import Footer from './Footer';
+import ImagePopup from './ImagePopup';
+import '../index.css';
+import { CurrentUserContext } from '../contexts/CurrentUserContext';
+import EditProfilePopup from './EditProfilePopup';
+import EditAvatarPopup from './EditAvatarPopup';
+import AddPlacePopup from './AddPlacePopup';
 // import Loader from "./Loader";
-import api from "../utils/Api";
-import auth from "../utils/Auth";
-import { Route, Redirect, Switch, useHistory } from "react-router-dom";
-import Login from "./Login";
-import Register from "./Register";
-import ProtectedRoute from "./ProtectedRoute";
-import InfoTooltip from "./InfoTooltip.js";
+import api from '../utils/Api';
+import auth from '../utils/Auth';
+import { Route, Redirect, Switch, useHistory } from 'react-router-dom';
+import Login from './Login';
+import Register from './Register';
+import ProtectedRoute from './ProtectedRoute';
+import InfoTooltip from './InfoTooltip.js';
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
@@ -26,7 +26,7 @@ function App() {
   const [isRequestLoading, setIsRequestLoading] = useState(false);
   const [cards, setCards] = useState([]);
   const [data, setData] = useState({
-    email: "",
+    email: '',
   });
   const [loggedIn, setLoggedIn] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -62,7 +62,7 @@ function App() {
   //лайки
   function handleCardLike(card) {
     // Снова проверяем, есть ли уже лайк настоящего пользователя на этой карточке
-    const isLiked = card.likes.some((i) => i._id === currentUser._id); 
+    const isLiked = card.likes.some((i) => i._id === currentUser._id);
     // установка лайка
     if (!isLiked) {
       api
@@ -122,7 +122,7 @@ function App() {
         setIsRequestLoading(false);
       });
   }
-	
+
   //изменение данных профиля
   function handleUpdateUser(data) {
     setIsRequestLoading(true);
@@ -157,7 +157,7 @@ function App() {
       });
   }
 
-	const checkRes = (data) => {
+  const checkRes = (data) => {
     if (data) {
       setData({
         email: data.email,
@@ -167,39 +167,40 @@ function App() {
 
   // отобразить карточки и инфо пользователя
   useEffect(() => {
-  	if (loggedIn) {
-  			Promise.all([
-					api.downloadingCardsServer(),
-					api.loadingUserInformation()
-  			])
-  					.then(([cards, info]) => {
-								setCards(cards);
-  							setCurrentUser(info);
-  					})
-  					.catch((err) => console.log(`Ошибка загрузки данных с сервера (cards или userInfo) ${err}`));
-   }
+    if (loggedIn) {
+      Promise.all([api.downloadingCardsServer(), api.loadingUserInformation()])
+        .then(([cards, info]) => {
+          setCards(cards);
+          setCurrentUser(info);
+        })
+        .catch((err) =>
+          console.log(
+            `Ошибка загрузки данных с сервера (cards или userInfo) ${err}`
+          )
+        );
+    }
   }, [loggedIn]);
 
   useEffect(() => {
     if (loggedIn) {
-        auth.getContent()
-            .then((data) => {
-                if (data && data.email) {
-                    setLoggedIn(true);
-                    history.push("/");
-                    checkRes(data);
-                }
-                else {
-                    setLoggedIn(false);
-                    history.push("/sign-in");
-                }
-            })
-            .catch((err) => {
-                setLoggedIn(false);
-                setData({
-                    email: ""
-                });
-            });
+      auth
+        .getContent()
+        .then((data) => {
+          if (data && data.email) {
+            setLoggedIn(true);
+            history.push('/');
+            checkRes(data);
+          } else {
+            setLoggedIn(false);
+            history.push('/sign-in');
+          }
+        })
+        .catch((err) => {
+          setLoggedIn(false);
+          setData({
+            email: '',
+          });
+        });
     }
   }, [loggedIn, history]);
 
@@ -211,7 +212,7 @@ function App() {
       .then((data) => {
         checkRes(data);
         setLoggedIn(true);
-        history.push("/");
+        history.push('/');
       })
       .catch((err) => {
         setIsSuccess(false);
@@ -233,8 +234,8 @@ function App() {
       .userRegistration(email, password)
       .then((data) => {
         checkRes(data);
-        history.replace({ pathname: "/sign-in" });
-				setIsSuccess(true);
+        history.replace({ pathname: '/sign-in' });
+        setIsSuccess(true);
         setIsInfoToolTip({
           open: true,
           status: true,
@@ -253,14 +254,14 @@ function App() {
       });
   }
 
-	// выход
+  // выход
   const handleExitWebsite = () => {
     auth.signout();
     setLoggedIn(false);
     setData({
       email: null,
     });
-    history.push("/sign-in");
+    history.push('/sign-in');
   };
 
   return (
@@ -324,7 +325,7 @@ function App() {
         <InfoTooltip
           onClose={closeAllPopups}
           isSuccess={isSuccess}
-					isInfoToolTip={isInfoToolTip}
+          isInfoToolTip={isInfoToolTip}
         />
       </CurrentUserContext.Provider>
     </div>
