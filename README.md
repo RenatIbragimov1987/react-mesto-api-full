@@ -1,3 +1,5 @@
 # react-mesto-api-full
 
-[react-mesto-api-full](https://renat.domains.nomoredomains.sbs)
+[Проект Mesto](https://renat.domains.nomoredomains.sbs)
+
+## Публичный IP-адрес сервера 51.250.67.242
