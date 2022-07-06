@@ -8,7 +8,6 @@ import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
-// import Loader from "./Loader";
 import api from '../utils/Api';
 import auth from '../utils/Auth';
 import { Route, Redirect, Switch, useHistory } from 'react-router-dom';
@@ -32,8 +31,7 @@ function App() {
   const [isSuccess, setIsSuccess] = useState(false);
   const [isInfoToolTip, setIsInfoToolTip] = useState(false);
   const history = useHistory();
-  // const [isLoading, setIsLoading] = useState(false); // процесс загрузки, сохранения и тд (Сохранение...)
-  //popaps
+
   function handleEditProfileClick() {
     // меняем состояние "редактировать профиль"
     setIsEditProfilePopupOpen(true);

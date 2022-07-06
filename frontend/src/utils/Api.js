@@ -13,14 +13,14 @@ class Api {
   };
 
   //добавление новой карточки
-  addingNewCard = ({name, link}) => {
+  addingNewCard = ({ name, link }) => {
     return fetch(`${this._address}/cards`, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
       },
-			credentials: 'include',
+      credentials: 'include',
       body: JSON.stringify({ name, link }),
     }).then((res) => this._checkStatus(res));
   };
@@ -28,102 +28,91 @@ class Api {
   // постановка лайка
   addLike = (id) => {
     return fetch(`${this._address}/cards/${id}/likes`, {
-      method: "PUT",
+      method: 'PUT',
       headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
       },
-			credentials: 'include',
+      credentials: 'include',
     }).then((res) => this._checkStatus(res));
   };
 
   // удаление лайка
   removeLike = (id) => {
     return fetch(`${this._address}/cards/${id}/likes`, {
-      method: "DELETE",
+      method: 'DELETE',
       headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
       },
-			credentials: 'include',
+      credentials: 'include',
     }).then((res) => this._checkStatus(res));
   };
 
-	// changeLikeCardStatus(id, like) {
-	// 	return fetch(`${this._address}/cards/${id}/likes`, {
-	// 		method: like ? 'PUT' : 'DELETE',
-	// 		headers: {
-	// 			Accept: "application/json",
-	// 			'Content-Type': 'application/json'
-	// 		},
-	// 		credentials: 'include',
-	// 	}).then(this._checkResponse)
-	// }
   // загрузка информации о пользователе с сервера
   loadingUserInformation() {
     return fetch(`${this._address}/users/me`, {
-      method: "GET",
+      method: 'GET',
       headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
       },
-			credentials: 'include',
+      credentials: 'include',
     }).then((res) => this._checkStatus(res));
   }
 
   //загрузка карточек с сервера
   downloadingCardsServer = () => {
     return fetch(`${this._address}/cards`, {
-      method: "GET",
+      method: 'GET',
       headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
       },
-			credentials: 'include',
-    }).then((res) => this._checkStatus(res))
+      credentials: 'include',
+    }).then((res) => this._checkStatus(res));
   };
 
   // удаление карточки
   deleteCard = (id) => {
     return fetch(`${this._address}/cards/${id}/delete-card`, {
-      method: "DELETE",
+      method: 'DELETE',
       headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
       },
-			credentials: 'include',
-    })
-		.then((res) => this._checkStatus(res));
+      credentials: 'include',
+    }).then((res) => this._checkStatus(res));
   };
 
   //редактирование профиля
-  setUserInfo = ({name, about}) => {
+  setUserInfo = ({ name, about }) => {
     return fetch(`${this._address}/users/me`, {
-      method: "PATCH",
+      method: 'PATCH',
       headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         name,
-        about
+        about,
       }),
-			credentials: 'include',
+      credentials: 'include',
     }).then((res) => this._checkStatus(res));
   };
 
   // обновление аватара пользователя
-  setUserAvatar = ({avatar}) => {
+  setUserAvatar = ({ avatar }) => {
     return fetch(`${this._address}/users/me/avatar`, {
-      method: "PATCH",
+      method: 'PATCH',
       headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         avatar: avatar,
       }),
-			credentials: 'include',
+      credentials: 'include',
     }).then((res) => this._checkStatus(res));
   };
 }

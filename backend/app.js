@@ -20,12 +20,8 @@ const app = express();
 const accessCors = [
   'https://renat.domains.nomoredomains.sbs',
   'http://renat.domains.nomoredomains.sbs',
-  // 'http://localhost:3001',
-  // 'https://localhost:3001',
   'http://localhost:3000',
   'https://localhost:3000',
-  // 'https://api.renat1987.nomoredomains.xyz',
-  // 'http://api.renat1987.nomoredomains.xyz',
 ];
 
 const options = {
@@ -52,7 +48,7 @@ async function main() {
 
   app.use(express.json());
 
-  app.use(requestLogger); // подключаем логгер запросов;
+  app.use(requestLogger);
 
   app.get('/crash-test', () => {
     setTimeout(() => {
@@ -107,7 +103,7 @@ async function main() {
     next();
   });
 
-  app.use(errorLogger); // подключаем логгер ошибок
+  app.use(errorLogger);
   app.use(errors());
 
   app.use((err, req, res, next) => {

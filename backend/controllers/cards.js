@@ -64,7 +64,7 @@ const likeCard = async (req, res, next) => {
       next(new NotFoundDataError('Нет карточки с этим id'));
       return;
     }
-    res.status(200).send(like); //  вернули статус 200 отправили лайк;
+    res.status(200).send(like);
   } catch (err) {
     if (err.name === 'CastError') {
       next(new BadRequestError('Неверный id у карточки'));

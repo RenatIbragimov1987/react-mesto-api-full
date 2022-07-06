@@ -15,7 +15,7 @@ const isAuth = async (req, res, next) => {
     next(new UnauthorizedError('Ошибка. Необходима авторизация'));
     return;
   }
-  req.user = payload; // записываем пейлоуд в объект запроса
-  next(); // пропускаем запрос дальше
+  req.user = payload;
+  next();
 };
 module.exports = isAuth;
