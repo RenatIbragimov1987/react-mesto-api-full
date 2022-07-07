@@ -44,7 +44,7 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-userSchema.statics.findUserByCredentials = function (email, password) {
+userSchema.statics.findUserByCredentials = function comparisons(email, password) {
   return this.findOne({ email }).select('+password')
     // по умолчанию хеш пароля пользователя не будет возвращаться из базы,
     // но для аутентификации хэш пароля нужен (метод .select + 'password')

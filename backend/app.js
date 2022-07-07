@@ -75,9 +75,7 @@ async function main() {
         password: Joi.string().required(),
         name: Joi.string().min(2).max(30),
         about: Joi.string().min(2).max(30),
-        avatar: Joi.string().regex(
-          /(http|https):\/\/(www)?\.?([A-Za-z0-9.-]+)\.([A-z]{2,})((?:\/[+~%/.\w-_]*)?\??(?:[-=&;%@.\w_]*)#?(?:[\w]*))?/
-        ),
+        avatar: Joi.string().regex(/(http|https):\/\/(www)?\.?([A-Za-z0-9.-]+)\.([A-z]{2,})((?:\/[+~%/.\w-_]*)?\??(?:[-=&;%@.\w_]*)#?(?:[\w]*))?/),
       }),
     }),
     createUser,
